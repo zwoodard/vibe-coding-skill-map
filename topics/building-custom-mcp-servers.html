@@ -39,14 +39,14 @@
 
   <div class="section">
     <h2>What Is MCP?</h2>
-    <p>The Model Context Protocol (MCP) is an open standard by Anthropic that lets AI models seamlessly integrate with external tools, databases, and services. Instead of each application building its own integration layer, MCP provides a universal interface. An MCP server exposes capabilities (tools, resources, prompts) via a standardized JSON-RPC protocol. AI clients (like Claude, ChatGPT, or custom agents) discover and invoke these capabilities without hardcoding integrations.</p>
-    <p>The ecosystem has grown to nearly 2,000 registered MCP servers as of 2025, with adoption across major AI providers including OpenAI, Google, and most enterprise platforms.</p>
+    <p>Phase 4 introduced MCP as the open standard for connecting AI to external tools. This page goes deeper: how to build your own MCP server from scratch. An MCP server exposes capabilities (tools, resources, prompts) via a standardized JSON-RPC protocol. Any MCP-compatible client discovers and invokes these capabilities without hardcoded integrations.</p>
+    <p>Since Anthropic donated MCP to the Linux Foundation in late 2025, the ecosystem has matured rapidly — thousands of registered servers, adoption across Claude, ChatGPT, Gemini, and most enterprise AI platforms.</p>
   </div>
 
   <div class="section">
     <h2>SDK Options: TypeScript & Python</h2>
-    <p>The official SDKs are available in TypeScript and Python, with community support for C# and other languages. Both SDKs handle the low-level JSON-RPC protocol, so you focus on defining your tools and resources. The TypeScript SDK includes built-in helpers for authentication (OAuth, basic auth), transports (stdio, HTTP), and tool definitions. The Python SDK provides similar features with a Pythonic API.</p>
-    <p>Choose TypeScript for Node.js/backend projects, Python for data-heavy or ML-intensive servers. Both SDKs are actively maintained and documented at <code>github.com/modelcontextprotocol</code>.</p>
+    <p>The official SDKs are available in TypeScript and Python, with community SDKs for C#, Java, Kotlin, Go, and more. Both official SDKs handle the low-level JSON-RPC protocol, so you focus on defining your tools and resources. They include built-in support for OAuth 2.1 auth, multiple transports (stdio for local tools, Streamable HTTP for remote servers), and declarative tool definitions.</p>
+    <p>Choose TypeScript for Node.js/backend projects, Python for data-heavy or ML-intensive servers. Both are actively maintained at <code>github.com/modelcontextprotocol</code>.</p>
   </div>
 
   <div class="section">
@@ -61,9 +61,9 @@
   </div>
 
   <div class="section">
-    <h2>Authentication Patterns</h2>
-    <p>MCP supports multiple authentication methods. Static tokens (API keys) work for simple cases but aren't recommended for shared servers. OAuth 2.0 lets clients authorize via their own credentials (e.g., connecting their GitHub or Salesforce account). Mutual TLS is ideal for machine-to-machine communication. HTTP Basic Auth is simple but should use HTTPS only.</p>
-    <p>For custom logic, implement a custom auth handler that validates incoming requests. The SDK provides helpers for integrating auth into tool execution—fail gracefully if auth is missing or invalid, returning clear error messages to the model.</p>
+    <h2>Authentication & Authorization</h2>
+    <p>The MCP specification standardized on <strong>OAuth 2.1 with PKCE</strong> as the auth mechanism for remote servers. This lets users authorize MCP clients to act on their behalf (e.g., connecting their GitHub or Salesforce account) without sharing raw credentials. For local stdio servers, auth is typically unnecessary — the server runs in the user's own process.</p>
+    <p>For remote/HTTP servers: implement the OAuth 2.1 authorization flow, validate tokens on each request, scope permissions to specific tools, and fail gracefully with clear error messages when auth is missing or invalid. The SDKs provide built-in OAuth helpers. Always use HTTPS for remote servers.</p>
   </div>
 
   <div class="section">
@@ -74,7 +74,7 @@
 
   <div class="section">
     <h2>Publishing & Community</h2>
-    <p>Anthropic maintains an open registry of MCP servers at <code>modelcontextprotocol.io</code>. To publish, create a repository, add documentation (readme, schema examples, setup instructions), and submit to the registry. The community can then discover and use your server.</p>
+    <p>The MCP ecosystem maintains a registry of servers at <code>modelcontextprotocol.io</code>. To publish, create a repository, add documentation (readme, schema examples, setup instructions), and submit to the registry. The community can then discover and use your server.</p>
     <p>Many organizations publish internal MCP servers for their team's use only (hosted on private infrastructure). Others release open-source versions to the community. Either approach works—MCP is designed for both private and public distribution.</p>
     <div class="tip">
       <p><strong>Getting started:</strong> Clone the official example servers from the repo, modify them for your use case, test locally, then add to your build/deployment pipeline.</p>
@@ -86,7 +86,8 @@
     <a href="https://modelcontextprotocol.io/quickstart/server">Building MCP Servers — modelcontextprotocol.io</a>
     <a href="https://github.com/modelcontextprotocol/typescript-sdk">MCP TypeScript SDK — GitHub</a>
     <a href="https://github.com/modelcontextprotocol/python-sdk">MCP Python SDK — GitHub</a>
-    <a href="https://modelcontextprotocol.io/specification/2025-11-25">MCP Specification — modelcontextprotocol.io</a>
+    <a href="https://modelcontextprotocol.io/specification/2025-11-25">MCP Specification (2025-11-25) — modelcontextprotocol.io</a>
+    <a href="https://modelcontextprotocol.io/specification/2025-11-25/basic/transports">MCP Transports (stdio, Streamable HTTP) — Specification</a>
     <a href="https://github.com/modelcontextprotocol/servers">Example MCP Servers — GitHub</a>
   </div>
 </div>

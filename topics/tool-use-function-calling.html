@@ -49,10 +49,10 @@
     <h2>The Request-Response Pattern</h2>
     <p>Tool calling follows a clear cycle: The model analyzes the user's request, examines available tools and their descriptions, decides which tool(s) to invoke with specific parameters, and returns a formatted request (not execution). Your application then:</p>
     <ul>
-      <li>Parses the tool request and validate inputs</li>
-      <li>Execute the actual tool/function/API call</li>
-      <li>Capture the result (success or error)</li>
-      <li>Send the result back to the model</li>
+      <li>Parses the tool request and validates inputs</li>
+      <li>Executes the actual tool/function/API call</li>
+      <li>Captures the result (success or error)</li>
+      <li>Sends the result back to the model</li>
       <li>Model incorporates the result into its reasoning and continues</li>
     </ul>
     <p>This loop repeats until the model decides it has enough information to answer the user's question.</p>
@@ -67,7 +67,7 @@
   <div class="section">
     <h2>How Models Decide Which Tool to Call</h2>
     <p>Models use context, available tools, and task requirements to select the right tool. A question like "What's the temperature in Tokyo?" triggers selection of a weather API tool. A math problem might skip tool calling and compute directly. Models reason probabilistically based on training—good descriptions and examples teach them when to use each tool.</p>
-    <p>As of 2025, structured outputs (via <code>strict: true</code> in tool definitions) guarantee that tool calls match your JSON schema exactly. This eliminates parsing errors and invalid parameter types, making production systems more reliable.</p>
+    <p>Structured outputs help guarantee that tool calls match your JSON schema exactly, eliminating parsing errors and invalid parameter types. OpenAI supports this via <code>strict: true</code> in tool definitions. Claude enforces valid JSON tool calls by default. Gemini uses <code>function_calling_config</code> to control tool selection mode. Each provider's approach differs slightly, but the goal is the same: reliable, schema-compliant tool calls in production.</p>
   </div>
 
   <div class="section">
@@ -78,7 +78,7 @@
 
   <div class="section">
     <h2>Practical Workflow</h2>
-    <p>1. Define 5-10 core tools your app needs (database query, file read, web search, email send, etc.). 2. Write JSON schemas for each, with clear names and descriptions. 3. Implement tool execution logic in your application. 4. Use Structured Outputs to enforce schema compliance. 5. Test each tool independently, then test with the model selecting and chaining them. 6. Monitor tool call patterns in production to identify missing tools or confusing descriptions.</p>
+    <p>1. Define 5–10 core tools your app needs (database query, file read, web search, email send, etc.). 2. Write JSON schemas for each, with clear names and descriptions. 3. Implement tool execution logic in your application. 4. Enable structured outputs where your provider supports it. 5. Test each tool independently, then test with the model selecting and chaining them. 6. Monitor tool call patterns in production to identify missing tools or confusing descriptions.</p>
     <div class="tip">
       <p><strong>Pro tip:</strong> Start with 3-5 essential tools. Add more incrementally. Each tool increases decision latency and context usage.</p>
     </div>
