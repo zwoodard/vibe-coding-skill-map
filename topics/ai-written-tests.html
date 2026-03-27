@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Written Tests — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #60a5fa; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 2 — AI-Assisted Coding</div>
+  <h1>AI-Written Tests</h1>
+  <p class="subtitle">Generating unit tests, integration tests, and edge case scenarios with AI assistance</p>
+
+  <div class="section">
+    <h2>Why Let AI Write Tests</h2>
+    <p>Writing tests is repetitive and time-consuming. AI accelerates test case generation by 60%, reducing average time per test case from one hour to nineteen minutes. AI systematically identifies edge cases, boundary conditions, and failure paths that human testers might deprioritize under time pressure. Tools like GitHub Copilot, Amazon CodeWhisperer, and CodiumAI generate tests from function signatures alone.</p>
+    <div class="tip">
+      <p><strong>Reality check:</strong> AI generates code; you validate logic. Human oversight is essential, especially for business-critical paths.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Asking AI to Write Unit Tests</h2>
+    <p>Paste a function into chat and request: "Write unit tests for this function covering normal cases and edge cases." Describe your testing framework (Jest, Pytest, Vitest). AI generates test skeletons with setup, assertions, and multiple scenarios. Review: Do tests actually verify the behavior? Are assertions meaningful? Do they test what matters?</p>
+    <ul>
+      <li>Specify your test framework and assertion style</li>
+      <li>Request tests for specific scenarios: "test invalid input," "test empty arrays"</li>
+      <li>Ask for tests with specific coverage goals (100%, 90%, critical paths only)</li>
+      <li>Request a certain number of test cases: "Write 5 unit tests"</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Integration and End-to-End Tests</h2>
+    <p>AI can scaffold integration tests: "Write tests that verify this API endpoint returns correct data when given valid input and handles authentication errors." AI generates test setup, API calls, assertion chains, and cleanup. You'll likely refactor database seeding, mock external services, or adjust assertions for your environment—that's expected and correct.</p>
+    <p>For end-to-end tests, describe the user flow: "Write tests for login flow: user enters email and password, system validates, returns auth token, user can fetch profile." AI creates step-by-step test scenarios.</p>
+  </div>
+
+  <div class="section">
+    <h2>Edge Cases and Boundary Testing</h2>
+    <p>AI excels at generating edge case tests because it knows common patterns. Ask: "Write tests for edge cases" and AI generates: null values, empty strings, negative numbers, extremely large numbers, special characters, type mismatches, async timeouts, concurrent operations, and state inconsistencies. This coverage catches bugs that happy-path testing misses.</p>
+    <div class="tip">
+      <p><strong>Pro tip:</strong> Ask AI to generate edge cases first, then write happy-path tests. It focuses on what's easy to miss.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Reviewing AI-Generated Tests</h2>
+    <p>Generated tests need validation. Ask yourself: Does this test actually verify the behavior? Could it pass even if the code is broken? Example: A test that just calls a function without assertions passes meaninglessly. Look for:</p>
+    <ul>
+      <li><strong>Meaningful assertions:</strong> Tests check actual results, not just "function runs without error"</li>
+      <li><strong>Clear setup:</strong> Fixtures and mocks are readable and correct</li>
+      <li><strong>Isolation:</strong> Tests don't depend on execution order or shared state</li>
+      <li><strong>Speed:</strong> Tests run quickly (no unnecessary waits or network calls)</li>
+      <li><strong>Clarity:</strong> Test names describe what's being tested</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Common Pitfalls: Tests That Don't Test</h2>
+    <p><strong>Hallmark issue:</strong> Tests pass but don't actually validate anything. Examples: Test calls function but has no assertions. Test mocks all dependencies so it never tests real behavior. Test asserts the wrong thing: "assert result is not null" when it should verify actual values. Test runs but would pass if you deleted the implementation.</p>
+    <p>Solution: Read generated tests carefully. Understand what each assertion verifies. Manually run tests with intentionally broken code—if tests still pass, they're not testing.</p>
+  </div>
+
+  <div class="section">
+    <h2>Best Practices for AI Test Generation</h2>
+    <ul>
+      <li><strong>Start with happy path:</strong> "Write a test for normal usage"</li>
+      <li><strong>Then add error cases:</strong> "Now test invalid input"</li>
+      <li><strong>Finally edge cases:</strong> "Test boundary conditions and unusual scenarios"</li>
+      <li><strong>Review before committing:</strong> Validate test logic matches your understanding</li>
+      <li><strong>Maintain tests alongside code:</strong> Update tests when you refactor</li>
+      <li><strong>Use AI to update tests:</strong> "This function signature changed; update these tests"</li>
+      <li><strong>Mix AI and hand-written tests:</strong> Use AI for repetitive cases, write critical tests manually</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Tools for AI Test Generation</h2>
+    <p>Top choices: GitHub Copilot (broad framework support), Amazon CodeWhisperer (AWS integration), CodiumAI (detailed test coverage), TestSprite (end-to-end), and Diffblue Cover (JVM languages). Most work as chat features in your IDE or standalone platforms.</p>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://testomat.io/blog/ai-unit-testing-a-detailed-guide/">AI Unit Test Generation: Best Unit AI Tools in 2026</a>
+    <a href="https://www.testsprite.com/use-cases/en/the-best-ai-test-case-generation-tools">Ultimate Guide - The Best AI Test Case Generation Tools of 2026</a>
+    <a href="https://testgrid.io/blog/ai-unit-testing/">AI Unit Testing: Guide to AI-Generated and Automated Unit Tests</a>
+    <a href="https://www.secondtalent.com/resources/claude-ai-for-test-case-generation-and-qa-automation/">Claude AI for Test Case Generation and QA Automation 2026</a>
+    <a href="https://hashnode.com/blog/best-generative-ai-testing-tools-2026">12 best generative AI testing tools (2026): Ranked and reviewed</a>
+  </div>
+</div>
+</body>
+</html>

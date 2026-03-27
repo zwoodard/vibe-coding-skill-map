@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choosing a Model — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #a78bfa; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 1 — Foundations</div>
+  <h1>Choosing a Model</h1>
+  <p class="subtitle">Overview of the AI landscape and what each model family does best.</p>
+
+  <div class="section">
+    <h2>The Big Three (March 2026)</h2>
+    <p><strong>Claude (Anthropic):</strong> Strongest at writing, analysis, and step-by-step reasoning. Claude Sonnet 4.6 scores near-Opus quality at Sonnet pricing. Excellent for long-form tasks and thinking through complex problems.</p>
+    <p style="margin-top: 8px;"><strong>GPT (OpenAI):</strong> GPT-5.4 is the leader for computer use, tool integration, and factual precision. Best when you need reliability and software automation. Strong at coding and reasoning.</p>
+    <p style="margin-top: 8px;"><strong>Gemini (Google):</strong> Gemini 3.1 Pro is 20% cheaper than GPT-5.4 and excels at pure reasoning and multi-modal tasks (images, documents). Best value for reasoning-heavy work.</p>
+    <p style="margin-top: 8px;"><strong>Llama (Meta):</strong> Open-source, can run locally. Great for privacy-sensitive work, cost-conscious teams, or customization. Slower than frontier models but increasingly competitive.</p>
+  </div>
+
+  <div class="section">
+    <h2>Extended Thinking vs. Fast Inference</h2>
+    <p><strong>Extended Thinking models</strong> (Claude with extended thinking, GPT-5.2 Thinking) work step-by-step internally before answering. They're slower but better at:</p>
+    <ul>
+      <li>Debugging complex logic and code</li>
+      <li>System design and architecture</li>
+      <li>Math and multi-step reasoning</li>
+      <li>Tasks where "thinking through it" matters</li>
+    </ul>
+    <p style="margin-top: 8px;"><strong>Fast models</strong> (Claude Sonnet, GPT-4o) respond instantly. Best for:</p>
+    <ul>
+      <li>Code generation and refactoring</li>
+      <li>Writing and documentation</li>
+      <li>Brainstorming and ideation</li>
+      <li>Real-time interactions and agents</li>
+    </ul>
+    <div class="tip">
+      <p>Use extended thinking when the problem is hard. Use fast models when speed or cost matters more than perfection.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Large vs. Small: The Tradeoff</h2>
+    <p><strong>Frontier models</strong> (Claude Opus, GPT-5.4, Gemini 3.1 Pro):</p>
+    <ul>
+      <li>Highest quality, best reasoning, most reliable</li>
+      <li>Higher cost (~$15 per 1M output tokens)</li>
+      <li>Slower inference</li>
+      <li>Best for critical, complex tasks</li>
+    </ul>
+    <p style="margin-top: 8px;"><strong>Mid-tier models</strong> (Claude Sonnet 4.6, GPT-4o):</p>
+    <ul>
+      <li>Good quality, 80%+ of frontier performance on most tasks</li>
+      <li>Much cheaper (~$3 per 1M tokens input)</li>
+      <li>Fast and reliable for daily development work</li>
+      <li>Sweet spot for teams and solo builders</li>
+    </ul>
+    <p style="margin-top: 8px;"><strong>Smaller models</strong> (Llama 3, Gemini Flash):</p>
+    <ul>
+      <li>Cheap, fast, can run locally</li>
+      <li>Best for simple tasks, high-volume work, embedding in apps</li>
+      <li>Weaker at reasoning and subtle tasks</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Cost Reality (Early 2026)</h2>
+    <p><strong>Input tokens:</strong> $2–3 per 1M tokens (usually paid per input)</p>
+    <p style="margin-top: 8px;"><strong>Output tokens:</strong> $3–15 per 1M tokens (higher than input because generation is more expensive)</p>
+    <p style="margin-top: 8px;">A typical development workflow (asking 20 questions, getting 5K-token responses):</p>
+    <ul>
+      <li>Claude Sonnet: ~$0.10–0.30</li>
+      <li>GPT-4o: ~$0.15–0.40</li>
+      <li>Gemini 3.1 Pro: ~$0.08–0.25 (cheapest frontier)</li>
+    </ul>
+    <p style="margin-top: 8px;">Cost is rarely the blocker. A bad model choice wastes more time than the difference in API cost.</p>
+  </div>
+
+  <div class="section">
+    <h2>The Context Window Tie</h2>
+    <p>All three frontier models now offer 1M+ token context windows. This removes context length as a deciding factor. You can paste entire repos, documentation, and logs in one prompt.</p>
+    <div class="tip">
+      <p>Don't choose based on context window anymore. Pick the model that thinks best for your task.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Quick Decision Tree</h2>
+    <ul>
+      <li><strong>Debugging or system design?</strong> → Claude with extended thinking or GPT-5.2 Thinking</li>
+      <li><strong>Writing, refactoring, daily coding?</strong> → Claude Sonnet 4.6 (best balance)</li>
+      <li><strong>Building agents or software automation?</strong> → GPT-5.4 (best tool use and reliability)</li>
+      <li><strong>Reasoning-heavy work on a budget?</strong> → Gemini 3.1 Pro (cheapest frontier)</li>
+      <li><strong>Privacy or local deployment?</strong> → Llama 3 or similar open-source</li>
+      <li><strong>Quick, cheap tasks (summaries, simple code)?</strong> → Any mid-tier or small model</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Pro Tips</h2>
+    <ul>
+      <li>Start with Claude Sonnet or GPT-4o. Upgrade only if results disappoint.</li>
+      <li>Try different models on the same task. You'll notice patterns in what each does best.</li>
+      <li>Check model release notes. Knowledge cutoff dates vary (usually early 2024 or late 2025).</li>
+      <li>Use cheaper models for iteration, frontier models for final polish.</li>
+    </ul>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://intuitionlabs.ai/articles/claude-vs-chatgpt-vs-copilot-vs-gemini-enterprise-comparison">Claude vs ChatGPT vs Copilot vs Gemini: 2026 Enterprise Guide</a>
+    <a href="https://www.cosmicjs.com/blog/best-ai-for-developers-claude-vs-gpt-vs-gemini-technical-comparison-2026">Best AI for Developers: Claude vs GPT vs Gemini 2026</a>
+    <a href="https://digidai.github.io/2026/03/13/chatgpt-vs-claude-vs-gemini-2026-ultimate-comparison/">ChatGPT vs Claude vs Gemini: A Practical Decision Framework</a>
+    <a href="https://www.morphllm.com/best-ai-model-for-coding">Best AI Model for Coding (2026): Ranked by Benchmarks</a>
+    <a href="https://designforonline.com/the-best-ai-models-so-far-in-2026/">The Best AI Models So Far in 2026</a>
+  </div>
+</div>
+</body>
+</html>

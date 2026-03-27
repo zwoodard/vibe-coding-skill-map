@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workflow Orchestration — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #22d3ee; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 6 — Sub-Agents & Orchestration</div>
+  <h1>Workflow Orchestration</h1>
+  <p class="subtitle">Design complex, multi-step AI workflows with branching, parallelization, error recovery, and human checkpoints.</p>
+
+  <div class="section">
+    <h2>DAG-Based Workflows</h2>
+    <p>A workflow is a directed acyclic graph (DAG) of tasks. Each node represents a step (run a model, call an API, execute code). Edges represent dependencies (Task B waits for Task A's output). A DAG ensures no circular loops and lets you see the full workflow structure upfront.</p>
+    <p>Example workflow: Parse document → Extract entities → Summarize → Quality check → Deliver results. Parse has no dependencies. Extract depends on Parse. Summarize depends on Extract. Quality check depends on Summarize. Each step is a node; dependencies are edges.</p>
+  </div>
+
+  <div class="section">
+    <h2>Sequential vs. Parallel Execution</h2>
+    <p><strong>Sequential:</strong> One task runs, then the next. Good when each step depends on the previous output. Slower but simple. <strong>Parallel:</strong> Multiple independent tasks run simultaneously. Good when tasks don't depend on each other. Faster but requires result aggregation.</p>
+    <p>In the example above, Parse must be sequential (foundational). Then Extract and Summarize could theoretically run parallel (if Extract feeds to Summarize through a shared memory store). Quality check must follow Summarize. The orchestrator determines the optimal execution path based on the DAG structure.</p>
+  </div>
+
+  <div class="section">
+    <h2>Conditional Branching</h2>
+    <p>Workflows often need conditional logic: "If extraction succeeded, continue. If extraction failed, send to manual review." Use branching to split the workflow based on task results.</p>
+    <ul>
+      <li><strong>If/else:</strong> "If high confidence, auto-approve. Else, escalate to human."</li>
+      <li><strong>Switch:</strong> "If document type is contract, use legal reviewer. If invoice, use accounting reviewer."</li>
+      <li><strong>Loop:</strong> "Retry extraction up to 3 times. If still failing, escalate."</li>
+    </ul>
+    <p>Each branch is a sub-DAG. The orchestrator navigates the branches based on runtime decisions. This creates adaptive workflows that respond to intermediate results.</p>
+  </div>
+
+  <div class="section">
+    <h2>Human-in-the-Loop Checkpoints</h2>
+    <p>Not all decisions should be automated. Insert human checkpoints at critical decision points. A workflow might auto-process low-risk documents but flag high-uncertainty results for human review. The checkpoint pauses the workflow, notifies a human, and resumes when they approve/reject.</p>
+    <p>Implement checkpoints by storing workflow state, queuing the decision request to a task system (e.g., a human task queue), and resuming when a human provides input. This keeps workflows from going off the rails on edge cases while automating routine work.</p>
+  </div>
+
+  <div class="section">
+    <h2>Retry Logic & Error Handling</h2>
+    <p>Tasks fail. Implement exponential backoff: retry immediately, then after 1 second, then 2, then 4. Set max retries (usually 3-5). For transient errors (network hiccup), retry. For permanent errors (invalid input), escalate instead of retrying endlessly.</p>
+    <p>At each error, the orchestrator decides: retry with the same parameters, retry with different parameters, skip this task and move to the next, or escalate to a human. Log all failures with timestamps and context so you can debug issues later. Set timeouts on each task—if a task hangs for 5 minutes, cancel it and move on.</p>
+  </div>
+
+  <div class="section">
+    <h2>Tools & Platforms</h2>
+    <p>Several platforms handle workflow orchestration: <strong>Apache Airflow</strong> is open-source and widely used for data pipelines and AI workflows. Define DAGs in Python, schedule runs, monitor execution. <strong>Temporal</strong> specializes in long-running, fault-tolerant workflows; popular in microservices. <strong>AWS Step Functions</strong> is a serverless orchestration service. <strong>Strands Agents</strong> integrates AI and workflow logic with advanced branching.</p>
+    <p>For simpler use cases, the Claude Agent SDK's built-in orchestration may suffice. For complex, multi-step enterprise workflows, use a dedicated platform like Airflow or Temporal.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practical Example: Document Processing</h2>
+    <p>1. Ingest document. 2. Parse (extract text). 3. If parse fails, escalate to manual review. 4. If parse succeeds, extract entities in parallel (NER agent, metadata extractor, summary agent). 5. Aggregate results. 6. Quality check: is confidence high? If yes, deliver. If no, flag for human review. 7. Log outcome for analytics.</p>
+    <p>This workflow has sequential steps (ingest, parse), parallel steps (extract agents), branching (on parse success), checkpoints (quality check), and error handling (manual review path).</p>
+    <div class="tip">
+      <p><strong>Best practice:</strong> Start simple. Define the happy path first, then add branches and error handling incrementally.</p>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://medium.com/@omark.k.aly/workflow-orchestration-building-complex-ai-pipelines-c8504ab8306f">Omar Aly: Workflow Orchestration for AI Pipelines</a>
+    <a href="https://intuitionlabs.ai/articles/agentic-ai-temporal-orchestration">IntuitionLabs: Agentic AI Workflows with Temporal</a>
+    <a href="https://docs.aws.amazon.com/prescriptive-guidance/latest/agentic-ai-patterns/workflow-orchestration-agents.html">AWS: Workflow Orchestration Agents Guide</a>
+    <a href="https://www.gooddata.com/blog/ai-agent-workflows-everything-you-need-to-know/">GoodData: Everything About AI Agent Workflows</a>
+    <a href="https://dev.to/yeahiasarker/agent-orchestration-in-ai-the-core-layer-enabling-multi-agent-and-tool-based-workflows-4b7d">Dev.to: Agent Orchestration & Tool-Based Workflows</a>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conversational Prompting — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #a78bfa; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 1 — Foundations</div>
+  <h1>Conversational Prompting</h1>
+  <p class="subtitle">How to ask AI good questions and get reliably useful answers.</p>
+
+  <div class="section">
+    <h2>The Golden Rule: Specificity</h2>
+    <p>Vague prompts produce vague answers. The best prompts include success criteria (what "done" looks like) and an output contract (format, length, tone, what sections you need).</p>
+    <p style="margin-top: 8px;">Instead of: "Write code to sort a list"</p>
+    <p>Try: "Write a Python function that sorts a list of dicts by the 'age' key in descending order. Return a 20-line function with docstring and type hints."</p>
+  </div>
+
+  <div class="section">
+    <h2>Provide Context Upfront</h2>
+    <p>AI models work best when they understand your situation. Include:</p>
+    <ul>
+      <li>What you're trying to accomplish (not just the immediate task)</li>
+      <li>What tools/languages you're using</li>
+      <li>Relevant code snippets or examples</li>
+      <li>Constraints (budget, performance, dependencies)</li>
+      <li>What you've already tried</li>
+    </ul>
+    <div class="tip">
+      <p>Paste your error message, logs, or failing tests. Context is often worth 100 follow-ups.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Iterate with Follow-Ups</h2>
+    <p>Treat it like a conversation. After the AI responds:</p>
+    <ul>
+      <li>Ask it to explain parts you don't understand</li>
+      <li>Ask for different approaches (faster, simpler, more robust)</li>
+      <li>Ask it to refactor or optimize its own suggestion</li>
+      <li>Push back: "That won't work because..." and let it revise</li>
+    </ul>
+    <p style="margin-top: 8px;">Each follow-up helps the model refine understanding of your actual problem.</p>
+  </div>
+
+  <div class="section">
+    <h2>Common Mistakes</h2>
+    <ul>
+      <li><strong>Too vague:</strong> "How do I debug this?" (no error, no context)</li>
+      <li><strong>No context:</strong> Asking to write code without naming libraries, frameworks, or constraints</li>
+      <li><strong>Single-shot:</strong> Expecting perfect output on the first try instead of iterating</li>
+      <li><strong>Ignoring format:</strong> Not specifying if you want JSON, markdown, code, or prose</li>
+      <li><strong>Sharing secrets:</strong> Pasting API keys, passwords, or proprietary data into prompts</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Model Flavors</h2>
+    <p><strong>ChatGPT (OpenAI):</strong> Excels with explicit formatting and constraints. Great for structured outputs (tables, JSON, code).</p>
+    <p style="margin-top: 8px;"><strong>Claude (Anthropic):</strong> Handles ambiguity well and benefits from tag-based structure like &lt;task&gt; and &lt;context&gt;. Best for long-form analysis and critique.</p>
+    <p style="margin-top: 8px;"><strong>Gemini (Google):</strong> Strong with markdown structure and multimodal input. Ideal for document work and image analysis.</p>
+    <p style="margin-top: 8px;">Start with one, then compare outputs. You'll develop instincts for which tool fits which task.</p>
+  </div>
+
+  <div class="section">
+    <h2>Pro Tips</h2>
+    <ul>
+      <li>Use templates—if you find a prompt that works, save it and reuse it</li>
+      <li>Use XML-like tags (&lt;task&gt;, &lt;context&gt;, &lt;constraints&gt;) to structure messy prompts</li>
+      <li>Ask the model to think step-by-step before answering ("Let's think about this...").</li>
+      <li>For code, ask for edge case handling and tests alongside the implementation</li>
+      <li>Never paste production secrets, customer data, or unpublished code</li>
+    </ul>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://promptbuilder.cc/blog/prompt-engineering-best-practices-2026">Prompt Engineering Best Practices 2026: Checklist & Templates</a>
+    <a href="https://www.virtasant.com/ai-today/10-best-ai-prompt-tips-from-claude-chatgpt-gemini-and-copilot">10 Best Prompt Tips from Claude, ChatGPT, Gemini, and Copilot</a>
+    <a href="https://www.the-ai-corner.com/p/your-2026-guide-to-prompt-engineering">Your 2026 Guide to Prompt Engineering: 10x More from AI</a>
+    <a href="https://medium.com/activated-thinker/i-ran-the-same-prompt-through-chatgpt-claude-and-gemini-30261df304ca">Same Prompt Through ChatGPT, Claude, and Gemini: A Comparison</a>
+  </div>
+</div>
+</body>
+</html>

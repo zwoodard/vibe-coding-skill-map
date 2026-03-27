@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan Mode — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #34d399; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 3 — Structured Workflows</div>
+  <h1>Plan Mode</h1>
+  <p class="subtitle">Review and approve AI plans before they execute code</p>
+
+  <div class="section">
+    <h2>What is Plan Mode?</h2>
+    <p>Plan Mode is a checkpoint feature where AI agents analyze your codebase, think through an approach, and present a detailed plan before writing a single line of code. The AI reads files, understands the architecture, and tells you exactly what it intends to do—which files it will touch, the sequence of changes, and any assumptions it's making.</p>
+    <p>You review, edit, ask questions, or reject the plan entirely. Only after you approve does the AI proceed to implementation. It's "think before you build" made explicit and interactive.</p>
+  </div>
+
+  <div class="section">
+    <h2>Why Plan Mode Matters</h2>
+    <p>Without a plan, you're delegating both strategy and execution to the AI. With a plan, you stay in control of strategy while the AI handles implementation. This dramatically reduces the risk of the AI going down a wrong path, misunderstanding your architecture, or creating unnecessary refactors.</p>
+    <p>Plan Mode catches misalignments early, before tokens are spent and code is written. It turns potential rework into a conversation.</p>
+  </div>
+
+  <div class="section">
+    <h2>Plan Mode Workflow</h2>
+    <ol style="padding-left: 20px;">
+      <li><strong>You give a task:</strong> "Refactor the auth module to use JWT tokens."</li>
+      <li><strong>AI enters Plan Mode:</strong> It reads your current auth code, understands the existing structure, and analyzes dependencies.</li>
+      <li><strong>AI presents a plan:</strong> "I will: (1) Create a new JWT utility file, (2) Modify the login endpoint, (3) Update the middleware, (4) Add tests for token validation."</li>
+      <li><strong>You review & respond:</strong> "Good, but also handle token refresh. And use the existing secret manager, not a new one."</li>
+      <li><strong>AI revises the plan:</strong> Shows updated steps incorporating your feedback.</li>
+      <li><strong>You approve:</strong> "Looks good, execute."</li>
+      <li><strong>AI implements:</strong> Now it writes code, with the plan as a map.</li>
+    </ol>
+    <div class="tip">
+      <p>This workflow is a design review before code review. Catch architecture mistakes in minutes, not after implementation.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Plan Mode Constraints</h2>
+    <p>In Plan Mode, the AI is read-only. It can read files, search the codebase, and ask clarifying questions—but it cannot edit code, write files, or run shell commands. This keeps the mode lightweight and safe.</p>
+    <p>Some tools call this "analysis mode" or "thinking mode." The principle is the same: deliberate before acting.</p>
+  </div>
+
+  <div class="section">
+    <h2>When to Use Plan Mode</h2>
+    <ul>
+      <li><strong>Large refactors:</strong> Restructuring modules, rearchitecting, touching multiple systems.</li>
+      <li><strong>Unfamiliar codebases:</strong> Working in a project you don't know well yet.</li>
+      <li><strong>Risky changes:</strong> Authentication, payment flows, data migrations.</li>
+      <li><strong>Team decisions:</strong> When the direction affects other developers' work.</li>
+    </ul>
+    <p><strong>Skip Plan Mode for:</strong> Small bug fixes, obvious features, isolated changes in well-understood modules. The overhead isn't worth it for simple tasks.</p>
+  </div>
+
+  <div class="section">
+    <h2>Effective Plan Review</h2>
+    <p>When the AI presents a plan, ask: Does this match my mental model? Are there dependencies I missed? Will this break anything downstream? Are there better approaches?</p>
+    <p>Don't just rubber-stamp—this is your chance to steer. If the plan is off, say so. Push back. The goal is alignment, not speed.</p>
+  </div>
+
+  <div class="section">
+    <h2>Combining with Markdown Specs</h2>
+    <p>Pair Plan Mode with a detailed spec: "Here's what I want. AI, read the spec and the codebase, then show me your plan." The spec provides the what, the codebase provides the how, and the plan shows how the AI will bridge them.</p>
+    <p>This combo—specs + Plan Mode—gives you predictability and control.</p>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://www.datacamp.com/tutorial/claude-code-plan-mode">Claude Code Plan Mode: Design Review-First Refactoring Loops — DataCamp</a>
+    <a href="https://github.blog/changelog/2025-11-18-plan-mode-in-github-copilot-now-in-public-preview-in-jetbrains-eclipse-and-xcode/">Plan mode in GitHub Copilot now in public preview — GitHub Changelog</a>
+    <a href="https://blog.openreplay.com/vs-code-planning-mode/">VS Code Planning Mode: Think Before You Code — OpenReplay</a>
+    <a href="https://smartscope.blog/en/generative-ai/chatgpt/codex-plan-mode-complete-guide/">Codex Plan Mode: Stop Code Drift with Plan→Execute — SmartScope</a>
+    <a href="https://www.aihero.dev/plan-mode-introduction">An Introduction To Plan Mode — AI Hero</a>
+  </div>
+</div>
+</body>
+</html>

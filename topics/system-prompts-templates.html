@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Prompts & Templates — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #34d399; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 3 — Structured Workflows</div>
+  <h1>System Prompts & Templates</h1>
+  <p class="subtitle">Define AI behavior, tone, and constraints upfront</p>
+
+  <div class="section">
+    <h2>What is a System Prompt?</h2>
+    <p>A system prompt is a set of instructions given to an AI model before user interaction begins. It defines the model's role, personality, constraints, and how it should behave throughout the conversation. Unlike user prompts (your requests), system prompts are persistent—they apply to every interaction in that session.</p>
+    <p>Think of a system prompt as the AI's operating manual. It says "You are a code reviewer" or "You are a technical writer" and sets the tone for everything that follows.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key Components of Good System Prompts</h2>
+    <ul>
+      <li><strong>Role:</strong> "You are a senior backend engineer" or "You are a security auditor."</li>
+      <li><strong>Context:</strong> What domain are you operating in? What's important about this project?</li>
+      <li><strong>Constraints:</strong> What should you NOT do? "Don't suggest deprecated libraries." "Don't write code longer than 50 lines."</li>
+      <li><strong>Format:</strong> How should responses be structured? "Always respond with: (1) explanation, (2) code, (3) gotcha."</li>
+      <li><strong>Tone:</strong> Professional, casual, concise, verbose? "Be direct and precise. Avoid fluff."</li>
+      <li><strong>Scope:</strong> What are your boundaries? "You can suggest architecture but not make executive decisions."</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Example System Prompts</h2>
+    <p><strong>For a Code Reviewer:</strong></p>
+    <code>
+You are a senior code reviewer. Review code for correctness, performance, and maintainability. Always flag: deprecated patterns, missing error handling, and security issues. Format: (1) Summary, (2) Issues with severity, (3) Suggestions.
+    </code>
+    <p><strong>For API Documentation:</strong></p>
+    <code>
+You write API documentation. Be precise and concise. Always include: endpoint, method, parameters, response format, error codes, example. Use markdown. Assume the reader is a developer, not a novice.
+    </code>
+    <div class="tip">
+      <p>System prompts work best at 100-500 words. More than that, and you're wasting tokens. Less, and you're under-specifying behavior.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Constraints Are Powerful</h2>
+    <p>Constraints prevent AI from going off-rails. Without them, you get whatever the model decides. With them, you get consistency.</p>
+    <p>Examples: "Do not suggest Docker unless asked." "Always validate input." "Never hardcode secrets." "If unsure, ask for clarification rather than guessing."</p>
+    <p>The more explicit your constraints, the more predictable the AI's behavior.</p>
+  </div>
+
+  <div class="section">
+    <h2>Reusable Prompt Templates</h2>
+    <p>Create a library of system prompts for common tasks: code generation, reviewing, documenting, refactoring, testing. Store them as Markdown files in your project:</p>
+    <code>
+docs/prompts/code-reviewer.md<br/>
+docs/prompts/api-documenter.md<br/>
+docs/prompts/test-writer.md<br/>
+    </code>
+    <p>Version control these prompts alongside your code. When you improve a prompt, commit it. When you need that prompt later, you have the version that worked.</p>
+  </div>
+
+  <div class="section">
+    <h2>Version-Controlling Prompts</h2>
+    <p>Treat system prompts like code. Keep them in Git. When a prompt produces great results, you want that version forever. When you refine it, you want to see the diff.</p>
+    <p>Example git log for a prompt:</p>
+    <code>
+commit abc123: "Simplify code reviewer prompt, remove redundancy"<br/>
+commit def456: "Add constraint about avoiding deprecated patterns"<br/>
+    </code>
+    <p>This history becomes institutional knowledge about what works in your team.</p>
+  </div>
+
+  <div class="section">
+    <h2>Testing & Refining Prompts</h2>
+    <p>A good prompt improves output consistency. Test by running the same task with the same prompt multiple times. Does the output vary wildly? The prompt needs refinement. Is it consistent? You're winning.</p>
+    <p>When output is bad, it's often not the prompt—it's the task being too vague or the AI misunderstanding the context. Refine the prompt, add constraints, provide examples.</p>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://ai.google.dev/gemini-api/docs/prompting-strategies">Prompt design strategies — Google AI Developers</a>
+    <a href="https://www.nngroup.com/articles/careful-prompts/">CARE: Structure for Crafting AI Prompts — NN/G</a>
+    <a href="https://thepromptway.com/posts/system-prompts-guide/">System Prompts Explained: How to Set the Perfect Context — The Prompt Way</a>
+    <a href="https://saharaai.com/blog/writing-ai-system-prompts">Guide to Writing System Prompts — Sahara AI</a>
+    <a href="https://www.regie.ai/blog/user-prompts-vs-system-prompts">User prompts vs. system prompts: What's the difference? — Regie</a>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Model Context Protocol (MCP) — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #fb923c; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 4 — Advanced Coding Agents</div>
+  <h1>Model Context Protocol (MCP)</h1>
+  <p class="subtitle">Connect AI to external tools, databases, and services. MCP is the open standard that powers the agentic AI ecosystem.</p>
+
+  <div class="section">
+    <h2>What is MCP?</h2>
+    <p>The Model Context Protocol (MCP) is an open standard introduced by Anthropic in November 2024. It defines how AI systems (like Claude) integrate securely with external tools, data sources, and APIs.</p>
+    <p>Instead of bolting AI onto every tool, MCP creates a single standardized connection. One "server" (e.g., a database, GitHub, Slack) exposes capabilities. Any MCP-compatible client (Claude Code, Claude Desktop, ChatGPT, etc.) can plug in and use those capabilities.</p>
+  </div>
+
+  <div class="section">
+    <h2>The Ecosystem Boom</h2>
+    <p>MCP adoption exploded in 2025:</p>
+    <ul>
+      <li>By March 2025, OpenAI integrated MCP into ChatGPT and the Agents SDK</li>
+      <li>Google DeepMind's Gemini models added MCP support in April 2025</li>
+      <li>By December 2025, over 97 million monthly SDK downloads across all languages</li>
+      <li>December 2025: Anthropic donated MCP to the Agentic AI Foundation under the Linux Foundation</li>
+    </ul>
+    <p>This makes MCP the de facto protocol for AI-to-tool integration in 2026.</p>
+  </div>
+
+  <div class="section">
+    <h2>Popular MCP Servers (Community Built)</h2>
+    <p><strong>GitHub:</strong> Query repos, open issues, create pull requests.</p>
+    <p><strong>Slack:</strong> Send messages, list channels, search history.</p>
+    <p><strong>PostgreSQL/MySQL:</strong> Query databases directly from Claude.</p>
+    <p><strong>Jira:</strong> Create tickets, update statuses, search issues.</p>
+    <p><strong>Stripe:</strong> Check transactions, retrieve customers, manage billing.</p>
+    <p><strong>Files/Filesystem:</strong> Read, write, search files (scoped to project directories).</p>
+    <p><strong>Web Search:</strong> Fetch and analyze web content in real time.</p>
+    <p>Find more at: https://github.com/modelcontextprotocol/servers</p>
+  </div>
+
+  <div class="section">
+    <h2>Setting Up MCP Servers</h2>
+    <p><strong>In Claude Code:</strong> Add servers to your <code>CLAUDE.md</code> or configuration file.</p>
+    <p><strong>Configuration format:</strong></p>
+    <p><code>"mcp_servers": {<br>
+  "github": {<br>
+    "command": "python",<br>
+    "args": ["-m", "mcp_server_github"],<br>
+    "env": {"GITHUB_TOKEN": "ghp_..."}}<br>
+}</code></p>
+    <p><strong>Install & authenticate:</strong> Most servers need API keys or authentication. Set them as environment variables or in a secrets file (never commit keys!).</p>
+    <p><strong>Test:</strong> Once configured, Claude can call the server's tools (e.g., search GitHub, query your database).</p>
+  </div>
+
+  <div class="section">
+    <h2>Building Custom MCP Servers</h2>
+    <p>You can write your own MCP server to expose internal tools or data. Structure:</p>
+    <p><code>my-mcp-server/<br>
+├── server.py (or .js, .go, etc.)<br>
+└── README.md</code></p>
+    <p><strong>Core idea:</strong> The server implements the MCP specification (send/receive JSON-RPC messages), exposes tools (functions Claude can call), and resources (data Claude can access).</p>
+    <p>Example: A custom MCP server that reads your internal wiki and lets Claude answer questions about company policy.</p>
+  </div>
+
+  <div class="section">
+    <h2>Security & Scoping</h2>
+    <p>MCP connections are bidirectional but scoped:</p>
+    <ul>
+      <li><strong>Tool whitelisting:</strong> Only expose the tools Claude needs (don't give it access to <code>rm -rf /</code>)</li>
+      <li><strong>Credentials:</strong> Store in environment, never in code. MCP transmits securely over stdout/stdin or HTTP</li>
+      <li><strong>Resource limits:</strong> Cap database queries, API calls, timeouts</li>
+      <li><strong>Audit logs:</strong> Log what Claude does via MCP (created issues, modified databases, etc.)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Use Cases</h2>
+    <p><strong>Multi-repo refactoring:</strong> MCP GitHub server lets Claude search all repos, create PRs, post reviews.</p>
+    <p><strong>Data analysis:</strong> MCP database server lets Claude query and transform data without writing SQL.</p>
+    <p><strong>DevOps automation:</strong> MCP servers for Kubernetes, Terraform, monitoring systems. Claude can debug infrastructure issues.</p>
+    <p><strong>Customer support:</strong> MCP Slack + Jira + database servers. Claude reads customer issues, queries the database, suggests fixes, posts solutions.</p>
+  </div>
+
+  <div class="tip">
+    <p><strong>Tip:</strong> Start with one community server (e.g., GitHub) to get familiar with MCP. Then, if you have internal tools, write a custom server. One custom MCP server can unlock hours of automation.</p>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://www.anthropic.com/news/model-context-protocol">Introducing the Model Context Protocol — Anthropic</a>
+    <a href="https://modelcontextprotocol.io/specification/2025-11-25">MCP Specification</a>
+    <a href="https://www.pento.ai/blog/a-year-of-mcp-2025-review">A Year of MCP: From Internal Experiment to Industry Standard</a>
+    <a href="https://thenewstack.io/why-the-model-context-protocol-won/">Why the Model Context Protocol Won — The New Stack</a>
+    <a href="https://github.com/modelcontextprotocol/modelcontextprotocol">MCP on GitHub — Spec & Documentation</a>
+  </div>
+</div>
+</body>
+</html>

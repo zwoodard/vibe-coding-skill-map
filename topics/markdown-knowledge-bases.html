@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markdown Knowledge Bases — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #34d399; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 3 — Structured Workflows</div>
+  <h1>Markdown Knowledge Bases</h1>
+  <p class="subtitle">Organize project knowledge so AI agents understand your patterns</p>
+
+  <div class="section">
+    <h2>Why Markdown Knowledge Bases?</h2>
+    <p>For 95% of teams, Markdown-based knowledge bases beat complex RAG (Retrieval-Augmented Generation) systems. They're simpler, version-controlled, always current, and AI-readable.</p>
+    <p>A knowledge base is a collection of Markdown files that document your project conventions, architecture decisions, how-to guides, and API specs. It's your team's shared brain, searchable and accessible to both humans and AI.</p>
+  </div>
+
+  <div class="section">
+    <h2>Markdown vs. RAG: Why Markdown Wins</h2>
+    <p><strong>Markdown:</strong> Easy to write, version-controlled in Git, human-readable, always up-to-date, no infrastructure, AI-friendly.</p>
+    <p><strong>RAG:</strong> Requires vector databases, embedding models, retrieval pipelines, and maintenance. Overkill for most teams. Better suited for massive, constantly-growing knowledge (like all of Wikipedia).</p>
+    <p>Unless your knowledge base is thousands of documents and growing daily, Markdown is the right choice. It's also more accessible: search for files, read them directly, edit easily.</p>
+  </div>
+
+  <div class="section">
+    <h2>Knowledge Base Structure</h2>
+    <ul>
+      <li><strong>docs/conventions/:</strong> Code style, naming patterns, naming conventions, error handling approach.</li>
+      <li><strong>docs/architecture/:</strong> System design, module relationships, data flow, key components.</li>
+      <li><strong>docs/decisions/:</strong> ADRs (Architecture Decision Records). Why did you choose framework X over Y? Document it.</li>
+      <li><strong>docs/how-to/:</strong> Step-by-step guides for common tasks: "How to add a new API endpoint," "How to add a new page."</li>
+      <li><strong>docs/api/:</strong> API specifications, endpoint documentation, authentication details.</li>
+      <li><strong>docs/gotchas/:</strong> Known issues, quirks, workarounds. "We use this weird hack for reason X."</li>
+    </ul>
+    <div class="tip">
+      <p>Keep docs close to code. Place them in your repo's docs/ folder, not in a wiki you need to login to access.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Making Docs AI-Readable</h2>
+    <p>Write for both humans and AI. Use clear headers and structure. Example of an AI-friendly API doc:</p>
+    <code>
+# POST /api/users<br/>
+<br/>
+## Purpose<br/>
+Create a new user account<br/>
+<br/>
+## Request<br/>
+- email: string (required)<br/>
+- password: string (required, min 8 chars)<br/>
+<br/>
+## Response<br/>
+- id: number<br/>
+- email: string<br/>
+- createdAt: ISO timestamp<br/>
+<br/>
+## Errors<br/>
+- 409: Email already exists<br/>
+- 400: Invalid password<br/>
+    </code>
+    <p>This structure is easier for AI to parse and use.</p>
+  </div>
+
+  <div class="section">
+    <h2>Convention Documents</h2>
+    <p>Document your code style, naming conventions, and patterns. When the AI knows "We name tests as *.test.ts and use describe/it blocks," it generates code matching your style.</p>
+    <p>Example convention doc:</p>
+    <code>
+# Code Conventions<br/>
+<br/>
+## Testing<br/>
+- Files: *.test.ts<br/>
+- Framework: Jest<br/>
+- Pattern: describe/it<br/>
+<br/>
+## Error Handling<br/>
+- All endpoints catch errors and return { error: string, code: string }<br/>
+- Use custom error classes<br/>
+    </code>
+  </div>
+
+  <div class="section">
+    <h2>Architecture Decision Records (ADRs)</h2>
+    <p>An ADR documents a decision: "We chose PostgreSQL over MongoDB because..." ADRs are gold for AI context. They explain the "why" behind choices, preventing the AI from second-guessing decisions.</p>
+    <p>ADRs are lightweight: title, context, decision, consequences. One page per decision. Over time, they become a searchable history of your technical evolution.</p>
+  </div>
+
+  <div class="section">
+    <h2>How-To Guides</h2>
+    <p>Step-by-step guides for common tasks speed up onboarding—both for humans and AI. "How to add a new API endpoint" means new developers (and new AI sessions) don't re-invent the wheel.</p>
+    <p>Guides should be concrete: actual code examples, exact command sequences, common pitfalls. Not abstract advice—practical walkthroughs.</p>
+  </div>
+
+  <div class="section">
+    <h2>Versioning & Maintenance</h2>
+    <p>Keep docs in Git alongside code. When code changes, update docs. Review doc PRs like code PRs. Old, stale docs are worse than no docs—they mislead.</p>
+    <p>Set a quarterly doc review: are these still accurate? Remove outdated docs. Add docs for patterns that are missing.</p>
+  </div>
+
+  <div class="section">
+    <h2>Linking Docs to AI Sessions</h2>
+    <p>In CLAUDE.md, reference your knowledge base: "For API conventions, see docs/api/conventions.md." When starting a session, point the AI at relevant docs: "Read docs/how-to/add-endpoint.md then implement this feature."</p>
+    <p>This technique saves tokens and ensures the AI follows your established patterns.</p>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://www.searchcans.com/blog/markdown-vs-html-rag-benchmark/">Markdown vs. HTML: Which is Better for RAG Ingestion? — SearchCANS</a>
+    <a href="https://dev.to/bryanudensi/rag-without-the-internet-lessons-from-building-an-internal-only-ai-assistant-on-markdown-and-2npe">RAG Without the Internet: Lessons From Building an Internal-Only AI Assistant — Bryan Udensi</a>
+    <a href="https://developer.ibm.com/tutorials/build-rag-assistant-md-documentation/">Build a RAG-powered Markdown documentation assistant — IBM Developer</a>
+    <a href="https://medium.com/@vishalkhushlani123/building-a-markdown-knowledge-ingestor-for-rag-with-langchain-ba201515f6c4">Building a Markdown Knowledge Ingestor for RAG with LangChain — Vishal Khushlani</a>
+    <a href="https://xenoss.io/blog/enterprise-knowledge-base-llm-rag-architecture">Building an enterprise AI knowledge base with RAG and Agentic AI — Xenoss</a>
+  </div>
+</div>
+</body>
+</html>

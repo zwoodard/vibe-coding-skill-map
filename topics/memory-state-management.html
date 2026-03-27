@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memory & State Management — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #22d3ee; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 6 — Sub-Agents & Orchestration</div>
+  <h1>Memory & State Management</h1>
+  <p class="subtitle">Enable agents to remember past interactions, maintain state across sessions, and build on previous work.</p>
+
+  <div class="section">
+    <h2>Session vs. Long-Term Memory</h2>
+    <p><strong>Session memory</strong> is short-lived: the conversation history of a current interaction. An agent receives a user request, reasons about it, accesses current session memory, and responds. When the session ends, that memory is discarded. <strong>Long-term memory</strong> persists across sessions: notes, learned facts, user preferences, past debugging insights.</p>
+    <p>Session memory is implicit (the conversation itself). Long-term memory requires explicit storage and retrieval. A debugging agent might note in long-term memory: "User's database has a connection pool issue that requires timeout=30s." In a future session with the same user, the agent retrieves that note and avoids the same problem.</p>
+  </div>
+
+  <div class="section">
+    <h2>CLAUDE.md: Project-Level Instructions</h2>
+    <p>CLAUDE.md files are persistent, human-editable markdown files that live in your project. Claude reads them at the start of every session and injects them into the system prompt. Use CLAUDE.md for stable, reusable instructions that apply across many sessions.</p>
+    <p>Example CLAUDE.md entries: "Use async/await, not callbacks in JavaScript. Always test with pytest. Document new functions with docstrings. If you encounter database errors, check the connection pool."</p>
+    <p>The Claude Agent SDK automatically re-reads CLAUDE.md after context compaction, ensuring these instructions stay active even on long-running tasks. Keep CLAUDE.md concise (under 2000 words); it goes into every request, so brevity is important.</p>
+  </div>
+
+  <div class="section">
+    <h2>Auto-Memory & Learning from Corrections</h2>
+    <p>Auto-memory lets Claude accumulate knowledge as it works. When you correct Claude's behavior ("Actually, use the newer API"), Claude can save that insight to auto-memory without you writing anything. Subsequent sessions retrieve and apply these learnings.</p>
+    <p>Auto-memory stores notes like: "Build command for this project is `npm run build && npm test`, not just `npm run build`." "The user prefers TypeScript interfaces over types." These notes improve Claude's future performance on the same project without manual updates.</p>
+  </div>
+
+  <div class="section">
+    <h2>Shared Memory Across Agents</h2>
+    <p>In multi-agent systems, agents need to share findings and state. Implement a shared memory store (file system, database, key-value store) that all agents can read and write. A researcher agent stores findings in shared memory; a code generator reads them and incorporates requirements. A reviewer reads both and provides feedback.</p>
+    <p>Key pattern: use structured keys like <code>shared/task-id/findings.json</code> or <code>shared/user-123/preferences.json</code>. Agents lock memory for writes to prevent conflicts. Use version IDs or timestamps to track updates. Clear stale memory periodically to avoid bloat.</p>
+  </div>
+
+  <div class="section">
+    <h2>Memory Retrieval Patterns</h2>
+    <p>How do agents retrieve the right memory at the right time? <strong>Explicit retrieval:</strong> an agent reads a specific memory file by key. <strong>Semantic search:</strong> an agent queries a vector database with an embedding ("debugging tips for database timeouts") and retrieves similar notes. <strong>Hierarchical:</strong> agents first check local memory (session-specific), then shared memory (task-specific), then long-term (project-wide).</p>
+    <p>For large amounts of memory, semantic search (using embeddings) scales better than keyword search. Store memory as structured JSON with embeddings, then query by similarity.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practical Implementations</h2>
+    <p><strong>Claude API Memory Tool:</strong> Use the <code>memory</code> tool to create, read, update, and delete files in a memory directory. Your application handles storage (local filesystem, cloud bucket, database). The agent makes tool calls; your app executes them. Full control over storage location and retention. <strong>Session-based (LangGraph):</strong> Use thread-scoped checkpointers to maintain conversation history within a session. Upgrade to MongoDB or other backends for persistent, cross-session memory.</p>
+    <p><strong>Managed services:</strong> Amazon Bedrock AgentCore Memory automates memory extraction and consolidation. Microsoft Foundry Agent Service provides a managed long-term memory layer. These reduce operational burden but reduce flexibility.</p>
+  </div>
+
+  <div class="section">
+    <h2>Context Compaction & Cleanup</h2>
+    <p>Long conversations accumulate token cost. Implement context compaction: as conversation history grows, summarize old turns (keeping essential facts), then remove the raw history. The SDK handles this automatically, but you should design your memory strategy to complement it.</p>
+    <p>Example: summarize "User debugged database issue. Solution: set timeout=30s in connection pool" from 500 tokens of back-and-forth into 50 tokens. Store this summary in long-term memory. Later agents retrieve the summary instead of the full conversation.</p>
+    <p>Also clean up stale memory. If memory is older than 6 months and irrelevant to current work, delete it. This keeps memory stores lean and retrieval fast.</p>
+    <div class="tip">
+      <p><strong>Pro tip:</strong> Treat memory as a knowledge base. Index it, make it searchable, archive old entries. Bad memory management can become a bottleneck as agents accumulate experience.</p>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/memory-tool">Claude API: Memory Tool</a>
+    <a href="https://code.claude.com/docs/en/memory">Claude Code: How Claude Remembers Your Project</a>
+    <a href="https://cookbook.openai.com/examples/agents_sdk/session_memory">OpenAI Cookbook: Session Memory Management</a>
+    <a href="https://aws.amazon.com/blogs/machine-learning/amazon-bedrock-agentcore-memory-building-context-aware-agents/">AWS: Bedrock AgentCore Memory</a>
+    <a href="https://arxiv.org/pdf/2502.12110">ArXiv: A-Mem: Agentic Memory for LLM Agents</a>
+  </div>
+</div>
+</body>
+</html>

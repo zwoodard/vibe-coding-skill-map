@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Safety & Data Hygiene — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #a78bfa; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .danger { border-left: 3px solid #ff6b6b; padding-left: 16px; margin: 12px 0; background: rgba(255, 107, 107, 0.1); padding: 12px; border-radius: 4px; }
+  .danger p { color: #ff6b6b; font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 1 — Foundations</div>
+  <h1>AI Safety & Data Hygiene</h1>
+  <p class="subtitle">Using AI tools safely at work and protecting sensitive information.</p>
+
+  <div class="section">
+    <h2>Golden Rule: Use Official Tools Only</h2>
+    <p>Stick to official platforms with corporate accounts and data agreements:</p>
+    <ul>
+      <li>ChatGPT (openai.com, ChatGPT Plus, or enterprise)</li>
+      <li>Claude (claude.ai or Anthropic API with enterprise agreements)</li>
+      <li>Gemini (Google account, or Google Cloud setup)</li>
+      <li>Your company's approved AI platform or managed instance</li>
+    </ul>
+    <p style="margin-top: 8px;">Avoid random free sites, unverified alternatives, or tools without clear data policies. Free tools often train on your inputs.</p>
+    <div class="danger">
+      <p>Never paste data into random AI websites. You have no idea where it goes or how long it's stored.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>What You Can Share</h2>
+    <p><strong>Safe to share with AI:</strong></p>
+    <ul>
+      <li>Public code (repos you'd push to GitHub)</li>
+      <li>General technical questions and debugging</li>
+      <li>Non-confidential documentation and specs</li>
+      <li>Stack traces and error messages (without secrets)</li>
+      <li>System architecture diagrams</li>
+      <li>Sanitized code samples for learning</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>What You CANNOT Share</h2>
+    <p><strong>Never paste into any AI tool:</strong></p>
+    <ul>
+      <li>API keys, tokens, credentials, passwords, SSH keys</li>
+      <li>Customer data, user information, email addresses, phone numbers</li>
+      <li>Personal Identifiable Information (PII: SSN, birthdate, address)</li>
+      <li>Proprietary code, unpublished algorithms, or trade secrets (unless approved by legal)</li>
+      <li>Private keys, certificates, or encryption material</li>
+      <li>Actual database credentials or connection strings</li>
+      <li>Health records, financial information, or sensitive personal data</li>
+    </ul>
+    <div class="danger">
+      <p>If a secret appears in your error log or code snippet, revoke it immediately. Assume it's compromised.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Data Privacy Best Practices</h2>
+    <ul>
+      <li><strong>Anonymize:</strong> Replace real names with "User123", real URLs with "example.com", real numbers with dummy values</li>
+      <li><strong>Redact:</strong> Use grep to filter secrets before pasting: `grep -v "PRIVATE_KEY\|PASSWORD\|TOKEN"` before copy-pasting</li>
+      <li><strong>Check your prompt:</strong> Before hitting send, ask: "Does this contain anything I wouldn't share in a public Slack channel?"</li>
+      <li><strong>Use official channels:</strong> Company-approved tools often have data residency and retention controls</li>
+    </ul>
+    <div class="tip">
+      <p>Pro tip: Create a sanitized version of your code or data specifically for pasting into AI tools. Use template values like YOUR_API_KEY_HERE.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Opt Out of Data Collection</h2>
+    <p>Many AI platforms offer opt-outs to prevent your data from being used for training:</p>
+    <ul>
+      <li><strong>OpenAI:</strong> Disable chat history in settings. With enterprise accounts, data is never used for training.</li>
+      <li><strong>Anthropic:</strong> Check data processing agreements. Enterprise plans offer data residency.</li>
+      <li><strong>Google Gemini:</strong> Disable activity logging in Google Account settings.</li>
+    </ul>
+    <p style="margin-top: 8px;">If your company has an enterprise account, data handling is usually contractually guaranteed. Check with your admin.</p>
+  </div>
+
+  <div class="section">
+    <h2>Know Your Company's AI Policy</h2>
+    <p>Most companies in 2026 now have formal AI acceptable-use policies. Find yours and follow it:</p>
+    <ul>
+      <li><strong>Which tools are approved?</strong> Some companies restrict to Claude or GPT only.</li>
+      <li><strong>What data is forbidden?</strong> Customer data, proprietary info, PII, etc.</li>
+      <li><strong>Do I need approval for certain use cases?</strong> Some teams require review of code sent to AI.</li>
+      <li><strong>What's the data residency requirement?</strong> Some jurisdictions have rules about where data is stored.</li>
+    </ul>
+    <div class="tip">
+      <p>If your company doesn't have an AI policy, that's a security risk. Escalate to your manager or security team.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Red Flags & Quick Checklist</h2>
+    <p><strong>Don't use this tool if:</strong></p>
+    <ul>
+      <li>You're not sure who owns the data (is it a startup? A random site?)</li>
+      <li>The privacy policy says "we use your data for training"</li>
+      <li>There's no data deletion policy or GDPR compliance</li>
+      <li>Your company explicitly forbids it</li>
+      <li>You're handling healthcare, financial, or government data</li>
+    </ul>
+    <p style="margin-top: 8px;"><strong>Before pasting anything:</strong></p>
+    <ul>
+      <li>[ ] Does this contain secrets or credentials?</li>
+      <li>[ ] Does this have customer or user data?</li>
+      <li>[ ] Could this reveal proprietary information?</li>
+      <li>[ ] Is this tool on my company's approved list?</li>
+    </ul>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://www.workplaceprivacyreport.com/2026/01/articles/consumer-privacy/top-10-privacy-ai-cybersecurity-issues-for-2026/">Top 10 Privacy, AI & Cybersecurity Issues for 2026</a>
+    <a href="https://www.corporatecomplianceinsights.com/2026-operational-guide-cybersecurity-ai-governance-emerging-risks/">2026 Operational Guide to Cybersecurity, AI Governance & Emerging Risks</a>
+    <a href="https://globalatrium.com/employee-handbook-updates-2026/">2026 Employee Handbook Updates for AI, Cybersecurity & Data</a>
+    <a href="https://www.entremt.com/ai-data-privacy-business-guide-2026/">AI Data Privacy for Businesses: Safe Usage Guide for 2026</a>
+    <a href="https://www.parloa.com/blog/AI-privacy-2026/">AI Privacy Rules: GDPR, EU AI Act, and U.S. Law</a>
+  </div>
+</div>
+</body>
+</html>

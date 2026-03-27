@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terminal-Based Agents — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #fb923c; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 4 — Advanced Coding Agents</div>
+  <h1>Terminal-Based Agents</h1>
+  <p class="subtitle">Mastering AI workflows in the shell: command piping, autonomous iteration, and when CLI agents outshine IDEs.</p>
+
+  <div class="section">
+    <h2>Why Terminal Agents Matter</h2>
+    <p>Terminal agents fit naturally into Unix philosophy: take input, process, produce output. AI agents break down problems, run commands, check results, and iterate. This feedback loop aligns perfectly with shell workflows.</p>
+    <ul>
+      <li><strong>No context switching:</strong> Stay in your terminal; no IDE overhead</li>
+      <li><strong>CI/CD ready:</strong> Agents run in pipelines, serverless, cron jobs</li>
+      <li><strong>Lightweight:</strong> CLI tools run on any machine with Node/Python</li>
+      <li><strong>Reproducibility:</strong> Shell history, scripts, and piping create auditable records</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Core Workflows</h2>
+    <p><strong>Piping command output to AI:</strong> Pipe grep results, logs, or build errors directly to Claude Code or Aider. The agent reads the output and diagnoses issues or generates fixes.</p>
+    <p><strong>Autonomous iterations:</strong> Agent runs a command, sees the error, tweaks code, re-runs, repeats until success. You approve the final result.</p>
+    <p><strong>Multi-step reasoning:</strong> Describe a goal (e.g., "refactor this module to async/await"). The agent plans steps, executes them, checks for lint errors or test failures, and self-corrects.</p>
+    <p><strong>Embedded in scripts:</strong> Call Claude Code or Aider from bash/Python scripts for hands-free automation. Pass stdin, parse JSON output, chain operations.</p>
+  </div>
+
+  <div class="section">
+    <h2>Claude Code CLI Essentials</h2>
+    <p><code>claude-code run --file main.py --prompt "refactor this"</code> — Process a single file.</p>
+    <p><code>git diff | claude-code</code> — Pipe changes to Claude for review or enhancement.</p>
+    <p><code>claude-code exec "npm test"</code> — Let Claude run tests and fix failures.</p>
+    <p>Add <code>--auto-approve</code> to skip permission prompts (use carefully; see sandboxing).</p>
+  </div>
+
+  <div class="section">
+    <h2>Terminal vs. IDE Agents</h2>
+    <p><strong>Terminal wins:</strong> Refactoring, git workflows, multi-repo tasks, CI/CD, scripting, cost efficiency (pay per query, not monthly seat).</p>
+    <p><strong>IDE wins:</strong> Visual debugging, UI-heavy projects, inline suggestions, file tree navigation, real-time linting.</p>
+    <p><strong>Hybrid approach:</strong> Use Claude Code terminal for backend/refactoring; use Cursor or Cline for frontend/UI.</p>
+  </div>
+
+  <div class="section">
+    <h2>Planning Styles in Terminal Agents</h2>
+    <p><strong>Reason-and-act (Gemini CLI):</strong> Exploratory; solves one step at a time. Fast feedback, best for debugging.</p>
+    <p><strong>Plan-and-execute (Claude Code):</strong> Thinks through the problem before acting. Best for complex multi-step tasks.</p>
+    <p><strong>JSON runners (Auto-GPT):</strong> Machine-readable output. Ideal for scripted, deterministic workflows.</p>
+  </div>
+
+  <div class="tip">
+    <p><strong>Tip:</strong> Scope work carefully. Pass CLAUDE.md or GEMINI.md context files to tell the agent what files are safe to touch. Combine with sandboxing for safe auto-approval in CI.</p>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://code.claude.com/docs/en/overview">Claude Code Docs</a>
+    <a href="https://www.infoq.com/articles/agentic-terminal-cli-agents/">Agentic Terminal — How Your Terminal Comes Alive with CLI Agents</a>
+    <a href="https://github.blog/ai-and-ml/github-copilot/power-agentic-workflows-in-your-terminal-with-github-copilot-cli/">Power Agentic Workflows in Your Terminal with GitHub Copilot CLI</a>
+    <a href="https://aider.chat/">Aider Documentation</a>
+    <a href="https://medium.com/@vinayanand2/why-command-line-interfaces-are-the-secret-sauce-for-ai-agents-305eeae0d85d">Why Command Line Interfaces Are the Secret Sauce for AI Agents</a>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Powered Code Review — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #60a5fa; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 2 — AI-Assisted Coding</div>
+  <h1>AI-Powered Code Review</h1>
+  <p class="subtitle">Automated code review tools that catch bugs, suggest improvements, and speed up PR feedback</p>
+
+  <div class="section">
+    <h2>What AI Code Review Does</h2>
+    <p>AI code review tools analyze pull requests automatically and post comments identifying bugs, security issues, performance problems, and style inconsistencies. They read context across multiple files, trace cross-file dependencies, and provide actionable suggestions. Top tools like CodeRabbit reviewed over 13 million pull requests in 2026 and caught 87% of intentionally planted issues with an 8% false positive rate.</p>
+    <div class="tip">
+      <p><strong>Key insight:</strong> AI review is a first-pass filter, not a replacement for human review. It catches obvious issues and frees reviewers to focus on logic and design.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Major Tools: CodeRabbit vs GitHub Copilot</h2>
+    <p><strong>CodeRabbit:</strong> Specialist in PR review, works on GitHub, GitLab, Azure DevOps, and Bitbucket. Focused, opinionated, provides detailed line-by-line feedback. Great for teams using non-GitHub platforms.</p>
+    <p><strong>GitHub Copilot:</strong> Generalist with code review as one capability. Integrated into GitHub workflow, works natively with pull requests. Added agentic architecture that reads relevant files and traces cross-file dependencies better than earlier versions.</p>
+    <p>Choose based on your platform: GitHub users have native Copilot, others should use CodeRabbit.</p>
+  </div>
+
+  <div class="section">
+    <h2>Reviewing Pull Requests</h2>
+    <p>Create a PR as usual. AI bot automatically reviews and posts comments within minutes. Comments include: bug risks, missing edge cases, performance concerns, security vulnerabilities, style issues, and test coverage gaps. Review AI suggestions the same way you'd review human comments—some are actionable, others may be context-dependent or business-specific. You keep final say on all changes.</p>
+    <ul>
+      <li>Enable AI review in your repository settings</li>
+      <li>Most tools auto-run on every PR without extra setup</li>
+      <li>Configure which languages and rules to check</li>
+      <li>Exclude certain files (test fixtures, generated code)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Catching Bugs and Vulnerabilities</h2>
+    <p>AI tools detect null pointer exceptions, incorrect error handling, SQL injection risks, hardcoded secrets, race conditions, and logic flaws. They understand common mistake patterns: forgetting null checks, off-by-one errors, uncaught promise rejections, or missing input validation. A strong AI review catches issues that might slip past tired reviewers, especially on Friday afternoons.</p>
+    <div class="tip">
+      <p><strong>Pro tip:</strong> Use AI review to enforce security standards automatically (no secrets in code, no unsafe operations) without burdening human reviewers.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Suggesting Improvements</h2>
+    <p>AI proposes refactoring: "This could be a const instead of let," "Extract this repeated logic into a helper," or "Consider using a Set here instead of Array.includes for O(1) lookup." Not all suggestions need accepting—some may conflict with your architecture or conventions. Good AI tools explain the why: "This is more efficient because..." or "This pattern is clearer because..."</p>
+  </div>
+
+  <div class="section">
+    <h2>Understanding Unfamiliar Codebases</h2>
+    <p>When reviewing code in an unfamiliar library or team module, AI can explain what changed and why. Ask in comments: "@CodeRabbit explain this algorithm" or use the chat feature to understand design decisions. Useful for onboarding or cross-team reviews where you lack domain context.</p>
+  </div>
+
+  <div class="section">
+    <h2>Best Practices</h2>
+    <ul>
+      <li><strong>Configure rules for your stack:</strong> Different teams need different checks. Disable rules that don't apply</li>
+      <li><strong>Read AI comments in context:</strong> A suggestion might seem wrong without understanding the larger pattern</li>
+      <li><strong>Don't blindly accept changes:</strong> Understand why AI flagged something before deciding to fix it</li>
+      <li><strong>Use alongside human review:</strong> AI catches easy bugs; humans catch logic errors and design issues</li>
+      <li><strong>Track improvement over time:</strong> Review AI comments to identify patterns in your code quality</li>
+      <li><strong>Customize severity:</strong> Not all warnings are equally important—configure what blocks merges</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Common Limitations</h2>
+    <p>AI review can't understand business context ("Is this deliberate duplicate logic?"). It may flag false positives on intentional patterns. It's less effective with complex architectures it wasn't trained on. Always maintain human review for critical paths and business logic.</p>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://dev.to/rahulxsingh/coderabbit-vs-github-copilot-for-code-review-2026-3n8c">CodeRabbit vs GitHub Copilot for Code Review (2026)</a>
+    <a href="https://dev.to/rahulxsingh/the-state-of-ai-code-review-in-2026-trends-tools-and-what's-next-2gfh">The State of AI Code Review in 2026</a>
+    <a href="https://cotera.co/articles/ai-code-review-github">AI Code Review on GitHub: Copilot vs CodeRabbit vs an Agent</a>
+    <a href="https://tech.breakingcube.com/2026/03/18/coderabbit-vs-github-copilot-code-review/">CodeRabbit vs GitHub Copilot Code Review Compared</a>
+    <a href="https://vibecoding.app/blog/coderabbit-review">CodeRabbit Review 2026 — AI Code Review</a>
+  </div>
+</div>
+</body>
+</html>

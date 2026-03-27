@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic Coding Tools — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #fb923c; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 4 — Advanced Coding Agents</div>
+  <h1>Agentic Coding Tools</h1>
+  <p class="subtitle">Explore the landscape of modern AI coding agents—what makes them "agentic," the major platforms, and how to choose the right one for your workflow.</p>
+
+  <div class="section">
+    <h2>What Makes a Tool "Agentic"?</h2>
+    <p>Agentic coding tools go beyond autocomplete. They execute commands, read/write files, iterate autonomously, and reason about your entire codebase. Key differences from chat assistants:</p>
+    <ul>
+      <li><strong>Autonomous execution:</strong> Act on your behalf without manual copy-paste</li>
+      <li><strong>Tool use:</strong> Run shell commands, call APIs, access files</li>
+      <li><strong>Feedback loops:</strong> See results and self-correct in real time</li>
+      <li><strong>Multi-step reasoning:</strong> Plan tasks before executing them</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Major Agentic Platforms</h2>
+    <p><strong>Claude Code (Anthropic)</strong> — Terminal-native CLI built on Claude Sonnet. Handles git workflows, reads entire codebases, executes commands with permission gates. Strong at reasoning and long-form tasks.</p>
+    <p><strong>Cursor</strong> — VS Code fork with AI deeply integrated. Composer mode plans multi-file edits. Supports multiple models (GPT, Claude, Gemini). Ideal for IDE workflows; steeper learning curve.</p>
+    <p><strong>Windsurf (Codeium)</strong> — Agentic IDE with Cascade engine. Auto-detects and fixes lint errors, integrated terminal, design-to-code. Emphasizes autonomous iteration.</p>
+    <p><strong>Aider</strong> — Open-source CLI for git repositories. Excels at multi-file refactoring. Works with Claude, GPT-4o, DeepSeek. Low cost (~$0.01–$0.10 per task).</p>
+    <p><strong>Cline</strong> — VS Code extension with human-in-the-loop safety. Computer use capabilities (browser control). 5M+ installs. Multi-provider support (Anthropic, OpenAI, Gemini, etc.).</p>
+  </div>
+
+  <div class="section">
+    <h2>IDE Agents vs. Terminal Agents</h2>
+    <p><strong>IDE (Cursor, Windsurf, Cline):</strong> Visual context, file tree navigation, inline debugging. Better for UI-heavy projects and teams already in VS Code.</p>
+    <p><strong>Terminal (Claude Code, Aider):</strong> Piped workflows, CI/CD friendly, lightweight. Better for backend work, automation, and minimal environment setup.</p>
+  </div>
+
+  <div class="section">
+    <h2>How to Choose</h2>
+    <ul>
+      <li><strong>Cost-conscious:</strong> Aider (open source, ~$0.01–$0.10/task) or Claude Code (pay-per-query)</li>
+      <li><strong>VS Code user:</strong> Cursor (most polished) or Cline (simpler, open ecosystem)</li>
+      <li><strong>Terminal-first dev:</strong> Claude Code or Aider</li>
+      <li><strong>Multi-model freedom:</strong> Cline (supports 8+ providers) or Aider</li>
+      <li><strong>UI/design work:</strong> Cursor Composer or Windsurf (design-to-code)</li>
+      <li><strong>Git-heavy workflows:</strong> Aider (auto-commits every change)</li>
+    </ul>
+  </div>
+
+  <div class="tip">
+    <p><strong>Tip:</strong> Start with one tool in a test project for 1–2 weeks. Agentic tools have different personalities; picking the wrong one early wastes time. Many developers use multiple tools for different task types.</p>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://claude.com/product/claude-code">Claude Code by Anthropic</a>
+    <a href="https://www.cursor.com/">Cursor IDE</a>
+    <a href="https://windsurf.com/">Windsurf by Codeium</a>
+    <a href="https://aider.chat/">Aider — AI Pair Programming</a>
+    <a href="https://github.com/cline/cline">Cline on GitHub</a>
+  </div>
+</div>
+</body>
+</html>

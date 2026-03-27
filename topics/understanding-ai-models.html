@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Understanding AI Models — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #a78bfa; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 1 — Foundations</div>
+  <h1>Understanding AI Models</h1>
+  <p class="subtitle">How LLMs work in practice, and why they make the mistakes they do.</p>
+
+  <div class="section">
+    <h2>Tokens: The Smallest Unit</h2>
+    <p>Tokens are pieces of text. One token roughly equals 4 characters or 0.75 words. Models break everything—prompts and responses—into tokens before processing.</p>
+    <p style="margin-top: 8px;">Why it matters: "Hello" might be 1 token, but "Hello_world" could be 2. This affects cost (you pay per token) and speed (more tokens = slower inference).</p>
+    <div class="tip">
+      <p>Pro tip: Shorter, clearer prompts = fewer tokens = faster, cheaper responses.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Context Window: Your Conversation Limit</h2>
+    <p>The context window is the total number of tokens a model can see at once. Modern models have 1M+ token windows, but there's a catch: effective capacity is usually 60–70% of the advertised max. A model claiming 200K tokens works reliably around 130K.</p>
+    <p style="margin-top: 8px;"><strong>Example:</strong> If your context window is 128K tokens and your prompt is 100K tokens, you only have 28K for the model's response.</p>
+    <p style="margin-top: 8px;">For development work, a 128K+ window is standard. You can paste entire codebases, logs, and documentation in one prompt.</p>
+  </div>
+
+  <div class="section">
+    <h2>Temperature: The Creativity Dial</h2>
+    <p>Temperature controls randomness in responses. Think of it as a dial from "focused" to "creative."</p>
+    <ul>
+      <li><strong>Low (0.0–0.3):</strong> Predictable, factual, best for code and technical questions</li>
+      <li><strong>Medium (0.5–0.7):</strong> Balanced, good for most tasks</li>
+      <li><strong>High (0.8+):</strong> Creative and unpredictable, good for brainstorming but risky for facts</li>
+      <li><strong>Very high (1.5+):</strong> Almost random, rarely useful</li>
+    </ul>
+    <div class="tip">
+      <p>Use low temperature for coding, debugging, and fact-checking. Use medium-high for creative writing and ideation.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Hallucinations: When Models Confabulate</h2>
+    <p>Hallucinations are confident-sounding but false outputs. Models don't "know" they're wrong—they predict the next token based on patterns, not facts.</p>
+    <p style="margin-top: 8px;"><strong>Why they happen:</strong></p>
+    <ul>
+      <li>Training data had errors or conflicting info</li>
+      <li>You asked about something outside their training date or knowledge</li>
+      <li>Low temperature paradoxically increases hallucination risk in some cases (forced to be confident)</li>
+      <li>Ambiguous prompts that the model tried to fill in</li>
+    </ul>
+    <p style="margin-top: 8px;"><strong>How to minimize:</strong> Give specific, factual context. Ask the model to cite sources. For critical facts, verify independently.</p>
+  </div>
+
+  <div class="section">
+    <h2>Why Models Make Mistakes</h2>
+    <ul>
+      <li><strong>Knowledge cutoff:</strong> The model was trained on data up to a certain date. It doesn't know about recent events, product updates, or API changes.</li>
+      <li><strong>Tokenization artifacts:</strong> Sometimes token boundaries create weird biases. A model might finish sentences oddly because of how tokens split.</li>
+      <li><strong>Lack of reasoning:</strong> Larger models with extended thinking can reason step-by-step, but basic models just predict the next token. No introspection.</li>
+      <li><strong>Context confusion:</strong> If you paste conflicting information, the model gets confused about which version is correct.</li>
+      <li><strong>Training bias:</strong> If training data was skewed, the model's outputs will reflect that skew.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>The Practical Bottom Line</h2>
+    <p>Models are fast, powerful pattern-matchers. They're not search engines, databases, or guarantees. For development:</p>
+    <ul>
+      <li>Use them to brainstorm, debug, and explain concepts</li>
+      <li>Don't trust hallucinations without verification</li>
+      <li>Give them context—more info = better outputs</li>
+      <li>Iterate—your first prompt rarely gets the best answer</li>
+      <li>Know your tool's knowledge cutoff and limitations</li>
+    </ul>
+    <div class="tip">
+      <p>The best use case: "Here's my code and error. Why is it breaking?" The worst: "Is [random fact] true?"</p>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://dev.to/qvfagundes/temperature-tokens-and-context-windows-the-three-pillars-of-llm-control-34jg">Temperature, Tokens, and Context Windows: The Three Pillars</a>
+    <a href="https://www.ibm.com/think/topics/context-window">What is a Context Window? — IBM</a>
+    <a href="https://bentoml.com/llm/llm-inference-basics/how-does-llm-inference-work">How Does LLM Inference Work? — BentoML</a>
+    <a href="https://redis.io/blog/llm-context-windows/">LLM Context Windows: What They Are & How They Work</a>
+    <a href="https://research.trychroma.com/context-rot">Context Rot: How Increasing Tokens Impacts Performance</a>
+  </div>
+</div>
+</body>
+</html>

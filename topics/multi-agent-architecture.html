@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Agent Architecture — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #22d3ee; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 6 — Sub-Agents & Orchestration</div>
+  <h1>Multi-Agent Architecture</h1>
+  <p class="subtitle">Design systems where specialized AI agents collaborate, divide labor, and solve complex problems together.</p>
+
+  <div class="section">
+    <h2>What Is Multi-Agent?</h2>
+    <p>A multi-agent system consists of multiple AI agents, each with specialized skills or knowledge, working together toward a common goal. Rather than a single monolithic model trying to handle everything, you create focused agents: a planner that decomposes tasks, domain experts (code generator, researcher, reviewer), and a coordinator that aggregates results.</p>
+    <p>This mirrors how human teams solve complex problems. One person doesn't code, test, document, and deploy alone. Teams specialize. Multi-agent systems scale reasoning by parallelizing work and reducing individual context burden.</p>
+  </div>
+
+  <div class="section">
+    <h2>Agent Roles & Specialization</h2>
+    <p>Define each agent's purpose clearly. Common roles in a software engineering context:</p>
+    <ul>
+      <li><strong>Planner:</strong> Receives the user's goal, breaks it into sub-tasks, delegates to specialists.</li>
+      <li><strong>Researcher:</strong> Gathers information from docs, databases, web searches; summarizes findings.</li>
+      <li><strong>Code Generator:</strong> Writes implementation, tests, and deployment scripts based on requirements.</li>
+      <li><strong>Reviewer:</strong> Audits code for bugs, security, style; suggests improvements or requests rework.</li>
+      <li><strong>Executor:</strong> Runs tests, deploys, monitors; reports status back to the planner.</li>
+    </ul>
+    <p>Each agent has its own system prompt tuned to its role, restricted tool access (a reviewer doesn't need deployment tools), and specialized knowledge context. This isolation prevents hallucination and keeps context windows efficient.</p>
+  </div>
+
+  <div class="section">
+    <h2>Task Delegation & Flow</h2>
+    <p>The planner agent examines the user's request, decides what needs to happen, and creates sub-tasks for specialists. For example: "Build a REST API endpoint." The planner breaks this into: (1) Design the schema (researcher), (2) Generate code (coder), (3) Write tests (test agent), (4) Review (reviewer), (5) Deploy (executor).</p>
+    <p>Delegation can be sequential (one task at a time, waiting for results) or parallel (multiple agents work simultaneously on independent tasks). Parallel is faster but requires careful result aggregation. Use sequential for dependent tasks (can't code before design is done) and parallel for independent work.</p>
+  </div>
+
+  <div class="section">
+    <h2>Result Aggregation</h2>
+    <p>When specialists finish, the coordinator collects their outputs and synthesizes a final answer. A code agent produces implementation; a test agent produces test results; a reviewer produces feedback. The coordinator combines these: "Here's the code. Tests pass (report). Reviewer approved (report). Ready to deploy."</p>
+    <p>Aggregation logic decides whether to accept, retry, or escalate. If the reviewer finds critical issues, loop back to the coder. If test coverage is low, request additional tests. The coordinator is responsible for quality gates and decision logic.</p>
+  </div>
+
+  <div class="section">
+    <h2>Communication Patterns</h2>
+    <p>Agents communicate via structured messages or shared memory. In a hierarchical system, all communication flows through the coordinator (simpler, slower). In a blackboard architecture, agents read/write to a shared workspace (faster, requires synchronization). Direct agent-to-agent communication (peer-to-peer) is also possible but can create bottlenecks.</p>
+    <p>Key principle: Make communication explicit and auditable. Log every message, delegate decision, and result. Use structured formats (JSON, not free text) so results are machine-readable and can be validated.</p>
+  </div>
+
+  <div class="section">
+    <h2>Real Examples</h2>
+    <p><strong>Customer Support:</strong> Classifier agent routes issues (billing, technical, account). Specialists handle each type. Summary agent creates a ticket. <strong>Document Processing:</strong> Extractor agent reads documents, NER agent identifies entities, summarizer agent writes summaries, QA agent checks quality. <strong>Software Audit:</strong> Scanner agent finds issues, analyst agents investigate by domain (security, performance, code quality), report agent synthesizes findings.</p>
+    <div class="tip">
+      <p><strong>Best practice:</strong> Start with a simple coordinator + 2-3 specialists. Validate that this structure solves your problem before adding complexity.</p>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://nexaitech.com/multi-ai-agent-architecutre-patterns-for-scale/">NexAI Tech: Multi-Agent Architecture Patterns for Scale</a>
+    <a href="https://collabnix.com/multi-agent-multi-llm-systems-the-future-of-ai-architecture-complete-guide-2025/">Collabnix: Complete Guide to Multi-Agent Systems 2025</a>
+    <a href="https://www.oreilly.com/radar/designing-effective-multi-agent-architectures/">O'Reilly: Designing Effective Multi-Agent Architectures</a>
+    <a href="https://arxiv.org/html/2601.13671v1">ArXiv: Orchestration of Multi-Agent Systems</a>
+    <a href="https://departmentofproduct.substack.com/p/multi-agent-architecture-explained">Department of Product: Multi-Agent Architecture Explained</a>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markdown Specifications & PRDs — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #34d399; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 3 — Structured Workflows</div>
+  <h1>Markdown Specifications & PRDs</h1>
+  <p class="subtitle">Writing specs that AI can understand and execute with precision</p>
+
+  <div class="section">
+    <h2>Why Markdown for Specs?</h2>
+    <p>Markdown is the ideal format for specifications in AI-driven development because it's both human-readable and machine-parseable. Unlike Word docs or PDFs, Markdown is version-controllable in Git, making specs evolve alongside code. AI models understand Markdown structure (headers, lists, code blocks) better than unstructured prose, enabling more accurate interpretation of requirements.</p>
+    <p>A Markdown spec becomes a single source of truth that stays current, enables diffing to track requirement changes, and integrates seamlessly with your development workflow.</p>
+  </div>
+
+  <div class="section">
+    <h2>Core Spec Structure</h2>
+    <ul>
+      <li><strong>Goal & Problem Statement:</strong> One-liner describing what you're building and why. Keep this tight.</li>
+      <li><strong>Requirements:</strong> Functional and non-functional needs. List each distinctly.</li>
+      <li><strong>Acceptance Criteria:</strong> Testable outcomes. "User can login" is vague; "User enters email/password and receives session token" is not.</li>
+      <li><strong>Constraints:</strong> Explicit boundaries—what NOT to build. This prevents AI from gold-plating features.</li>
+      <li><strong>Technical Notes:</strong> Dependencies, APIs, third-party integrations, performance targets.</li>
+      <li><strong>Success Metrics:</strong> How will you know it works? Response time, error rate, user actions?</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Practical Spec Template</h2>
+    <p>Use this structure for every spec you hand to an AI agent:</p>
+    <code>
+# Feature: [Feature Name]<br/>
+## Goal<br/>
+[One-liner with problem statement]<br/>
+## Requirements<br/>
+- [Requirement 1]<br/>
+- [Requirement 2]<br/>
+## Acceptance Criteria<br/>
+- [ ] Criteria 1<br/>
+- [ ] Criteria 2<br/>
+## Constraints<br/>
+- Do NOT [Thing]<br/>
+- Must use [Technology]<br/>
+## Technical Notes<br/>
+[Details on architecture, dependencies]<br/>
+    </code>
+    <div class="tip">
+      <p>AI agents respond better to checklists and explicit boundaries than to narrative prose. Use bullet points liberally.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Explicit Boundaries Matter Most</h2>
+    <p>State what NOT to implement. If you don't say "don't add email validation," an AI might add it anyway because most applications require it. Explicit negatives prevent scope creep and wasted token usage.</p>
+    <p>Example: "Build a notes API. Constraints: Do NOT add user authentication. Do NOT implement sorting or filtering." These statements keep the AI focused and prevent unnecessary complexity.</p>
+  </div>
+
+  <div class="section">
+    <h2>Linking Specs to Execution</h2>
+    <p>Hand the spec directly to Claude Code or your AI tool. In the conversation, reference the spec file: "Implement the feature in notes.md" or paste the spec into the prompt. This gives AI the exact requirements without ambiguity.</p>
+    <p>After implementation, update the spec to mark completed criteria and note any design decisions that changed. Keep specs as living documents—they become institutional knowledge for future work.</p>
+  </div>
+
+  <div class="section">
+    <h2>AI-Optimized Specifications</h2>
+    <p>Structure multi-phase specs with clear dependencies and testable outcomes. Break complex features into bounded phases with sequential steps. Define "done" for each phase before moving to the next.</p>
+    <p>GitHub's analysis found that effective specs address six core areas: commands with flags, testing expectations, project structure, code style with examples, git workflow, and explicit boundaries. Address all six and AI will execute with minimal back-and-forth.</p>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://medium.com/@haberlah/how-to-write-prds-for-ai-coding-agents-d60d72efb797">How to write PRDs for AI Coding Agents — David Haberlah</a>
+    <a href="https://www.zerotopete.com/p/the-death-of-the-prd-why-markdown">The Death of the PRD: Why Markdown Files Are the Future of Product Requirements</a>
+    <a href="https://addyosmani.com/blog/good-spec/">How to write a good spec for AI agents — Addy Osmani</a>
+    <a href="https://medium.com/@takafumi.endo/prompt-requirements-document-prd-a-new-concept-for-the-vibe-coding-era-0fb7bf339400">Prompt Requirements Document (PRD): A New Concept for the Vibe Coding Era</a>
+    <a href="https://llmtuts.com/tutorials/makdown-ai-dev-workflow/index.html">Markdown as AI Interface in Modern Development</a>
+  </div>
+</div>
+</body>
+</html>

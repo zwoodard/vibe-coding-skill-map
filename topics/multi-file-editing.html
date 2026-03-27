@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-File Editing — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #60a5fa; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 2 — AI-Assisted Coding</div>
+  <h1>Multi-File Editing</h1>
+  <p class="subtitle">Using AI to make coordinated changes across your entire codebase safely and efficiently</p>
+
+  <div class="section">
+    <h2>What Multi-File Editing Unlocks</h2>
+    <p>Modern AI tools can now edit multiple files simultaneously to implement larger features. Tell AI: "Rename this function throughout the codebase" or "Add a new field to the User model, update the database schema, migrations, and API endpoints." AI handles the coordination automatically. This capability expanded from tools like Cursor (Composer mode) to GitHub Copilot and open-source tools like Cline and Aider. Multi-file refactoring consumes 25% of engineering time—$3.75M annually per 100-engineer team—because traditional tools analyze sequentially and miss cross-file dependencies.</p>
+    <div class="tip">
+      <p><strong>Game changer:</strong> AI traces symbol definitions and usages across files using AST parsing, making large refactors safe and precise.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Use Cases: Renaming and Propagation</h2>
+    <p><strong>Renaming a function:</strong> "Rename fetchUserData to getUserData throughout the codebase." AI finds all imports, calls, exports, and tests. Updates them everywhere without touching strings or comments that happen to contain the old name.</p>
+    <p><strong>Extracting constants:</strong> "Create a constant MAX_RETRIES = 3, replace all instances of hardcoded 3 in retry logic."</p>
+    <p><strong>Removing a parameter:</strong> "Remove the deprecated callback parameter from sendEmail(). Update all call sites."</p>
+    <p>These changes might span 10-50 files. AI maintains consistency that's tedious to verify manually.</p>
+  </div>
+
+  <div class="section">
+    <h2>Model and View Coordination</h2>
+    <p><strong>Adding a field to a model:</strong> "Add a lastLogin field to the User model. Create a database migration. Update the API serializer. Add tests." AI: creates the field in the model, writes a migration file, updates the JSON response schema, adds test fixtures, and updates documentation comments.</p>
+    <p><strong>Restructuring imports:</strong> "Move UserService from util/auth to services/user. Update all imports." AI finds every file importing the old location and updates them.</p>
+    <p><strong>Architecture shifts:</strong> "Convert this MVC app to a modular structure where each feature is a self-contained folder." AI reorganizes files, updates paths, and regenerates export/import chains.</p>
+    <div class="tip">
+      <p><strong>Key insight:</strong> AI parses ASTs to understand code structure deeply, not just regex find-replace. It won't break syntax or logic.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Scoping Requests Clearly</h2>
+    <p>Large changes need clear boundaries. Be specific: "Rename only the Controller class, not controller-related strings." "Update the Orders module, not Customers." "Change Person.age to Person.birthDate in models/ only, leave schemas/ unchanged for now."</p>
+    <p>Ask AI to confirm scope before executing: "Here's what I'll change: [list files]. Should I proceed?" Review the list before saying yes.</p>
+    <ul>
+      <li>Name the exact files or directories affected</li>
+      <li>List what should NOT change if it's ambiguous</li>
+      <li>Specify which frameworks/languages if the codebase mixes them</li>
+      <li>Ask for a summary of planned changes before execution</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Reviewing Diffs Carefully</h2>
+    <p>Always review diffs before merging. AI makes mistakes: wrong variable references, incomplete updates, or changes in unintended files. Use your IDE's diff viewer to check each file. Look for: imports that got deleted, type mismatches, inconsistent naming, or business logic changes.</p>
+    <p>Example: "Rename userId to id" might accidentally change user_id in database column names, breaking queries. Good diffs catch this. Always review.</p>
+    <div class="tip">
+      <p><strong>Safety practice:</strong> Make AI changes in a feature branch. Review diffs, run tests, then merge. Never merge large refactors directly to main.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Context Window Limitations</h2>
+    <p>A critical challenge: AI tools have fixed context windows (token limits). When refactoring 50 files totaling 200,000 tokens but context holds only 100,000 tokens, the tool can't maintain consistent state across all files. It might update the first 30 files correctly but miss later ones.</p>
+    <p>Solution: Break large refactors into smaller steps. Instead of "Rename X throughout the codebase," do it module-by-module: "Rename X in the auth module," then "Rename X in the API module." More requests, but better consistency.</p>
+  </div>
+
+  <div class="section">
+    <h2>Incremental Commits</h2>
+    <p>For large multi-file changes, commit incrementally. After AI makes changes, run tests, review, and commit before requesting the next change. This approach: catches errors early, makes diffs reviewable, enables rollback of specific parts, and documents what changed and why.</p>
+    <ul>
+      <li>Request one logical change at a time</li>
+      <li>Run tests after each change</li>
+      <li>Commit with a clear message: "Rename fetchUser to getUser across auth module"</li>
+      <li>Move to the next refactor step</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Tools for Multi-File Editing</h2>
+    <p><strong>Cursor's Composer Mode:</strong> Press Cmd+Shift+I, describe a complex task, AI edits multiple files and shows a preview. <strong>GitHub Copilot:</strong> Added multi-file editing capability; works within pull requests. <strong>Cline (open-source):</strong> Agentic workflow for large refactors. <strong>Google Gemini Code Assist:</strong> Recognized as best for very large codebases.</p>
+  </div>
+
+  <div class="section">
+    <h2>When to Avoid Multi-File Editing</h2>
+    <ul>
+      <li><strong>Production systems with high stakes:</strong> Use if changes are non-critical or well-tested, otherwise do manually</li>
+      <li><strong>Ambiguous requirements:</strong> "Make this better" is too vague. Humans make the call</li>
+      <li><strong>Performance-critical paths:</strong> Humans should optimize hot paths, not AI</li>
+      <li><strong>Business logic changes:</strong> Financial calculations, user permissions, or compliance rules should be reviewed by domain experts</li>
+    </ul>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://martinfowler.com/articles/exploring-gen-ai/11-multi-file-editing.html">Expanding the solution size with multi-file editing — Martin Fowler</a>
+    <a href="https://www.augmentcode.com/learn/automate-multi-file-code-refactoring-with-ai-agents-a-step-by-step-guide">Automate Multi-File Code Refactoring With AI Agents: Step-by-Step Guide</a>
+    <a href="https://antigravitylab.net/en/articles/editor/antigravity-multi-file-editing">Antigravity Multi-File Editing Strategies — Safe Large-Scale Refactoring</a>
+    <a href="https://www.augmentcode.com/tools/cursor-ai-limitations-why-multi-file-refactors-fail-in-enterprise">Cursor AI Limitations: Why Multi-File Refactors Fail in Enterprise</a>
+    <a href="https://www.secondtalent.com/resources/ai-tools-for-code-refactoring-and-optimization/">5 AI Tools for Code Refactoring and Optimization [2026]</a>
+  </div>
+</div>
+</body>
+</html>

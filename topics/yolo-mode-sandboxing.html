@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YOLO Mode & Sandboxing — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #fb923c; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 4 — Advanced Coding Agents</div>
+  <h1>YOLO Mode & Sandboxing</h1>
+  <p class="subtitle">Balance speed and safety: auto-approve safe commands, sandbox risky operations, and reduce approval friction without losing control.</p>
+
+  <div class="section">
+    <h2>The Permission Problem</h2>
+    <p>Agentic tools default to "ask for permission" on every file edit and command. This is safe but slow. "Can I read main.py?" "Can I run npm test?" "Can I commit this change?" Hundreds of prompts per task.</p>
+    <p>The ideal: approve safe actions instantly, block dangerous ones, and focus only on approving risky decisions.</p>
+  </div>
+
+  <div class="section">
+    <h2>YOLO Mode (The Nuclear Option)</h2>
+    <p><strong>What it is:</strong> Skip all permission prompts. Claude Code runs with <code>--dangerously-skip-permissions</code>. No more "approve?" dialogs.</p>
+    <p><strong>Speed:</strong> Orders of magnitude faster. Tasks run autonomously without interruption.</p>
+    <p><strong>Risk:</strong> Extremely high. Claude can delete your entire codebase, push to production, expose secrets. One hallucination = disaster.</p>
+    <p><strong>When to use:</strong> Only in isolated, sandboxed environments (CI pipelines, dev containers, ephemeral VMs). Never on your main machine or production access.</p>
+  </div>
+
+  <div class="section">
+    <h2>Claude Code Auto Mode (March 2026)</h2>
+    <p>Anthropic released <strong>Auto Mode</strong> as a safer alternative to YOLO. It evaluates the risk of each action and auto-approves only safe operations.</p>
+    <p><strong>How it works:</strong> A reasoning-blind classifier sits between Claude and every action. It sees the user message and raw tool call, but not Claude's reasoning. This prevents the agent from "talking" the classifier into bad decisions.</p>
+    <p><strong>Results:</strong> In testing, auto-approval reduced permission prompts by up to 84% when combined with sandboxing.</p>
+    <p><strong>Safe approvals:</strong> Reading files, running tests, linting, committing non-destructive changes.</p>
+    <p><strong>Blocked actions:</strong> Deleting files, executing arbitrary shell commands, pushing to remote, modifying sensitive configs.</p>
+  </div>
+
+  <div class="section">
+    <h2>Command Whitelisting</h2>
+    <p>Instead of blanket YOLO, whitelist specific safe commands. In your Claude Code config:</p>
+    <p><code>autoApproveCommands: [<br>
+  "npm test",<br>
+  "npm run lint",<br>
+  "git status",<br>
+  "git diff",<br>
+  "node --version"<br>
+]</code></p>
+    <p>Claude can run these without asking. Any other command requires approval. This is a middle ground between YOLO (too loose) and asking for every permission (too strict).</p>
+  </div>
+
+  <div class="section">
+    <h2>Sandboxing Strategies</h2>
+    <p><strong>Docker containers:</strong> Run Claude Code in a container with mounted volumes. Network access is blocked by default. Claude can only read/write allowed directories.</p>
+    <p><strong>Virtual machines:</strong> Spin up an ephemeral VM for CI jobs. Claude Code runs with YOLO mode. After the job, tear down the VM. No damage survives.</p>
+    <p><strong>Dev containers:</strong> VS Code Dev Containers isolate the environment. Claude Code + sandboxing + auto-approval = safe, fast automation in development.</p>
+    <p><strong>GitHub Actions / CI:</strong> Run Claude Code as a job. Grant only repo access (not production secrets). Let it run with auto-approval. Block any push to main; require PR review.</p>
+  </div>
+
+  <div class="section">
+    <h2>Layered Safety Configuration</h2>
+    <p><strong>Local development:</strong> Auto Mode enabled, sandboxing off, manual approval for deletions.</p>
+    <p><strong>CI pipeline:</strong> Auto Mode + sandboxing, whitelisted commands, no manual approvals, PR-only output.</p>
+    <p><strong>Production:</strong> Never run Claude Code with edit access. Use read-only mode or pre-approved scripts.</p>
+    <p><strong>Secrets:</strong> Never store API keys, credentials, or tokens where Claude can access them. Use environment variables, secrets managers, or MCP with scoped credentials.</p>
+  </div>
+
+  <div class="section">
+    <h2>Setting Up Auto Mode + Sandboxing</h2>
+    <p><strong>In Claude Code:</strong></p>
+    <p><code>autoMode: true</code> — Enable auto-approval of safe actions.<br>
+    <code>sandboxedExecution: true</code> — Restrict file/network access.<br>
+    <code>autoAllowBashIfSandboxed: true</code> — Allow any bash command if sandboxed (filesystem isolation prevents damage).<br>
+    <code>allowedPaths: ["/workspace/src", "/workspace/tests"]</code> — Restrict to these directories.</p>
+    <p>With these settings, Claude runs fast and safely. It can execute any bash command (because the sandbox blocks filesystem/network), but can't touch outside directories.</p>
+  </div>
+
+  <div class="section">
+    <h2>Monitoring & Rollback</h2>
+    <p><strong>Audit logging:</strong> Log every action Claude takes. Review logs after each task. Spot hallucinations early.</p>
+    <p><strong>Git history:</strong> Each change is a commit. Use <code>git log --oneline</code> to see what changed. Revert bad commits with <code>git reset</code>.</p>
+    <p><strong>Scheduled backups:</strong> If Claude has write access to important files, back them up before running automated tasks.</p>
+  </div>
+
+  <div class="tip">
+    <p><strong>Tip:</strong> Start with manual approval on everything. As you gain confidence, enable Auto Mode. Graduate to sandboxing + YOLO only in CI. This gradual approach scales without disasters.</p>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://www.anthropic.com/engineering/claude-code-auto-mode">Claude Code Auto Mode: A Safer Way to Skip Permissions — Anthropic</a>
+    <a href="https://smartscope.blog/en/generative-ai/claude/claude-code-auto-permission-guide/">Claude Code Auto Approve: How to Auto-Accept Edits & Commands (2026)</a>
+    <a href="https://dev.to/rajeshroyal/yolo-mode-when-youre-tired-of-claude-asking-permission-for-everything-2daf">YOLO Mode: When You're Tired of Claude Asking Permission for Everything</a>
+    <a href="https://www.amazingcto.com/dev-containers-sandbox-claude-code/">How to Run Claude Code in YOLO Mode Without Losing Your Credentials</a>
+    <a href="https://gist.github.com/hartphoenix/698eb8ef8b08ad2ce6a99cf7346cd7cc">Claude Code YOLO Mode: What You Need to Know (March 2026)</a>
+  </div>
+</div>
+</body>
+</html>

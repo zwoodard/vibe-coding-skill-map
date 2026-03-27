@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Delegation & Handoff — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #22d3ee; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 6 — Sub-Agents & Orchestration</div>
+  <h1>Agent Delegation & Handoff</h1>
+  <p class="subtitle">Master patterns for spawning sub-agents, passing context, collecting results, and gracefully handling failures.</p>
+
+  <div class="section">
+    <h2>Spawning Sub-Agents</h2>
+    <p>A parent agent spawns child agents to handle specific work. For example, a coordinator asks a researcher agent to "find information about Python async patterns." The parent provides the task and context, the child executes independently, and returns results.</p>
+    <p>Spawning means: create a new agent instance with its own system prompt, tools, and memory space. The child agent doesn't see the parent's full context (keeping things focused). Instead, it receives a task description and any background information needed. When done, it returns structured output (results, status, errors).</p>
+  </div>
+
+  <div class="section">
+    <h2>Passing Context Between Agents</h2>
+    <p>Context passing is critical. A child agent needs enough information to complete its task but not so much that context bloat becomes expensive. Best practices:</p>
+    <ul>
+      <li><strong>Explicit task:</strong> "Analyze this code for performance issues" is better than passing the entire codebase.</li>
+      <li><strong>Relevant files only:</strong> Include specific files or excerpts, not everything.</li>
+      <li><strong>Shared memory:</strong> Use a shared knowledge base or memory store that agents can read/write. A researcher stores findings in shared memory; the coordinator later reads those findings.</li>
+      <li><strong>Session ID:</strong> Pass a session identifier so child agents can access prior work from the same task run.</li>
+    </ul>
+    <p>Avoid passing the full parent context to each child—this defeats the purpose of parallelization and wastes tokens.</p>
+  </div>
+
+  <div class="section">
+    <h2>Collecting Results</h2>
+    <p>When a child agent finishes, the parent must collect and validate its output. Standardize result formats (JSON with fields like <code>status</code>, <code>result</code>, <code>errors</code>, <code>metadata</code>). The parent then:</p>
+    <ul>
+      <li>Checks if the result is valid (expected structure, non-empty data).</li>
+      <li>Decides whether to accept, retry, or escalate the task.</li>
+      <li>Aggregates results from multiple children into a coherent answer.</li>
+      <li>Handles partial failures (one agent succeeded, another didn't).</li>
+    </ul>
+    <p>For example, if a code generator produces code but tests fail, the parent might send the failures back to the generator to fix, rather than accepting broken code.</p>
+  </div>
+
+  <div class="section">
+    <h2>Failure Recovery & Retry Logic</h2>
+    <p>Sub-agents can fail: timeouts, invalid tool calls, tool execution errors. The parent should implement retry logic: If a tool call fails transiently (network error), retry with exponential backoff. If it fails permanently (invalid parameters), return an error to the parent and don't retry. For partial failures (3 of 5 agents succeeded), aggregate successful results and escalate the failures.</p>
+    <p>Set timeouts on sub-agent execution. If an agent hangs, timeout and reassign the task. Log all failures for debugging. Don't propagate errors silently—surface them so the parent can decide how to handle them.</p>
+  </div>
+
+  <div class="section">
+    <h2>The Microservices Analogy</h2>
+    <p>Think of agents like microservices. A service is a focused unit that does one thing well (user service, payment service, inventory service). Microservices communicate via APIs, have isolated data stores, and can fail independently. The same applies to agents.</p>
+    <p>Each agent is a "service" with a specific job. They communicate via structured messages (tool calls, memory). A failure in one agent doesn't take down the whole system—other agents can continue working. Use this analogy to design your agent system: loose coupling, clear contracts (tool schemas), and graceful degradation on failure.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practical Workflow</h2>
+    <p>1. Parent receives task: "Build and test a feature." 2. Parent spawns coder agent with the spec and passes relevant context. 3. Coder returns code. 4. Parent spawns test agent, passes code, and test spec. 5. Test agent runs tests and returns pass/fail. 6. If tests fail, parent sends failures back to coder for fixes. 7. If tests pass, parent returns success to user.</p>
+    <p>Throughout, parent logs every spawn, result, and decision. This audit trail is invaluable for debugging and understanding what happened.</p>
+    <div class="tip">
+      <p><strong>Pro tip:</strong> Use structured logging with timestamps, agent IDs, and task IDs. You'll thank yourself when debugging production issues.</p>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns">Microsoft Azure: AI Agent Design Patterns</a>
+    <a href="https://docs.aws.amazon.com/prescriptive-guidance/latest/agentic-ai-patterns/workflow-orchestration-agents.html">AWS: Workflow Orchestration Agents</a>
+    <a href="https://vatsalshah.in/blog/ai-agent-orchestration-multi-agent-systems-2025">Vatsal Shah: AI Agent Orchestration 2025</a>
+    <a href="https://blog.jetbrains.com/ai/2026/01/building-ai-agents-in-kotlin-part-4-delegation-and-sub-agents/">JetBrains: Delegation and Sub-Agents</a>
+    <a href="https://www.okta.com/blog/ai/agent-security-delegation-chain/">Okta: Securing AI Agent Delegation</a>
+  </div>
+</div>
+</body>
+</html>

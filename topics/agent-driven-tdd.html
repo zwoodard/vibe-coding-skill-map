@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent-Driven TDD — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #fb923c; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 4 — Advanced Coding Agents</div>
+  <h1>Agent-Driven TDD</h1>
+  <p class="subtitle">Combining test-driven development with AI agents: write specs, let the agent iterate until tests pass, and verify instead of trusting.</p>
+
+  <div class="section">
+    <h2>Why TDD + Agents Work Together</h2>
+    <p>Test-driven development (TDD) traditionally struggles: tests are boring to write, and devs skip them. AI agents reverse this dynamic. Agents excel at generating code to pass a spec, and tests provide a concrete, measurable goal that agents can iterate toward without hallucinating.</p>
+    <ul>
+      <li><strong>Clear targets:</strong> Tests define exactly what "done" looks like</li>
+      <li><strong>Self-correction:</strong> Agent runs tests, sees failures, tweaks code, re-runs</li>
+      <li><strong>Protection:</strong> You verify behavior, not trust the agent's reasoning</li>
+      <li><strong>Speed:</strong> Agents generate boilerplate and edge cases in seconds</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>The Red/Green Workflow</h2>
+    <p><strong>Red:</strong> Write minimal test specs (or let the agent draft them from requirements). Run tests; they fail.</p>
+    <p><strong>Green:</strong> Hand the failing test output to Claude Code or Cursor. Say "make these tests pass." The agent generates code, runs tests, and iterates until green.</p>
+    <p><strong>Refactor:</strong> You review the agent's code. Ask for optimizations or simplifications. Verify tests still pass.</p>
+    <p>This replaces the traditional solo developer loop, but with AI handling the tedious implementation.</p>
+  </div>
+
+  <div class="section">
+    <h2>Best Practices</h2>
+    <p><strong>Write clear test specs:</strong> Use descriptive test names and comments. Bad test: <code>test_thing()</code>. Good: <code>test_validates_email_format_and_rejects_duplicates()</code>.</p>
+    <p><strong>Include edge cases in tests:</strong> Tell the agent or the test suite to cover nulls, empty strings, large inputs. Tests guide the agent toward robustness.</p>
+    <p><strong>Use deterministic tests:</strong> Avoid flaky time-based or random tests. Agents struggle with non-determinism.</p>
+    <p><strong>Set test scope:</strong> Focus on behavior, not implementation. Let the agent optimize the details.</p>
+    <p><strong>Integrate with CI:</strong> Each push runs tests and blocks merges on failure. Agents still need to pass CI gates.</p>
+  </div>
+
+  <div class="section">
+    <h2>CI Integration & Verification</h2>
+    <p>Push agent-generated code to a feature branch. Let CI run the full test suite, linters, and security checks. A passing CI gate is your verification stamp. This is the "verify don't trust" mindset: the agent wrote it, but the tests proved it works.</p>
+    <p>Many teams use Claude Code or Aider in CI pipelines: failures trigger an agent job that attempts fixes, commits changes, and opens a PR for review.</p>
+  </div>
+
+  <div class="section">
+    <h2>Common Pitfalls</h2>
+    <p><strong>Over-specifying:</strong> Too many micromanagement tests slow the agent. Let it find the simplest solution that passes.</p>
+    <p><strong>Brittle tests:</strong> Tests that check implementation details (e.g., "must use map()") instead of behavior break when agents optimize.</p>
+    <p><strong>Ignoring flakiness:</strong> If a test sometimes passes and sometimes fails, the agent can't hit a stable target. Fix flaky tests first.</p>
+    <p><strong>No feedback loop:</strong> Always show the agent test output. It can't self-correct without seeing what broke.</p>
+  </div>
+
+  <div class="tip">
+    <p><strong>Tip:</strong> Start with a simple, high-value feature (maybe 20–50 lines). Write 3–5 test cases. Hand off to Claude Code with <code>make these tests pass</code>. Review the result. This pattern scales to entire modules.</p>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://www.builder.io/blog/test-driven-development-ai">Test-Driven Development with AI</a>
+    <a href="https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/">Red/Green TDD — Agentic Engineering Patterns</a>
+    <a href="https://www.qodo.ai/blog/ai-code-assistants-test-driven-development/">How AI Code Assistants Are Revolutionizing Test-Driven Development</a>
+    <a href="https://www.readysetcloud.io/blog/allen.helton/tdd-with-ai/">Test-Driven Development with AI: The Right Way to Code Using Generative AI</a>
+    <a href="https://medium.com/effortless-programming/better-ai-driven-development-with-test-driven-development-d4849f67e339">Better AI Driven Development with Test Driven Development</a>
+  </div>
+</div>
+</body>
+</html>

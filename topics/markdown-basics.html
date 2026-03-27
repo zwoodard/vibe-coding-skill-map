@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markdown Basics — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #a78bfa; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .code-block { background: rgba(0,0,0,0.3); border-left: 3px solid var(--accent); padding: 12px; border-radius: 4px; margin: 12px 0; overflow-x: auto; font-size: 0.75rem; line-height: 1.4; color: #d4d4d4; }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 1 — Foundations</div>
+  <h1>Markdown Basics</h1>
+  <p class="subtitle">Essential formatting for communicating with AI tools, specs, and documentation.</p>
+
+  <div class="section">
+    <h2>Why Markdown Matters</h2>
+    <p>Markdown is the lingua franca of AI development. You use it in prompts, context files, spec documents, and README files. Learning it well means faster, clearer communication with AI tools and your team.</p>
+    <p style="margin-top: 8px;">All major AI models (Claude, ChatGPT, Gemini) render markdown in their responses. GitHub, Discord, and most documentation platforms support it. It's lightweight, readable, and universal.</p>
+  </div>
+
+  <div class="section">
+    <h2>Headers</h2>
+    <p>Use <code>#</code> signs. One <code>#</code> is h1, two is h2, etc. Always add a space after the <code>#</code>.</p>
+    <div class="code-block">
+# Heading 1
+## Heading 2
+### Heading 3
+#### Heading 4
+    </div>
+    <p style="margin-top: 8px;">Renders as progressively smaller headings. Use this structure to organize your prompts and specs logically.</p>
+  </div>
+
+  <div class="section">
+    <h2>Emphasis</h2>
+    <p><strong>Bold:</strong> Wrap text with <code>**text**</code> or <code>__text__</code></p>
+    <p style="margin-top: 8px;"><strong>Italic:</strong> Wrap with <code>*text*</code> or <code>_text_</code></p>
+    <p style="margin-top: 8px;"><strong>Bold + Italic:</strong> <code>***text***</code></p>
+    <div class="code-block">
+**This is bold**
+*This is italic*
+***This is bold and italic***
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Lists</h2>
+    <p><strong>Unordered lists:</strong> Use <code>-</code>, <code>*</code>, or <code>+</code> followed by a space:</p>
+    <div class="code-block">
+- Item one
+- Item two
+- Item three
+    </div>
+    <p style="margin-top: 8px;"><strong>Ordered lists:</strong> Use <code>1.</code>, <code>2.</code>, etc:</p>
+    <div class="code-block">
+1. First step
+2. Second step
+3. Third step
+    </div>
+    <p style="margin-top: 8px;"><strong>Nested lists:</strong> Indent with 2–4 spaces:</p>
+    <div class="code-block">
+- Parent item
+  - Child item
+  - Another child
+- Next parent
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Code</h2>
+    <p><strong>Inline code:</strong> Wrap with backticks: <code>`this is code`</code></p>
+    <p style="margin-top: 8px;"><strong>Code blocks:</strong> Use three backticks on separate lines. Optionally specify the language for syntax highlighting:</p>
+    <div class="code-block">
+```python
+def hello():
+    print("Hello, world!")
+```
+    </div>
+    <p style="margin-top: 8px;">Supported languages: python, javascript, java, go, rust, sql, bash, json, yaml, html, css, etc.</p>
+    <div class="tip">
+      <p>Always use fenced code blocks (triple backticks) in AI prompts, not indented blocks. It's clearer and shows syntax highlighting in the AI's response.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Links</h2>
+    <p><strong>Basic link:</strong> <code>[link text](https://example.com)</code></p>
+    <div class="code-block">
+[Google](https://google.com)
+[My GitHub](https://github.com/username/repo)
+    </div>
+    <p style="margin-top: 8px;">The text in brackets is what displays; the URL in parentheses is the target.</p>
+  </div>
+
+  <div class="section">
+    <h2>Tables</h2>
+    <p>Markdown tables use pipes <code>|</code> to separate columns and dashes <code>---</code> for the header row:</p>
+    <div class="code-block">
+| Header 1 | Header 2 | Header 3 |
+|----------|----------|----------|
+| Cell 1   | Cell 2   | Cell 3   |
+| Cell 4   | Cell 5   | Cell 6   |
+    </div>
+    <p style="margin-top: 8px;"><strong>Alignment:</strong> Add colons in the header separator:</p>
+    <div class="code-block">
+| Left | Center | Right |
+|:-----|:------:|------:|
+| L    | C      | R     |
+    </div>
+    <p style="margin-top: 8px;">Left-aligned (default), center-aligned, and right-aligned columns.</p>
+  </div>
+
+  <div class="section">
+    <h2>Blockquotes</h2>
+    <p>Use <code>&gt;</code> to start a blockquote:</p>
+    <div class="code-block">
+> This is a quote.
+> It can span multiple lines.
+>
+> And multiple paragraphs.
+    </div>
+    <p style="margin-top: 8px;">Useful for showing user input, requirements, or context.</p>
+  </div>
+
+  <div class="section">
+    <h2>Horizontal Rule</h2>
+    <p>Use <code>---</code>, <code>***</code>, or <code>___</code> on its own line:</p>
+    <div class="code-block">
+Some text above
+
+---
+
+Some text below
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Quick Reference for AI Prompts</h2>
+    <p><strong>Structure your AI prompts with markdown:</strong></p>
+    <div class="code-block">
+## Task
+Write a function that...
+
+## Requirements
+- Must handle edge cases
+- Return type should be...
+- Include docstring
+
+## Context
+I'm using Python 3.10 with FastAPI.
+
+## Example
+Input: [example]
+Output: [expected output]
+
+## Constraints
+- Don't use external libraries
+    </div>
+    <p style="margin-top: 8px;">This structure makes your prompt scannable and helps the AI understand priorities. AI models respond better to structured input.</p>
+    <div class="tip">
+      <p>Pro tip: Save markdown templates for tasks you do repeatedly (code reviews, documentation, system design). Reuse them to save time and ensure consistency.</p>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://www.markdownguide.org/basic-syntax/">Basic Syntax — Markdown Guide</a>
+    <a href="https://www.markdownguide.org/extended-syntax/">Extended Syntax — Markdown Guide</a>
+    <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Markdown Cheatsheet — GitHub</a>
+    <a href="https://daringfireball.net/projects/markdown/syntax">Markdown Syntax Documentation — Daring Fireball</a>
+    <a href="https://developer.mozilla.org/en-US/docs/MDN/Writing_guidelines/Howto/Markdown_in_MDN">How to Write in Markdown — MDN Web Docs</a>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat-Based Coding — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #60a5fa; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 2 — AI-Assisted Coding</div>
+  <h1>Chat-Based Coding</h1>
+  <p class="subtitle">Using conversational AI to write, explain, and refactor code in real-time</p>
+
+  <div class="section">
+    <h2>Sidebar Chat in Your Editor</h2>
+    <p>Modern AI code editors like Cursor and VS Code with Copilot feature integrated chat panels. Open a chat window while coding to ask questions without switching applications. Select code and mention it in chat using <code>@symbol</code> references to give context. Use Cmd+K (Ctrl+K on Windows) to open inline editing, then describe a change to apply it directly to highlighted code.</p>
+    <div class="tip">
+      <p><strong>Pro tip:</strong> Keep your chat history within a single session—AI understands previous questions and code context, making follow-ups more accurate.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Generating Functions from Descriptions</h2>
+    <p>Describe what you want a function to do in plain English, and AI generates working code. Example: "Create a function that validates email addresses using regex and returns true if valid, false otherwise." AI produces the implementation with error handling. Be specific about inputs, outputs, and edge cases for better results. Specify language, framework preferences, and desired style (async/sync, class-based/functional).</p>
+    <ul>
+      <li>Describe intent clearly and concisely</li>
+      <li>Mention expected inputs and return types</li>
+      <li>Note any edge cases to handle</li>
+      <li>Review generated code before committing</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Explaining Unfamiliar Code</h2>
+    <p>Paste code into chat and ask "What does this do?" or select it and use the inline explain feature. AI breaks down complex logic, explains library calls, and clarifies why decisions were made. Particularly useful for understanding legacy code, third-party libraries, or patterns you haven't seen. Ask follow-up questions: "Why use async here?" or "What's this decorator doing?"</p>
+  </div>
+
+  <div class="section">
+    <h2>Refactoring with AI</h2>
+    <p>Ask AI to improve code quality without changing behavior. Examples: "Make this more readable," "Optimize this database query," "Add proper error handling," or "Extract this into a helper function." AI maintains functionality while improving performance, readability, or security. Always review diffs—AI sometimes introduces subtle changes.</p>
+    <div class="tip">
+      <p><strong>Best practice:</strong> Request one type of change at a time. "Improve performance" is too broad; try "Cache this API response" or "Use batch operations here."</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Debugging by Pasting Errors</h2>
+    <p>Paste error messages, stack traces, or weird behavior descriptions into chat. AI identifies likely causes and suggests fixes. "TypeError: Cannot read property 'map' of undefined" becomes actionable guidance: add null checks, verify API response shape, or adjust initialization order. Include context: what action triggered the error? What did you expect?</p>
+    <ul>
+      <li>Paste full stack traces, not just the headline</li>
+      <li>Describe steps to reproduce the issue</li>
+      <li>Share relevant code sections</li>
+      <li>Mention what you've already tried</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Crafting Better Prompts</h2>
+    <p><strong>Vague:</strong> "Make this code better." <strong>Clear:</strong> "Refactor this React component to use hooks instead of class syntax, keeping the same behavior." Specific prompts yield better code. Include context about constraints: "This needs to work in Node.js 18+" or "Must be database-agnostic." State your goal, not just what you want done.</p>
+    <p>Use examples when helpful: "Format the output like this: {'status': 'success', 'data': [...]}." Reference exact line numbers or function names. Say "this <code>fetchUser</code> function" instead of "this function."</p>
+  </div>
+
+  <div class="section">
+    <h2>Common Pitfalls</h2>
+    <ul>
+      <li><strong>Over-trusting generated code:</strong> Always review for security, performance, and correctness before merging</li>
+      <li><strong>Insufficient context:</strong> AI can't guess your architecture or business rules—spell them out</li>
+      <li><strong>Asking for multiple changes at once:</strong> Split requests so AI focuses on one task</li>
+      <li><strong>Ignoring warnings:</strong> If AI says "this might break X," investigate before deploying</li>
+    </ul>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://is4.ai/blog/our-blog-1/cursor-vs-vscode-copilot-comparison-2026-165">Cursor vs VS Code with Copilot: Best AI Code Editor 2026</a>
+    <a href="https://mithvibe.com/cursor-ai-vs-vs-code-2026/">The Incredible Cursor AI vs VS Code 2026 Review</a>
+    <a href="https://www.aitrove.ai/blog/best-ai-code-assistants.html">Best AI Code Assistants 2026: GitHub Copilot vs Cursor vs Claude Code</a>
+    <a href="https://cursor.com/">Cursor Official Documentation</a>
+    <a href="https://learn.ryzlabs.com/ai-coding-assistants/cursor-vs-continue-vs-claude-code-which-ai-assistant-is-right-for-you">Cursor vs Continue vs Claude Code Comparison</a>
+  </div>
+</div>
+</body>
+</html>

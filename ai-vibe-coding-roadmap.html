@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Development & Vibe Coding Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0f0f13;
+    --bg-card: #1a1a24;
+    --bg-card-hover: #22223a;
+    --border: #2a2a3e;
+    --text: #e2e2e8;
+    --text-muted: #8888a0;
+    --accent-purple: #a78bfa;
+    --accent-blue: #60a5fa;
+    --accent-green: #34d399;
+    --accent-orange: #fb923c;
+    --accent-pink: #f472b6;
+    --accent-cyan: #22d3ee;
+    --accent-yellow: #fbbf24;
+    --line: #3a3a5c;
+    --check-bg: #2d2d4a;
+    --check-active: #4ade80;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .header {
+    text-align: center;
+    padding: 48px 24px 12px;
+    position: relative;
+  }
+  .header h1 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue), var(--accent-green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  .progress-bar-container {
+    max-width: 600px;
+    margin: 24px auto 8px;
+    padding: 0 24px;
+  }
+  .progress-bar-outer {
+    height: 8px;
+    background: var(--check-bg);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-bar-inner {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-purple), var(--accent-green));
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+  .progress-label {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
+  .roadmap {
+    max-width: 900px;
+    margin: 32px auto;
+    padding: 0 24px 80px;
+    position: relative;
+  }
+
+  /* Central spine */
+  .roadmap::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 80px;
+    width: 3px;
+    background: linear-gradient(180deg, var(--accent-purple), var(--accent-blue), var(--accent-green), var(--accent-orange), var(--accent-pink), var(--accent-cyan));
+    transform: translateX(-50%);
+    border-radius: 2px;
+    z-index: 0;
+  }
+
+  .phase {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 28px;
+  }
+
+  .phase-label {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 16px;
+  }
+  .phase-label span {
+    display: inline-block;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .phase-grid {
+    display: grid;
+    grid-template-columns: 1fr 48px 1fr;
+    gap: 0;
+    align-items: start;
+  }
+
+  .phase-left { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+  .phase-right { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+  .phase-center { display: flex; flex-direction: column; align-items: center; gap: 10px; padding-top: 4px; }
+
+  .dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 3px solid var(--line);
+    background: var(--bg);
+    flex-shrink: 0;
+    transition: all 0.25s;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    max-width: 380px;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+  .card:hover {
+    background: var(--bg-card-hover);
+    border-color: #4a4a6e;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .card.checked {
+    border-color: var(--check-active);
+    background: rgba(74, 222, 128, 0.05);
+  }
+  .card.checked .card-check { background: var(--check-active); border-color: var(--check-active); }
+  .card.checked .card-check::after { opacity: 1; }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .card-check {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    border: 2px solid var(--line);
+    background: var(--check-bg);
+    flex-shrink: 0;
+    position: relative;
+    transition: all 0.2s;
+  }
+  .card-check::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--bg);
+    font-weight: 700;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .card-title {
+    font-weight: 600;
+    font-size: 0.92rem;
+    flex: 1;
+  }
+  .card-tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .card-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+    margin-top: 6px;
+    display: none;
+  }
+  .card.expanded .card-desc { display: block; }
+
+  .card-subtopics {
+    margin-top: 8px;
+    display: none;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .card.expanded .card-subtopics { display: flex; }
+  .card-link {
+    display: none;
+    margin-top: 10px;
+  }
+  .card.expanded .card-link { display: block; }
+  .card-link a {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+    padding: 5px 14px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.2s;
+  }
+  .card-link a:hover {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.2);
+  }
+  .subtopic {
+    font-size: 0.7rem;
+    padding: 3px 10px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.06);
+    color: var(--text-muted);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* Phase colors — label spans use opaque backgrounds so the spine line doesn't bleed through */
+  .phase-1 .phase-label span { background: #1e1a31; color: var(--accent-purple); border: 1px solid rgba(167,139,250,0.3); }
+  .phase-1 .dot { border-color: var(--accent-purple); }
+  .phase-1 .card-tag { background: rgba(167,139,250,0.15); color: var(--accent-purple); }
+
+  .phase-2 .phase-label span { background: #161e2c; color: var(--accent-blue); border: 1px solid rgba(96,165,250,0.3); }
+  .phase-2 .dot { border-color: var(--accent-blue); }
+  .phase-2 .card-tag { background: rgba(96,165,250,0.15); color: var(--accent-blue); }
+
+  .phase-3 .phase-label span { background: #141f20; color: var(--accent-green); border: 1px solid rgba(52,211,153,0.3); }
+  .phase-3 .dot { border-color: var(--accent-green); }
+  .phase-3 .card-tag { background: rgba(52,211,153,0.15); color: var(--accent-green); }
+
+  .phase-4 .phase-label span { background: #251a16; color: var(--accent-orange); border: 1px solid rgba(251,146,60,0.3); }
+  .phase-4 .dot { border-color: var(--accent-orange); }
+  .phase-4 .card-tag { background: rgba(251,146,60,0.15); color: var(--accent-orange); }
+
+  .phase-5 .phase-label span { background: #241620; color: var(--accent-pink); border: 1px solid rgba(244,114,182,0.3); }
+  .phase-5 .dot { border-color: var(--accent-pink); }
+  .phase-5 .card-tag { background: rgba(244,114,182,0.15); color: var(--accent-pink); }
+
+  .phase-6 .phase-label span { background: #132028; color: var(--accent-cyan); border: 1px solid rgba(34,211,238,0.3); }
+  .phase-6 .dot { border-color: var(--accent-cyan); }
+  .phase-6 .card-tag { background: rgba(34,211,238,0.15); color: var(--accent-cyan); }
+
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+    padding: 0 24px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 32px 24px;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    border-top: 1px solid var(--border);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6rem; }
+    .roadmap::before { left: 24px; }
+    .phase-grid { grid-template-columns: 48px 1fr; }
+    .phase-left { display: none; }
+    .phase-right { align-items: stretch; }
+    .phase-center { align-items: center; }
+    .card { max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>AI Development & Vibe Coding</h1>
+  <p>A roadmap from your first AI prompt to orchestrating multi-agent systems. Click cards to expand details, check them off as you learn.</p>
+</div>
+
+<div class="progress-bar-container">
+  <div class="progress-bar-outer">
+    <div class="progress-bar-inner" id="progressBar" style="width: 0%"></div>
+  </div>
+  <div class="progress-label" id="progressLabel">0 / 0 completed</div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--accent-purple)"></div>Foundations</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--accent-blue)"></div>AI-Assisted Coding</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--accent-green)"></div>Structured Workflows</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--accent-orange)"></div>Advanced Coding Agents</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--accent-pink)"></div>Integrations & MCPs</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--accent-cyan)"></div>Sub-agents & Orchestration</div>
+</div>
+
+<div class="roadmap" id="roadmap"></div>
+
+<div class="footer">
+  Click any card to expand details — check off topics as you go.<br>
+  Progress is saved in your browser session.
+</div>
+
+<script>
+const DATA = [
+  {
+    phase: 1,
+    label: "Phase 1 — Foundations",
+    items: [
+      {
+        side: "left",
+        title: "Conversational Prompting",
+        tag: "Start Here",
+        desc: "Learn to ask ChatGPT, Claude, or Gemini clear questions. Understand how context, specificity, and follow-ups shape the quality of AI responses.",
+        subs: ["ChatGPT", "Claude.ai", "Gemini", "Basic prompting"],
+        link: "topics/conversational-prompting.html"
+      },
+      {
+        side: "right",
+        title: "Understanding AI Models",
+        tag: "Core Concept",
+        desc: "Grasp how LLMs work at a high level — tokens, context windows, temperature, and why models sometimes hallucinate. Know which model to pick for which task.",
+        subs: ["LLM basics", "Token limits", "Model selection", "Hallucination awareness"],
+        link: "topics/understanding-ai-models.html"
+      },
+      {
+        side: "left",
+        title: "Choosing a Model",
+        tag: "Core Skill",
+        desc: "Know the landscape of available models — Claude, GPT, Gemini, Llama, and others. Understand the tradeoffs between thinking vs. non-thinking models, large vs. small/fast models, and when to use each.",
+        subs: ["Top model families", "Thinking vs. non-thinking", "Speed vs. capability", "Cost considerations"],
+        link: "topics/choosing-a-model.html"
+      },
+      {
+        side: "right",
+        title: "AI Safety & Data Hygiene",
+        tag: "Essential",
+        desc: "Use officially sanctioned AI tools, not random free sites. Know what data is safe to share with AI and what isn't. Understand how to opt out of data collection and training, and review your organization's AI policy.",
+        subs: ["Approved AI tools", "Sensitive data boundaries", "Opt-out settings", "Corporate AI policies"],
+        link: "topics/ai-safety-data-hygiene.html"
+      },
+      {
+        side: "left",
+        title: "Markdown Basics",
+        tag: "Tool",
+        desc: "Markdown is the lingua franca of AI dev. Learn headers, lists, code blocks, and links — you'll use it for specs, context files, documentation, and agent instructions.",
+        subs: ["Syntax", "Code blocks", "Tables", "GitHub-flavored MD"],
+        link: "topics/markdown-basics.html"
+      },
+      {
+        side: "right",
+        title: "Staying Current",
+        tag: "Ongoing",
+        desc: "Start this habit on day one — the field changes weekly. Follow AI news, model releases, and new tooling. What's cutting-edge today is table stakes tomorrow.",
+        subs: ["Hacker News", "r/ClaudeAI & AI subreddits", "Official blogs (Anthropic, OpenAI)", "X/Twitter AI community", "Release notes & changelogs"],
+        link: "topics/staying-current.html"
+      }
+    ]
+  },
+  {
+    phase: 2,
+    label: "Phase 2 — AI-Assisted Coding",
+    items: [
+      {
+        side: "left",
+        title: "Chat-Based Coding",
+        tag: "Workflow",
+        desc: "Use sidebar chat in VS Code, Cursor, or web-based AI to generate functions, explain code, and refactor. Learn to iterate on outputs with follow-up prompts.",
+        subs: ["Explain code", "Generate functions", "Refactor", "Debug with AI"],
+        link: "topics/chat-based-coding.html"
+      },
+      {
+        side: "right",
+        title: "AI-Powered Code Review",
+        tag: "Practice",
+        desc: "Use AI to review pull requests, catch bugs, suggest improvements, and explain unfamiliar code. Build the habit of AI as a second pair of eyes.",
+        subs: ["PR review", "Bug detection", "Style suggestions", "Security scanning"],
+        link: "topics/ai-code-review.html"
+      },
+      {
+        side: "left",
+        title: "AI-Written Tests",
+        tag: "Practice",
+        desc: "Have AI generate unit tests, integration tests, and edge cases for your code. Learn to review and validate AI-generated test coverage rather than writing every test by hand.",
+        subs: ["Unit test generation", "Edge case discovery", "Test coverage review", "Validation mindset"],
+        link: "topics/ai-written-tests.html"
+      },
+      {
+        side: "right",
+        title: "AI Prototyping Tools",
+        tag: "Tool",
+        desc: "Use tools like Lovable, Replit Agent, and v0 to go from an idea to a working prototype in minutes. Great for validating UI concepts, spinning up MVPs, and learning by building fast.",
+        subs: ["Lovable", "Replit Agent", "v0 by Vercel", "Bolt", "Rapid MVPs"],
+        link: "topics/ai-prototyping-tools.html"
+      },
+      {
+        side: "left",
+        title: "Multi-File Editing",
+        tag: "Skill",
+        desc: "Use AI chat to make changes that span multiple files — renaming variables across a project, adding a field to a model and its views, or restructuring imports. Learn to scope requests clearly.",
+        subs: ["Cross-file changes", "Scoped requests", "Incremental commits", "Diff review"],
+        link: "topics/multi-file-editing.html"
+      }
+    ]
+  },
+  {
+    phase: 3,
+    label: "Phase 3 — Structured Workflows",
+    items: [
+      {
+        side: "left",
+        title: "Markdown Specs & PRDs",
+        tag: "Key Skill",
+        desc: "Write product requirements and technical specs as Markdown documents. These become the source of truth that AI agents consume to build features correctly.",
+        subs: ["Feature specs", "Technical PRDs", "Acceptance criteria", "User stories in MD"],
+        link: "topics/markdown-specs.html"
+      },
+      {
+        side: "right",
+        title: "CLAUDE.md & Context Files",
+        tag: "Essential",
+        desc: "Create project-level context files (CLAUDE.md, .cursorrules, AGENTS.md) that tell AI tools about your codebase, conventions, and constraints before they write a line of code.",
+        subs: ["CLAUDE.md", ".cursorrules", "AGENTS.md", "Project context"],
+        link: "topics/claude-md-context-files.html"
+      },
+      {
+        side: "left",
+        title: "Plan Mode",
+        tag: "Workflow",
+        desc: "Use plan mode in Claude Code or similar tools to have the AI analyze a task, propose an architecture, and get your approval before it starts writing code. Think before you build.",
+        subs: ["Task analysis", "Architecture proposals", "Approval gates", "Scope control"],
+        link: "topics/plan-mode.html"
+      },
+      {
+        side: "right",
+        title: "System Prompts & Templates",
+        tag: "Technique",
+        desc: "Craft reusable system prompts and prompt templates that set behavior, tone, and constraints for AI interactions. Version-control them alongside your code.",
+        subs: ["System prompt design", "Template libraries", "Versioning prompts", "Persona definition"],
+        link: "topics/system-prompts-templates.html"
+      },
+      {
+        side: "left",
+        title: "Context Window Management",
+        tag: "Concept",
+        desc: "Learn to manage what information the AI can see. Summarize long conversations, use file references strategically, and know when to start fresh vs. continue.",
+        subs: ["Token budgeting", "Conversation summarization", "Selective context", "Fresh vs. continued sessions"],
+        link: "topics/context-window-management.html"
+      },
+      {
+        side: "right",
+        title: "Red-Green Testing",
+        tag: "Methodology",
+        desc: "Write failing tests first (red), then use AI to generate the implementation that makes them pass (green). This constrains AI output to verifiable correctness and keeps you in control of what 'done' means.",
+        subs: ["TDD fundamentals", "Write tests first", "AI implements to spec", "Refactor cycle"],
+        link: "topics/red-green-testing.html"
+      },
+      {
+        side: "left",
+        title: "Markdown Knowledge Bases",
+        tag: "Technique",
+        desc: "Organize project knowledge as structured Markdown files that agents can read directly — no embeddings or vector DBs needed. Simple, version-controlled, and always up to date.",
+        subs: ["Knowledge file structure", "Convention docs", "Decision logs", "Agent-readable docs"],
+        link: "topics/markdown-knowledge-bases.html"
+      }
+    ]
+  },
+  {
+    phase: 4,
+    label: "Phase 4 — Advanced Coding Agents",
+    items: [
+      {
+        side: "right",
+        title: "Agentic Coding Tools",
+        tag: "Core",
+        desc: "Use Claude Code, Cursor Agent, Windsurf, or Aider — tools that can autonomously read files, run commands, write code, and iterate. The AI drives; you steer.",
+        subs: ["Claude Code", "Cursor", "Windsurf", "Aider", "Cline"],
+        link: "topics/agentic-coding-tools.html"
+      },
+      {
+        side: "left",
+        title: "Terminal-Based Agents",
+        tag: "Workflow",
+        desc: "Work with AI directly in the terminal. Pipe outputs, use CLI tools, run scripts — and let the agent read results and course-correct on its own.",
+        subs: ["CLI workflows", "Pipe outputs to AI", "Shell scripting with AI", "Automated iteration"],
+        link: "topics/terminal-based-agents.html"
+      },
+      {
+        side: "right",
+        title: "Agent-Driven TDD",
+        tag: "Methodology",
+        desc: "Combine red-green testing with coding agents. Write test specs, hand them to the agent, and let it iterate until all tests pass. Verify, don't just trust.",
+        subs: ["Test-first agents", "Automated test runs", "Failure analysis loops", "CI integration"],
+        link: "topics/agent-driven-tdd.html"
+      },
+      {
+        side: "right",
+        title: "Skills & Custom Commands",
+        tag: "Customization",
+        desc: "Create custom slash commands, skills, and workflows that extend your agent's capabilities. Package repeatable tasks into reusable automation.",
+        subs: ["Slash commands", "Skill files", "Workflow automation", "Reusable patterns"],
+        link: "topics/skills-custom-commands.html"
+      },
+      {
+        side: "left",
+        title: "Model Context Protocol (MCP)",
+        tag: "Key Tech",
+        desc: "MCP is the open standard for connecting AI to external data and tools. Learn to install, configure, and use MCP servers that give agents access to GitHub, Slack, databases, and more.",
+        subs: ["MCP architecture", "Server setup", "Client config", "Community servers"],
+        link: "topics/mcp-model-context-protocol.html"
+      },
+      {
+        side: "right",
+        title: "YOLO Mode & Sandboxing",
+        tag: "Configuration",
+        desc: "Control how much autonomy your agent gets. Run in YOLO mode for trusted workflows, whitelist safe commands to skip approval prompts, and use sandboxed environments to contain risk.",
+        subs: ["YOLO mode", "Command whitelisting", "Sandbox environments", "Permission boundaries"],
+        link: "topics/yolo-mode-sandboxing.html"
+      }
+    ]
+  },
+  {
+    phase: 5,
+    label: "Phase 5 — Integrations & MCPs",
+    items: [
+      {
+        side: "left",
+        title: "Tool Use & Function Calling",
+        tag: "Core Concept",
+        desc: "Understand how AI models call external tools — APIs, databases, file systems. Learn the request/response pattern that makes agents actually do things in the real world.",
+        subs: ["Function calling", "Tool schemas", "JSON responses", "Error handling"],
+        link: "topics/tool-use-function-calling.html"
+      },
+      {
+        side: "right",
+        title: "Building Custom MCP Servers",
+        tag: "Advanced",
+        desc: "Create your own MCP servers to expose internal APIs, proprietary tools, or custom workflows to AI agents. Turn any service into an AI-accessible tool.",
+        subs: ["Server SDK", "Tool definitions", "Resource endpoints", "Auth patterns"],
+        link: "topics/building-custom-mcp-servers.html"
+      }
+    ]
+  },
+  {
+    phase: 6,
+    label: "Phase 6 — Sub-Agents & Orchestration",
+    items: [
+      {
+        side: "right",
+        title: "Multi-Agent Architecture",
+        tag: "Advanced",
+        desc: "Design systems where multiple AI agents collaborate — a planner agent delegates to specialist agents (coder, researcher, reviewer) that report back results.",
+        subs: ["Agent roles", "Task delegation", "Result aggregation", "Communication patterns"],
+        link: "topics/multi-agent-architecture.html"
+      },
+      {
+        side: "left",
+        title: "Claude Agent SDK",
+        tag: "Framework",
+        desc: "Use the Agent SDK to build custom agents with defined tools, memory, and orchestration logic. Go beyond chat — create agents that autonomously execute complex workflows.",
+        subs: ["SDK setup", "Agent definition", "Tool binding", "Execution loops"],
+        link: "topics/claude-agent-sdk.html"
+      },
+      {
+        side: "right",
+        title: "Agent Delegation & Handoff",
+        tag: "Pattern",
+        desc: "Implement patterns for agents to spawn sub-agents, pass context, collect results, and handle failures. Think of it like microservices, but for AI reasoning.",
+        subs: ["Sub-agent spawning", "Context passing", "Result collection", "Failure recovery"],
+        link: "topics/agent-delegation-handoff.html"
+      },
+      {
+        side: "left",
+        title: "Workflow Orchestration",
+        tag: "Architecture",
+        desc: "Build DAG-based workflows where agents execute steps in sequence or parallel — with conditional branching, human-in-the-loop checkpoints, and retry logic.",
+        subs: ["DAG workflows", "Parallel execution", "Human-in-the-loop", "Conditional routing"],
+        link: "topics/workflow-orchestration.html"
+      },
+      {
+        side: "right",
+        title: "Memory & State Management",
+        tag: "Concept",
+        desc: "Give agents persistent memory across sessions — conversation history, learned preferences, project context. Choose between short-term, long-term, and shared memory.",
+        subs: ["Session memory", "Long-term storage", "Shared context", "Memory retrieval"],
+        link: "topics/memory-state-management.html"
+      },
+    ]
+  }
+];
+
+let checkedState = {};
+try {
+  const saved = sessionStorage.getItem('roadmap-checked');
+  if (saved) checkedState = JSON.parse(saved);
+} catch(e) {}
+
+function saveState() {
+  try { sessionStorage.setItem('roadmap-checked', JSON.stringify(checkedState)); } catch(e) {}
+}
+
+function getCardId(phaseIdx, itemIdx) {
+  return `card-${phaseIdx}-${itemIdx}`;
+}
+
+function updateProgress() {
+  let total = 0;
+  let checked = 0;
+  DATA.forEach((phase, pi) => {
+    phase.items.forEach((item, ii) => {
+      total++;
+      if (checkedState[getCardId(pi, ii)]) checked++;
+    });
+  });
+  const pct = total > 0 ? (checked / total * 100) : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `${checked} / ${total} completed`;
+}
+
+function renderRoadmap() {
+  const container = document.getElementById('roadmap');
+  container.innerHTML = '';
+
+  DATA.forEach((phase, pi) => {
+    const phaseDiv = document.createElement('div');
+    phaseDiv.className = `phase phase-${phase.phase}`;
+
+    const labelDiv = document.createElement('div');
+    labelDiv.className = 'phase-label';
+    labelDiv.innerHTML = `<span>${phase.label}</span>`;
+    phaseDiv.appendChild(labelDiv);
+
+    const grid = document.createElement('div');
+    grid.className = 'phase-grid';
+
+    // Collect lefts and rights
+    const lefts = phase.items.filter(i => i.side === 'left');
+    const rights = phase.items.filter(i => i.side === 'right');
+    const maxRows = Math.max(lefts.length, rights.length);
+
+    let leftIdx = 0, rightIdx = 0;
+
+    for (let row = 0; row < maxRows; row++) {
+      // Left cell
+      const leftCell = document.createElement('div');
+      leftCell.className = 'phase-left';
+      if (leftIdx < lefts.length) {
+        const actualIdx = phase.items.indexOf(lefts[leftIdx]);
+        leftCell.appendChild(makeCard(pi, actualIdx, lefts[leftIdx]));
+        leftIdx++;
+      }
+      grid.appendChild(leftCell);
+
+      // Center dot
+      const centerCell = document.createElement('div');
+      centerCell.className = 'phase-center';
+      centerCell.innerHTML = '<div class="dot"></div>';
+      grid.appendChild(centerCell);
+
+      // Right cell
+      const rightCell = document.createElement('div');
+      rightCell.className = 'phase-right';
+      if (rightIdx < rights.length) {
+        const actualIdx = phase.items.indexOf(rights[rightIdx]);
+        rightCell.appendChild(makeCard(pi, actualIdx, rights[rightIdx]));
+        rightIdx++;
+      }
+      grid.appendChild(rightCell);
+    }
+
+    phaseDiv.appendChild(grid);
+    container.appendChild(phaseDiv);
+  });
+
+  updateProgress();
+}
+
+function makeCard(phaseIdx, itemIdx, item) {
+  const id = getCardId(phaseIdx, itemIdx);
+  const card = document.createElement('div');
+  card.className = 'card' + (checkedState[id] ? ' checked' : '');
+  const linkHtml = item.link ? `<div class="card-link"><a href="${item.link}" onclick="event.stopPropagation()">Learn more →</a></div>` : '';
+  card.innerHTML = `
+    <div class="card-header">
+      <div class="card-check" data-id="${id}"></div>
+      <div class="card-title">${item.title}</div>
+      <div class="card-tag">${item.tag}</div>
+    </div>
+    <div class="card-desc">${item.desc}</div>
+    <div class="card-subtopics">${(item.subs || []).map(s => `<span class="subtopic">${s}</span>`).join('')}</div>
+    ${linkHtml}
+  `;
+
+  // Toggle expand on card click (but not on checkbox)
+  card.addEventListener('click', (e) => {
+    if (e.target.closest('.card-check')) return;
+    card.classList.toggle('expanded');
+  });
+
+  // Checkbox
+  const check = card.querySelector('.card-check');
+  check.addEventListener('click', (e) => {
+    e.stopPropagation();
+    checkedState[id] = !checkedState[id];
+    card.classList.toggle('checked', checkedState[id]);
+    saveState();
+    updateProgress();
+  });
+
+  return card;
+}
+
+renderRoadmap();
+</script>
+</body>
+</html>

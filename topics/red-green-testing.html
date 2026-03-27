@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Red-Green Testing with AI — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #34d399; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 3 — Structured Workflows</div>
+  <h1>Red-Green Testing with AI</h1>
+  <p class="subtitle">Test-driven development that puts you in control of AI-generated code</p>
+
+  <div class="section">
+    <h2>TDD & the Red-Green-Refactor Cycle</h2>
+    <p><strong>Red:</strong> Write a test for a feature that doesn't exist yet. The test fails (you see red).</p>
+    <p><strong>Green:</strong> Write the minimum code needed to make the test pass (you see green).</p>
+    <p><strong>Refactor:</strong> Clean up the code while keeping tests passing. No new features, just better design.</p>
+    <p>This cycle inverts traditional development: tests come first, code follows. The tests define what "done" means before you write a line of implementation.</p>
+  </div>
+
+  <div class="section">
+    <h2>Why TDD + AI is Powerful</h2>
+    <p>Test-first development is a natural fit for AI code generation because it answers the AI's biggest question: "How do I know when I'm done?" Tests provide an unambiguous definition of correctness.</p>
+    <p>Without tests, the AI guesses at requirements and might add features you didn't ask for. With tests, the AI has a clear success criterion: make the tests pass, no more, no less.</p>
+  </div>
+
+  <div class="section">
+    <h2>The AI-Assisted Red-Green Cycle</h2>
+    <ol style="padding-left: 20px;">
+      <li><strong>You write the test:</strong> "Given a user with a valid token, they can access the dashboard."</li>
+      <li><strong>Test fails (Red):</strong> You run it, it fails. Good—that's expected.</li>
+      <li><strong>AI implements code:</strong> You give the AI the test and say "Make this pass. Nothing more."</li>
+      <li><strong>Test passes (Green):</strong> The AI writes code. You run tests. They pass.</li>
+      <li><strong>You review the implementation:</strong> Is it correct? Is it clean? If not, ask for refactoring.</li>
+      <li><strong>Refactor (together):</strong> You and AI clean up the code, keeping tests green.</li>
+    </ol>
+    <div class="tip">
+      <p>The AI can generate boilerplate and edge cases instantly, turning TDD's biggest weakness (manual test writing) into an accelerator. You define intent, AI implements it.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Writing Tests First</h2>
+    <p>Before you ask the AI to implement, write the tests yourself. Be specific about inputs, outputs, and edge cases. Tests are your spec—they should be clear enough that an AI (or a new teammate) can implement from them alone.</p>
+    <p>Example good test spec:</p>
+    <code>
+describe('loginUser', () => {<br/>
+&nbsp; it('returns a JWT token for valid credentials', () => { ... })<br/>
+&nbsp; it('throws 401 for invalid password', () => { ... })<br/>
+&nbsp; it('throws 404 for nonexistent user', () => { ... })<br/>
+})
+    </code>
+  </div>
+
+  <div class="section">
+    <h2>Tests as Guard Rails</h2>
+    <p>A robust test suite acts as guard rails for AI-generated code. The AI can't veer off course without failing tests. This is enormous: you get AI speed without AI surprises.</p>
+    <p>The better your tests, the more you trust the AI's output. Invest in testing early.</p>
+  </div>
+
+  <div class="section">
+    <h2>AI Can Write Tests Too</h2>
+    <p>Once you've written a few tests, you can ask the AI to write more. Give it the pattern and ask for edge cases: "Write tests for invalid inputs, boundary conditions, and error states."</p>
+    <p>The AI will generate a comprehensive test suite in seconds. You review, adjust, and use it. This turns testing from a bottleneck into a rapid-iteration tool.</p>
+  </div>
+
+  <div class="section">
+    <h2>Continuous Testing in the Cycle</h2>
+    <p>As you iterate with AI, run tests constantly. After each implementation, run <code>npm test</code> or equivalent. Tests failing? Push back to the AI with the failure output. Tests passing? Ask for refactoring or move to the next feature.</p>
+    <p>This tight feedback loop keeps both you and the AI honest.</p>
+  </div>
+
+  <div class="section">
+    <h2>Regression Prevention</h2>
+    <p>A test suite grows with your codebase. Every feature gets tests. Every bug fix includes a regression test (a test for the bug you just fixed). Over time, your test suite protects against future mistakes—especially important when using AI across many features.</p>
+    <p>Think of tests as insurance against AI drift. The larger your test suite, the safer your AI-assisted development.</p>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://www.codecademy.com/article/tdd-red-green-refactor">Red, Green, Refactor — Codecademy</a>
+    <a href="https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/">Red/green TDD — Agentic Engineering Patterns</a>
+    <a href="https://medium.com/@rupeshit/tdd-in-the-age-of-vibe-coding-pairing-red-green-refactor-with-ai-65af8ed32ae8">TDD in the Age of Vibe Coding — Rupeshit Patekar</a>
+    <a href="https://www.builder.io/blog/test-driven-development-ai">Test-Driven Development with AI — Builder.io</a>
+    <a href="https://martinfowler.com/bliki/TestDrivenDevelopment.html">Test Driven Development — Martin Fowler</a>
+  </div>
+</div>
+</body>
+</html>

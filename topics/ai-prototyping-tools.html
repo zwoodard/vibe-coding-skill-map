@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Prototyping Tools — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #60a5fa; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 2 — AI-Assisted Coding</div>
+  <h1>AI Prototyping Tools</h1>
+  <p class="subtitle">Go from idea to working prototype in minutes using AI-powered code generators</p>
+
+  <div class="section">
+    <h2>The Prototyping Landscape</h2>
+    <p>Four major platforms dominate rapid AI prototyping in 2026: Lovable, v0 by Vercel, Replit Agent, and Bolt. Each takes a different approach to scaffolding apps. Lovable went from zero to $20M ARR in 60 days, showing explosive product-market fit for non-technical founders. These tools turn spoken ideas into interactive apps without a terminal or deployment knowledge.</p>
+    <div class="tip">
+      <p><strong>Key difference:</strong> Some tools pick your stack (Lovable: opinionated, v0: React/Tailwind/shadcn), others let you choose (Replit, Bolt support multiple frameworks).</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Lovable: For Non-Technical Founders</h2>
+    <p>Designed for people validating ideas without coding. Describe your app in plain English and Lovable scaffolds it. Native Supabase integration handles databases and auth without manual setup. Strong opinions about architecture and tooling reduce choices but ensure quality consistency. Best for: Landing pages, dashboards, form-heavy apps, early-stage MVPs where speed matters more than control.</p>
+    <p><strong>Limitations:</strong> Opinionated stack limits framework choices. Less flexibility for custom integrations. Growing but less mature codebase history than established tools.</p>
+  </div>
+
+  <div class="section">
+    <h2>v0 by Vercel: React and Tailwind Focus</h2>
+    <p>Heavy focus on component generation. AI generates React components styled with Tailwind and shadcn/ui. Deep Vercel integration means one-click deployment. Supports plugging multiple AI models (Claude, Gemini, OpenAI) through an AI Gateway. Great for: Component-heavy UIs, design system building, deploying to Vercel seamlessly.</p>
+    <p><strong>Limitations:</strong> Very opinionated—won't generate MUI or other UI libraries. If you need custom CSS frameworks or Vue.js, this isn't for you. Best for React shops.</p>
+  </div>
+
+  <div class="section">
+    <h2>Replit Agent: Full-Stack Flexibility</h2>
+    <p>Replit Agent 3 evolved into a complete platform with built-in database, authentication, hosting, and 30+ integrations (Stripe, Figma, Notion, Salesforce). Now uses React as default but supports multiple frameworks: Vue, Angular, React Native. Excellent for: Complex full-stack apps, integrating external services, teams that want framework choice.</p>
+    <p><strong>Strengths:</strong> Best integration marketplace, easiest path to production with built-in hosting. <strong>Weakness:</strong> Steeper learning curve than Lovable.</p>
+  </div>
+
+  <div class="section">
+    <h2>Bolt: Maximum Framework Choice</h2>
+    <p>Scaffold full-stack apps across multiple stacks: React, Angular, Vue, React Native, and more. Framework flexibility with AI assistance. Great for: Teams with strong framework preferences, projects needing specific tech stacks, learning different frameworks.</p>
+    <p><strong>Trade-off:</strong> More choices mean less opinionation. You'll need to understand deployment, database setup, and hosting separately.</p>
+  </div>
+
+  <div class="section">
+    <h2>Prototyping Workflow</h2>
+    <p><strong>Step 1:</strong> Describe your app: "Build a task management tool with user accounts, task lists, and real-time sync." <strong>Step 2:</strong> AI generates working prototype with UI, routing, and database schema. <strong>Step 3:</strong> Test in browser immediately—no localhost setup. <strong>Step 4:</strong> Iterate: "Add a dark mode toggle," "Make this responsive," "Fix this bug."</p>
+    <p>Most tools support exporting code to GitHub for further development in your local editor.</p>
+    <div class="tip">
+      <p><strong>Pro workflow:</strong> Use Lovable or v0 for rapid feedback loops with non-technical stakeholders, then export and hand off to engineers for production hardening.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>When to Use Each Tool</h2>
+    <ul>
+      <li><strong>Lovable:</strong> Non-technical founder, idea validation, needs database and auth out-of-box, speed is critical</li>
+      <li><strong>v0:</strong> React teams, component-heavy UI, Vercel deployment, design system work</li>
+      <li><strong>Replit Agent:</strong> Full-stack complexity, multi-service integrations, team with strong React preference</li>
+      <li><strong>Bolt:</strong> Teams with framework flexibility, custom stacks, learning multiple frameworks</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Common Limitations</h2>
+    <ul>
+      <li><strong>Generated code quality:</strong> AI produces working code but not production-grade. Plan on refactoring</li>
+      <li><strong>Opinionated choices:</strong> Most tools make stack decisions for you. Changing them later is friction</li>
+      <li><strong>Database complexity:</strong> Simple apps work great. Complex schemas need manual tuning</li>
+      <li><strong>Custom auth flows:</strong> Standard auth (Google, GitHub) works. Custom SAML or complex flows need manual code</li>
+      <li><strong>Performance tuning:</strong> Generated apps prioritize speed-to-demo over optimization</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Post-Prototype: Taking to Production</h2>
+    <p>Generated prototypes are starting points, not finished products. Plan on: security review, performance optimization, adding error handling, implementing logging, hardening database queries, adding admin tools. Export code early and invest in cleanup. Most teams spend 2-3x prototyping time on production hardening.</p>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://annaarteeva.medium.com/choosing-your-ai-prototyping-stack-lovable-v0-bolt-replit-cursor-magic-patterns-compared-9a5194f163e9">Choosing your AI prototyping stack: Lovable, v0, Bolt, Replit, Cursor compared</a>
+    <a href="https://getmocha.com/blog/best-ai-app-builder-2026/">Best AI App Builder 2026: Lovable vs Bolt vs v0 vs Mocha</a>
+    <a href="https://www.aifordevteams.com/blog/lovable-vs-replit-vs-bolt-new-vs-vercel-v0-which-one-is-the-best-tool-for-poc-and-mvp-development">Lovable vs Replit vs Bolt.new vs Vercel V0 comparison</a>
+    <a href="https://medium.com/@aftab001x/the-2026-ai-coding-platform-wars-replit-vs-windsurf-vs-bolt-new-f908b9f76325">The 2026 AI Coding Platform Wars: Replit vs Windsurf vs Bolt.new</a>
+    <a href="https://blog.tooljet.com/lovable-vs-bolt-vs-v0/">Lovable vs Bolt vs V0: Which AI App Builder Wins in 2026</a>
+  </div>
+</div>
+</body>
+</html>

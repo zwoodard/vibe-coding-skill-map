@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tool Use & Function Calling — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #f472b6; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 5 — Integrations & MCPs</div>
+  <h1>Tool Use & Function Calling</h1>
+  <p class="subtitle">How AI models request external tools and data systems to solve problems beyond their training data.</p>
+
+  <div class="section">
+    <h2>What Is Tool Calling?</h2>
+    <p>Tool calling (also called function calling) is the mechanism that lets AI models request execution of code, APIs, or databases instead of trying to answer from memory. The model doesn't actually execute the tool—it describes what it wants to call and with what parameters. Your application receives that request, runs the tool, and returns results. This creates a loop: model → request → execute → response → model continues reasoning.</p>
+    <div class="tip">
+      <p><strong>Key insight:</strong> The model decides which tool to call based on the task context. You provide the schema; the model decides if/when to use it.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>The Request-Response Pattern</h2>
+    <p>Tool calling follows a clear cycle: The model analyzes the user's request, examines available tools and their descriptions, decides which tool(s) to invoke with specific parameters, and returns a formatted request (not execution). Your application then:</p>
+    <ul>
+      <li>Parses the tool request and validate inputs</li>
+      <li>Execute the actual tool/function/API call</li>
+      <li>Capture the result (success or error)</li>
+      <li>Send the result back to the model</li>
+      <li>Model incorporates the result into its reasoning and continues</li>
+    </ul>
+    <p>This loop repeats until the model decides it has enough information to answer the user's question.</p>
+  </div>
+
+  <div class="section">
+    <h2>Defining Tool Schemas with JSON</h2>
+    <p>Each tool must be defined with a JSON schema that tells the model its name, purpose, and expected parameters. A typical schema includes the tool name (descriptive, no spaces), a detailed description of what it does and when to use it, and a parameters object defining each input field with type, description, and whether it's required. The model reads this schema to understand tool capabilities without seeing implementation details.</p>
+    <p>For example, a <code>search_wikipedia</code> tool has parameters like <code>query</code> (required string) and <code>language</code> (optional, default English). The description is crucial—models use it to decide whether the tool fits the current task. Heavily nested schemas reduce quality; flatten complex parameters where possible. Aim for fewer than 20 tools available at once to avoid context bloat.</p>
+  </div>
+
+  <div class="section">
+    <h2>How Models Decide Which Tool to Call</h2>
+    <p>Models use context, available tools, and task requirements to select the right tool. A question like "What's the temperature in Tokyo?" triggers selection of a weather API tool. A math problem might skip tool calling and compute directly. Models reason probabilistically based on training—good descriptions and examples teach them when to use each tool.</p>
+    <p>As of 2025, structured outputs (via <code>strict: true</code> in tool definitions) guarantee that tool calls match your JSON schema exactly. This eliminates parsing errors and invalid parameter types, making production systems more reliable.</p>
+  </div>
+
+  <div class="section">
+    <h2>Error Handling & Retries</h2>
+    <p>Tool calls can fail: invalid parameters, network errors, API rate limits, missing data. Best practice is to return the error to the model (e.g., "Tool search_db returned: connection timeout"). The model then either retries with adjusted parameters, tries a different tool, or explains to the user that the task can't be completed. Never silently drop errors—models need visibility to reason about failures.</p>
+    <p>For resilience, implement exponential backoff for transient errors, validate tool inputs before execution, and set timeouts on external calls. Log all tool invocations for debugging and auditing.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practical Workflow</h2>
+    <p>1. Define 5-10 core tools your app needs (database query, file read, web search, email send, etc.). 2. Write JSON schemas for each, with clear names and descriptions. 3. Implement tool execution logic in your application. 4. Use Structured Outputs to enforce schema compliance. 5. Test each tool independently, then test with the model selecting and chaining them. 6. Monitor tool call patterns in production to identify missing tools or confusing descriptions.</p>
+    <div class="tip">
+      <p><strong>Pro tip:</strong> Start with 3-5 essential tools. Add more incrementally. Each tool increases decision latency and context usage.</p>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://developers.openai.com/api/docs/guides/function-calling">OpenAI API: Function Calling</a>
+    <a href="https://developers.openai.com/api/docs/guides/structured-outputs">OpenAI API: Structured Model Outputs</a>
+    <a href="https://agenta.ai/blog/the-guide-to-structured-outputs-and-function-calling-with-llms">Agenta: Function Calling & Structured Outputs Guide</a>
+    <a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use">Claude API: Tool Use Documentation</a>
+    <a href="https://medium.com/@laurentkubaski/openai-tool-schema-explained-05a5ce0e80f8">Laurent Kubaski: OpenAI Tool JSON Schema Explained</a>
+  </div>
+</div>
+</body>
+</html>

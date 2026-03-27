@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills & Custom Commands — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #fb923c; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 4 — Advanced Coding Agents</div>
+  <h1>Skills & Custom Commands</h1>
+  <p class="subtitle">Extend Claude Code with skills and custom slash commands to package repeatable workflows and share them across your team.</p>
+
+  <div class="section">
+    <h2>Slash Commands vs. Skills</h2>
+    <p><strong>Slash commands</strong> are fixed, hardcoded operations built into Claude Code. Examples: <code>/clear</code> (clear context), <code>/help</code> (show docs), <code>/model</code> (switch models), <code>/cost</code> (show API costs).</p>
+    <p><strong>Skills</strong> are prompt-based, discoverable capabilities. When invoked (by you or by Claude), they load instructions and supporting files into context. Skills can be auto-invoked by the agent when they detect they're relevant.</p>
+  </div>
+
+  <div class="section">
+    <h2>Custom Slash Commands</h2>
+    <p><strong>Create in:</strong> <code>~/.claude/commands/</code> (global) or <code>project/.claude/commands/</code> (local).</p>
+    <p><strong>File format:</strong> <code>command-name.md</code> (must be kebab-case).</p>
+    <p><strong>Content:</strong> Plain markdown with natural-language instructions. Use <code>$ARGUMENTS</code> placeholder for user input.</p>
+    <p><strong>Example:</strong> <code>lint-fix.md</code> contains "Run eslint on the codebase and auto-fix violations. Arguments: $ARGUMENTS (optional file glob)."</p>
+    <p>Invoke with: <code>/lint-fix src/**/*.js</code></p>
+    <p><strong>Limitation:</strong> Slash commands don't invoke Claude directly; they're just shortcuts. Skills are more flexible.</p>
+  </div>
+
+  <div class="section">
+    <h2>Creating Skills</h2>
+    <p><strong>Anatomy:</strong> Each skill is a directory with a <code>SKILL.md</code> file.</p>
+    <p><strong>Structure:</strong></p>
+    <p><code>my-skill/</code><br>
+    ├── <code>SKILL.md</code> (required)<br>
+    ├── <code>script.sh</code> or <code>.js</code> (optional)<br>
+    └── <code>config.json</code> (optional)</p>
+    <p><strong>SKILL.md format:</strong> YAML frontmatter (between <code>---</code>) + markdown instructions.</p>
+    <p><strong>Frontmatter fields:</strong></p>
+    <ul>
+      <li><code>name</code>: Display name</li>
+      <li><code>description</code>: One-line summary</li>
+      <li><code>triggers</code>: When Claude should auto-invoke (e.g., <code>["test failure", "build error"]</code>)</li>
+      <li><code>tags</code>: Categorize the skill (e.g., <code>["testing", "ci"]</code>)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Example: Build & Test Skill</h2>
+    <p><strong>Location:</strong> <code>project/.claude/skills/build-and-test/SKILL.md</code></p>
+    <p><code>---<br>
+name: Build & Test<br>
+description: Run npm build, then tests, then report results<br>
+triggers: ["npm error", "test failure"]<br>
+tags: ["build", "ci"]<br>
+---<br>
+<br>
+Run npm run build. If it fails, stop and report the error.<br>
+If build succeeds, run npm test.<br>
+Report pass/fail and commit-ready status.</code></p>
+    <p>Claude auto-triggers this skill when it detects a build error. You can also invoke it manually: <code>/build-and-test</code> (Claude discovers it and runs it).</p>
+  </div>
+
+  <div class="section">
+    <h2>Sharing Skills Across Teams</h2>
+    <p><strong>Git repository:</strong> Store skills in a shared repo. Teams clone it and copy the <code>.claude/skills</code> directory locally.</p>
+    <p><strong>NPM package:</strong> Package skills as an npm module. Teams install with <code>npm install @company/claude-skills</code> and symlink into <code>.claude</code>.</p>
+    <p><strong>Global registry:</strong> Publish to GitHub or a skills registry. List with <code>/skills</code> and install with <code>/skill install owner/repo</code>.</p>
+    <p><strong>Documentation:</strong> Include a README in each skill directory explaining when to use it, what it does, and any prerequisites.</p>
+  </div>
+
+  <div class="section">
+    <h2>Built-In Skills & Commands (Quick Reference)</h2>
+    <p><code>/skills</code> — List all available skills (built-in + custom).</p>
+    <p><code>/clear</code> — Clear context and conversation history.</p>
+    <p><code>/model</code> — Switch AI models (Claude 3.5 Sonnet, etc.).</p>
+    <p><code>/cost</code> — Show API costs and token usage.</p>
+    <p><code>/help</code> — Show documentation and usage.</p>
+    <p><code>/compact</code> — Compress context to fit larger files.</p>
+  </div>
+
+  <div class="tip">
+    <p><strong>Tip:</strong> Start with one repeatable task you do every week (e.g., running tests, formatting code, generating docs). Turn it into a skill. Use it twice. Then share it with your team. Multiply by 5–10 skills, and you've automated hours of work.</p>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://code.claude.com/docs/en/skills">Extend Claude with Skills — Claude Code Docs</a>
+    <a href="https://platform.claude.com/docs/en/agent-sdk/slash-commands">Slash Commands in the SDK — Claude API Docs</a>
+    <a href="https://alexop.dev/posts/claude-code-customization-guide-claudemd-skills-subagents/">Claude Code Customization: CLAUDE.md, Slash Commands, Skills, and Subagents</a>
+    <a href="https://github.com/hesreallyhim/awesome-claude-code">Awesome Claude Code — Curated List of Skills & Commands</a>
+    <a href="https://dev.to/numbpill3d/the-complete-claude-code-power-user-guide-slash-commands-hooks-skills-more-6ep">The Complete Claude Code Power User Guide</a>
+  </div>
+</div>
+</body>
+</html>

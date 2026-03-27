@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLAUDE.md & Context Files — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #34d399; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 3 — Structured Workflows</div>
+  <h1>CLAUDE.md & Context Files</h1>
+  <p class="subtitle">Persistent project context for AI agents that stays loaded across conversations</p>
+
+  <div class="section">
+    <h2>What is CLAUDE.md?</h2>
+    <p>CLAUDE.md is a special Markdown file that lives in your repository root and provides Claude (and compatible AI tools) with permanent project context. Every conversation starts with this file already loaded, eliminating the need to re-explain your tech stack, coding conventions, or gotchas repeatedly.</p>
+    <p>It's a configuration file for your AI assistant—like a .gitignore but for context. Claude reads it automatically and incorporates the instructions into every session.</p>
+  </div>
+
+  <div class="section">
+    <h2>What to Include in CLAUDE.md</h2>
+    <ul>
+      <li><strong>Project Overview:</strong> One-liner description. "Next.js e-commerce app with Stripe and PostgreSQL" tells Claude more than rambling prose.</li>
+      <li><strong>Tech Stack:</strong> Framework versions, databases, key libraries. Precision matters—"React 18.2 with TypeScript 5.0" is better than "React with TS."</li>
+      <li><strong>Code Style:</strong> Formatting preferences, naming conventions, patterns you enforce. Link to existing examples in your codebase.</li>
+      <li><strong>Project Structure:</strong> Directory layout. Help Claude understand where things live.</li>
+      <li><strong>Commands:</strong> How to run tests, build, lint, deploy. Use exact commands you'd type in terminal.</li>
+      <li><strong>Gotchas & Warnings:</strong> Project-specific quirks. The authentication module with weird retry logic. The API endpoint needing a custom header. These are gold for AI accuracy.</li>
+      <li><strong>Common Patterns:</strong> Idioms your codebase uses. Error handling approach, logging strategy, validation patterns.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>CLAUDE.md Example</h2>
+    <code>
+# Project: Payment Dashboard<br/>
+Next.js 15 app with Stripe integration and PostgreSQL.<br/>
+<br/>
+## Tech Stack<br/>
+- Next.js 15 (App Router)<br/>
+- TypeScript 5.3<br/>
+- PostgreSQL 16<br/>
+- Stripe API v2024-01<br/>
+<br/>
+## Code Style<br/>
+- Use const for all variables<br/>
+- Functional components only<br/>
+- Error boundaries for async UI<br/>
+<br/>
+## Commands<br/>
+- Test: `npm run test`<br/>
+- Build: `npm run build`<br/>
+- Dev: `npm run dev`<br/>
+<br/>
+## Gotchas<br/>
+- Stripe webhooks require env var STRIPE_WEBHOOK_SECRET<br/>
+- Database migrations must be reversible<br/>
+    </code>
+    <div class="tip">
+      <p>Keep CLAUDE.md under 200 lines. Longer files consume more context and reduce adherence. Concise beats comprehensive.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Similar Files: .cursorrules, AGENTS.md</h2>
+    <p><strong>.cursorrules:</strong> For Cursor IDE, similar to CLAUDE.md but Cursor-specific. Place in project root.</p>
+    <p><strong>AGENTS.md:</strong> An emerging standard launched by Google, OpenAI, Factory, and others in late 2025. Vendor-neutral format for agent instructions. Use this for cross-tool compatibility.</p>
+    <p>Create all three if you're using multiple AI tools. They're lightweight and reinforce the same principles.</p>
+  </div>
+
+  <div class="section">
+    <h2>Where to Place Context Files</h2>
+    <ul>
+      <li><strong>Project root:</strong> For team-wide conventions (recommended)</li>
+      <li><strong>Subdirectories:</strong> For module-specific context (e.g., <code>src/api/CLAUDE.md</code> for API-specific rules)</li>
+      <li><strong>Home directory:</strong> For personal/universal preferences that apply to all projects</li>
+    </ul>
+    <p>Claude searches up the directory tree for these files, so placing one in a parent directory applies to all child projects.</p>
+  </div>
+
+  <div class="section">
+    <h2>The /init Command</h2>
+    <p>Many AI tools offer a command to auto-generate CLAUDE.md by analyzing your codebase. In Claude Code, use <code>/init</code> to scan your project structure, package files, existing docs, and code patterns, then generate a starter CLAUDE.md tailored to your project.</p>
+    <p>The auto-generated version is a great starting point—refine it with your specific gotchas and conventions, then commit it to Git.</p>
+  </div>
+
+  <div class="section">
+    <h2>Best Practices</h2>
+    <p>Write CLAUDE.md like documentation both humans and AI need to understand quickly. Use headers and bullets liberally. Specific, concise instructions beat vague guidance. Don't repeat what's already in your code or documentation—link to those instead.</p>
+    <p>Update CLAUDE.md as your conventions evolve. It's not a one-time setup—it's a living document that grows with your project.</p>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://claude.com/blog/using-claude-md-files">Using CLAUDE.MD files: Customizing Claude Code for your codebase — Claude</a>
+    <a href="https://www.humanlayer.dev/blog/writing-a-good-claude-md">Writing a good CLAUDE.md — HumanLayer</a>
+    <a href="https://www.builder.io/blog/claude-md-guide">How to Write a Good CLAUDE.md File — Builder.io</a>
+    <a href="https://dometrain.com/blog/creating-the-perfect-claudemd-for-claude-code/">Creating the Perfect CLAUDE.md for Claude Code — Dometrain</a>
+    <a href="https://waleedk.medium.com/give-claude-code-context-one-principle-many-implications-b7372d0a4268">Give Claude Code Context: One Principle, Many Implications — Waleed Kadous</a>
+  </div>
+</div>
+</body>
+</html>

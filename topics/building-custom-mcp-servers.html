@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building Custom MCP Servers — AI Dev Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #0f0f13; --bg-card: #1a1a24; --border: #2a2a3e; --text: #e2e2e8; --text-muted: #8888a0; --accent: #f472b6; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-bottom: 32px; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '←'; }
+  .phase-tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.06); color: var(--accent); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); letter-spacing: -0.02em; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 32px; }
+  .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+  .section p, .section li { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); }
+  .section ul { padding-left: 20px; margin-top: 6px; }
+  .section li { margin-bottom: 6px; }
+  .section code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--text); }
+  .tip { border-left: 3px solid var(--accent); padding-left: 16px; margin: 12px 0; }
+  .tip p { color: var(--text); font-size: 0.85rem; }
+  .sources { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .sources h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sources a { display: block; color: var(--accent); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: opacity 0.2s; }
+  .sources a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
+  <div class="phase-tag">Phase 5 — Integrations & MCPs</div>
+  <h1>Building Custom MCP Servers</h1>
+  <p class="subtitle">Create reusable, standardized servers that expose your tools, data, and services to any MCP-compatible AI system.</p>
+
+  <div class="section">
+    <h2>What Is MCP?</h2>
+    <p>The Model Context Protocol (MCP) is an open standard by Anthropic that lets AI models seamlessly integrate with external tools, databases, and services. Instead of each application building its own integration layer, MCP provides a universal interface. An MCP server exposes capabilities (tools, resources, prompts) via a standardized JSON-RPC protocol. AI clients (like Claude, ChatGPT, or custom agents) discover and invoke these capabilities without hardcoding integrations.</p>
+    <p>The ecosystem has grown to nearly 2,000 registered MCP servers as of 2025, with adoption across major AI providers including OpenAI, Google, and most enterprise platforms.</p>
+  </div>
+
+  <div class="section">
+    <h2>SDK Options: TypeScript & Python</h2>
+    <p>The official SDKs are available in TypeScript and Python, with community support for C# and other languages. Both SDKs handle the low-level JSON-RPC protocol, so you focus on defining your tools and resources. The TypeScript SDK includes built-in helpers for authentication (OAuth, basic auth), transports (stdio, HTTP), and tool definitions. The Python SDK provides similar features with a Pythonic API.</p>
+    <p>Choose TypeScript for Node.js/backend projects, Python for data-heavy or ML-intensive servers. Both SDKs are actively maintained and documented at <code>github.com/modelcontextprotocol</code>.</p>
+  </div>
+
+  <div class="section">
+    <h2>Defining Tools & Resources</h2>
+    <p>An MCP server defines <strong>tools</strong> (callable functions) and <strong>resources</strong> (data the model can read). A tool might be <code>create_support_ticket</code> or <code>query_database</code>. A resource might be <code>company_knowledge_base</code> or <code>user_preferences.json</code>. You define each with a JSON schema describing inputs, outputs, and behavior.</p>
+    <ul>
+      <li><strong>Tools:</strong> Functions that take input and perform an action (write to database, call an API, run a command).</li>
+      <li><strong>Resources:</strong> Read-only or stateful data that models can inspect and reference during reasoning.</li>
+      <li><strong>Prompts:</strong> Optional reusable instruction templates the model can invoke.</li>
+    </ul>
+    <p>Each definition includes clear descriptions so models understand when to use them. Keep schemas simple; avoid deep nesting.</p>
+  </div>
+
+  <div class="section">
+    <h2>Authentication Patterns</h2>
+    <p>MCP supports multiple authentication methods. Static tokens (API keys) work for simple cases but aren't recommended for shared servers. OAuth 2.0 lets clients authorize via their own credentials (e.g., connecting their GitHub or Salesforce account). Mutual TLS is ideal for machine-to-machine communication. HTTP Basic Auth is simple but should use HTTPS only.</p>
+    <p>For custom logic, implement a custom auth handler that validates incoming requests. The SDK provides helpers for integrating auth into tool execution—fail gracefully if auth is missing or invalid, returning clear error messages to the model.</p>
+  </div>
+
+  <div class="section">
+    <h2>Testing Your Server</h2>
+    <p>Test locally first using the MCP inspector (a debug tool provided by Anthropic). It lets you simulate client connections and invoke your tools directly. Verify that tool definitions match their implementations, inputs are validated, and outputs are properly formatted. Test error cases: what happens if a database is down? An API returns 500? Handle these gracefully.</p>
+    <p>Once stable, test with a real MCP client (like Claude's MCP integration or a custom agent). Verify that tools appear in the model's available list, that parameters are correct, and that results are meaningful. Monitor logs for unexpected errors or warnings.</p>
+  </div>
+
+  <div class="section">
+    <h2>Publishing & Community</h2>
+    <p>Anthropic maintains an open registry of MCP servers at <code>modelcontextprotocol.io</code>. To publish, create a repository, add documentation (readme, schema examples, setup instructions), and submit to the registry. The community can then discover and use your server.</p>
+    <p>Many organizations publish internal MCP servers for their team's use only (hosted on private infrastructure). Others release open-source versions to the community. Either approach works—MCP is designed for both private and public distribution.</p>
+    <div class="tip">
+      <p><strong>Getting started:</strong> Clone the official example servers from the repo, modify them for your use case, test locally, then add to your build/deployment pipeline.</p>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h3>Sources & Further Reading</h3>
+    <a href="https://modelcontextprotocol.io/specification/2025-11-25">Model Context Protocol: Official Specification</a>
+    <a href="https://github.com/modelcontextprotocol/typescript-sdk">MCP TypeScript SDK</a>
+    <a href="https://github.com/modelcontextprotocol/python-sdk">MCP Python SDK</a>
+    <a href="https://github.com/modelcontextprotocol/servers">Official MCP Server Examples</a>
+    <a href="https://blog.modelcontextprotocol.io/posts/2025-11-25-first-mcp-anniversary/">One Year of MCP: Growth & Adoption</a>
+  </div>
+</div>
+</body>
+</html>
