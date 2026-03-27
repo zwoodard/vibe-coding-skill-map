@@ -80,15 +80,18 @@
   </div>
 
   <div class="section">
-    <h2>Explicit Boundaries Matter Most</h2>
-    <p>State what NOT to implement. If you don't say "don't add email validation," an AI might add it anyway because most applications require it. Explicit negatives prevent scope creep and wasted token usage.</p>
-    <p>Example: "Build a notes API. Constraints: Do NOT add user authentication. Do NOT implement sorting or filtering." These statements keep the AI focused and prevent unnecessary complexity.</p>
+    <h2>Explicit Boundaries Can Help</h2>
+    <p>Stating what NOT to implement can be useful when you anticipate the AI making assumptions about scope. For example, if you're building a notes API and don't want authentication yet, saying "Do NOT add user authentication" removes ambiguity. But in practice, clear positive requirements often do enough on their own—if your spec says exactly what to build, the AI usually won't wander far.</p>
+    <p>Use explicit constraints when they add clarity, not as a crutch. A few well-placed "do not" statements work best for areas where AI commonly over-engineers or adds unnecessary features.</p>
   </div>
 
   <div class="section">
     <h2>Linking Specs to Execution</h2>
     <p>Hand the spec directly to Claude Code or your AI tool. In the conversation, reference the spec file: "Implement the feature in notes.md" or paste the spec into the prompt. This gives AI the exact requirements without ambiguity.</p>
     <p>After implementation, update the spec to mark completed criteria and note any design decisions that changed. Keep specs as living documents—they become institutional knowledge for future work.</p>
+    <div class="tip">
+      <p><strong>Pro tip:</strong> You don't need to write a polished spec from scratch. Brain-dump your rough ideas, notes, or stream-of-consciousness into a document, then ask AI to reshape it into a clean PRD or spec. AI is excellent at extracting structure from messy thinking—let it do the formatting work while you focus on the intent.</p>
+    </div>
   </div>
 
   <div class="section">
