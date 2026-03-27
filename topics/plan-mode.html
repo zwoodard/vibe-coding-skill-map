@@ -72,6 +72,22 @@
   </div>
 
   <div class="section">
+    <h2>How to Enter Plan Mode</h2>
+    <p>Each tool handles Plan Mode differently. Here's how to activate it in the most common AI coding environments:</p>
+    <ul>
+      <li><strong>GitHub Copilot (VS Code):</strong> In Copilot Chat, click the <strong>Plan</strong> button (or select "Plan" from the mode dropdown) at the top of the chat panel before submitting your prompt. Copilot will outline its approach and wait for your approval before making edits.</li>
+      <li><strong>GitHub Copilot (JetBrains / Eclipse / Xcode):</strong> Same concept—look for the <strong>Plan</strong> toggle in the Copilot chat window. It entered public preview across these IDEs in late 2025.</li>
+      <li><strong>Cursor:</strong> In Cursor's Agent or Composer panel, switch to <strong>Ask</strong> mode instead of the default agent mode. Ask mode lets the AI analyze and respond without writing code. You can also prompt "plan this first" in agent mode—Cursor will outline steps before executing.</li>
+      <li><strong>Windsurf (Codeium):</strong> In Windsurf's Cascade panel, type <code>@plan</code> or start your prompt with "Plan:" to trigger planning behavior. The AI will present its intended changes for review before applying them.</li>
+      <li><strong>Claude Code (CLI):</strong> Press <code>Shift+Tab</code> to toggle Plan Mode on and off. When active, Claude will research and present a plan but won't edit files or run commands until you approve.</li>
+      <li><strong>Cline (VS Code extension):</strong> Cline doesn't have a dedicated plan toggle, but you can achieve the same result by prompting: "Analyze this and create a plan—don't make any changes yet." Cline will present its approach and ask for approval before each tool use by default.</li>
+    </ul>
+    <div class="tip">
+      <p>If your tool doesn't have a built-in Plan Mode, you can always simulate it: just tell the AI "Plan first, don't write code yet." Most agents will respect this instruction.</p>
+    </div>
+  </div>
+
+  <div class="section">
     <h2>When to Use Plan Mode</h2>
     <ul>
       <li><strong>Large refactors:</strong> Restructuring modules, rearchitecting, touching multiple systems.</li>
