@@ -45,32 +45,37 @@
 
   <div class="section">
     <h2>YOLO Mode (The Nuclear Option)</h2>
-    <p><strong>What it is:</strong> Skip all permission prompts. Claude Code runs with <code>--dangerously-skip-permissions</code>. No more "approve?" dialogs.</p>
+    <p><strong>What it is:</strong> Skip all permission prompts. Claude Code runs with <code>--dangerously-skip-permissions</code>. No "approve?" dialogs.</p>
     <p><strong>Speed:</strong> Orders of magnitude faster. Tasks run autonomously without interruption.</p>
-    <p><strong>Risk:</strong> Extremely high. Claude can delete your entire codebase, push to production, expose secrets. One hallucination = disaster.</p>
-    <p><strong>When to use:</strong> Only in isolated, sandboxed environments (CI pipelines, dev containers, ephemeral VMs). Never on your main machine or production access.</p>
+    <p><strong>Risk:</strong> Extremely high. Claude can delete files, push to production, expose secrets. One hallucination = disaster.</p>
+    <p><strong>When to use:</strong> Only in isolated, sandboxed environments (CI pipelines, dev containers, ephemeral VMs). Never on your main machine with production access.</p>
   </div>
 
   <div class="section">
-    <h2>Claude Code Auto Mode (March 2026)</h2>
-    <p>Anthropic released <strong>Auto Mode</strong> as a safer alternative to YOLO. It evaluates the risk of each action and auto-approves only safe operations.</p>
-    <p><strong>How it works:</strong> A reasoning-blind classifier sits between Claude and every action. It sees the user message and raw tool call, but not Claude's reasoning. This prevents the agent from "talking" the classifier into bad decisions.</p>
-    <p><strong>Results:</strong> In testing, auto-approval reduced permission prompts by up to 84% when combined with sandboxing.</p>
-    <p><strong>Safe approvals:</strong> Reading files, running tests, linting, committing non-destructive changes.</p>
-    <p><strong>Blocked actions:</strong> Deleting files, executing arbitrary shell commands, pushing to remote, modifying sensitive configs.</p>
+    <h2>Claude Code Auto-Accept Mode</h2>
+    <p>Anthropic's <strong>auto-accept mode</strong> is a safer alternative to YOLO. A reasoning-blind classifier evaluates each tool call and auto-approves only safe operations.</p>
+    <p><strong>How it works:</strong> The classifier sees the user message and raw tool call, but not Claude's chain-of-thought reasoning. This prevents the agent from "persuading" the classifier into approving risky actions.</p>
+    <p><strong>Safe approvals:</strong> Reading files, running tests, linting, non-destructive edits.</p>
+    <p><strong>Blocked actions:</strong> Deleting files, arbitrary shell commands, pushing to remote, modifying sensitive configs.</p>
   </div>
 
   <div class="section">
-    <h2>Command Whitelisting</h2>
-    <p>Instead of blanket YOLO, whitelist specific safe commands. In your Claude Code config:</p>
-    <p><code>autoApproveCommands: [<br>
-  "npm test",<br>
-  "npm run lint",<br>
-  "git status",<br>
-  "git diff",<br>
-  "node --version"<br>
-]</code></p>
-    <p>Claude can run these without asking. Any other command requires approval. This is a middle ground between YOLO (too loose) and asking for every permission (too strict).</p>
+    <h2>Permission Allowlists</h2>
+    <p>Instead of blanket YOLO, allowlist specific safe tools in <code>settings.json</code>:</p>
+    <p><code>{<br>
+  "permissions": {<br>
+    "allow": [<br>
+      "Bash(npm test)",<br>
+      "Bash(npm run lint)",<br>
+      "Bash(git status)",<br>
+      "Bash(git diff)",<br>
+      "Read",<br>
+      "Glob",<br>
+      "Grep"<br>
+    ]<br>
+  }<br>
+}</code></p>
+    <p>Claude can run allowlisted tools without asking. Everything else requires approval. This is the practical middle ground between YOLO (too loose) and approving every action (too slow).</p>
   </div>
 
   <div class="section">
@@ -83,20 +88,18 @@
 
   <div class="section">
     <h2>Layered Safety Configuration</h2>
-    <p><strong>Local development:</strong> Auto Mode enabled, sandboxing off, manual approval for deletions.</p>
-    <p><strong>CI pipeline:</strong> Auto Mode + sandboxing, whitelisted commands, no manual approvals, PR-only output.</p>
+    <p><strong>Local development:</strong> Permission allowlists for safe tools, manual approval for deletions and shell commands.</p>
+    <p><strong>CI pipeline:</strong> Container sandbox + <code>--dangerously-skip-permissions</code>, PR-only output, no manual approvals needed.</p>
     <p><strong>Production:</strong> Never run Claude Code with edit access. Use read-only mode or pre-approved scripts.</p>
     <p><strong>Secrets:</strong> Never store API keys, credentials, or tokens where Claude can access them. Use environment variables, secrets managers, or MCP with scoped credentials.</p>
   </div>
 
   <div class="section">
-    <h2>Setting Up Auto Mode + Sandboxing</h2>
-    <p><strong>In Claude Code:</strong></p>
-    <p><code>autoMode: true</code> — Enable auto-approval of safe actions.<br>
-    <code>sandboxedExecution: true</code> — Restrict file/network access.<br>
-    <code>autoAllowBashIfSandboxed: true</code> — Allow any bash command if sandboxed (filesystem isolation prevents damage).<br>
-    <code>allowedPaths: ["/workspace/src", "/workspace/tests"]</code> — Restrict to these directories.</p>
-    <p>With these settings, Claude runs fast and safely. It can execute any bash command (because the sandbox blocks filesystem/network), but can't touch outside directories.</p>
+    <h2>Combining Permissions + Sandboxing</h2>
+    <p><strong>In Claude Code settings.json:</strong></p>
+    <p>Use <code>"permissions": {"allow": [...]}</code> to auto-approve specific tools. Combine with Docker or VM isolation so even allowlisted bash commands can't escape the sandbox.</p>
+    <p><strong>In CI:</strong> Use <code>--dangerously-skip-permissions</code> inside a container with no network access and mounted volumes scoped to the workspace. The container is the safety net, not the permission system.</p>
+    <p>This layered approach — permission allowlists for convenience, container isolation for safety — gives you speed without risk.</p>
   </div>
 
   <div class="section">
@@ -107,13 +110,14 @@
   </div>
 
   <div class="tip">
-    <p><strong>Tip:</strong> Start with manual approval on everything. As you gain confidence, enable Auto Mode. Graduate to sandboxing + YOLO only in CI. This gradual approach scales without disasters.</p>
+    <p><strong>Tip:</strong> Start with manual approval on everything. As you gain confidence, add permission allowlists for safe tools. Graduate to sandboxing + YOLO only in CI. This gradual approach scales without disasters.</p>
   </div>
 
   <div class="sources">
     <h3>Sources & Further Reading</h3>
-    <a href="https://www.anthropic.com/engineering/claude-code-auto-mode">Claude Code Auto-Accept Mode — Anthropic</a>
+    <a href="https://www.anthropic.com/engineering/claude-code-auto-accept-mode">Claude Code Auto-Accept Mode — Anthropic</a>
     <a href="https://docs.anthropic.com/en/docs/claude-code/security">Claude Code Security — Anthropic</a>
+    <a href="https://docs.anthropic.com/en/docs/claude-code/settings">Claude Code Settings & Permissions — Anthropic</a>
     <a href="https://docs.anthropic.com/en/docs/claude-code/overview">Claude Code Overview — Anthropic</a>
     <a href="https://containers.dev/">Development Containers Specification</a>
     <a href="https://docs.docker.com/desktop/dev-environments/">Dev Environments — Docker</a>

@@ -58,10 +58,10 @@
 
   <div class="section">
     <h2>Claude Code CLI Essentials</h2>
-    <p><code>claude-code run --file main.py --prompt "refactor this"</code> — Process a single file.</p>
-    <p><code>git diff | claude-code</code> — Pipe changes to Claude for review or enhancement.</p>
-    <p><code>claude-code exec "npm test"</code> — Let Claude run tests and fix failures.</p>
-    <p>Add <code>--auto-approve</code> to skip permission prompts (use carefully; see sandboxing).</p>
+    <p><code>claude -p "refactor main.py to use async/await"</code> — Non-interactive (print) mode for scripting.</p>
+    <p><code>git diff | claude -p "review these changes"</code> — Pipe command output for analysis.</p>
+    <p><code>claude</code> — Interactive mode with full tool use (file editing, shell commands, git).</p>
+    <p>Use permission allowlists in <code>settings.json</code> to auto-approve safe commands. Use <code>--dangerously-skip-permissions</code> only in sandboxed environments (see YOLO Mode &amp; Sandboxing).</p>
   </div>
 
   <div class="section">
@@ -75,11 +75,11 @@
     <h2>Planning Styles in Terminal Agents</h2>
     <p><strong>Reason-and-act (Gemini CLI):</strong> Exploratory; solves one step at a time. Fast feedback, best for debugging.</p>
     <p><strong>Plan-and-execute (Claude Code):</strong> Thinks through the problem before acting. Best for complex multi-step tasks.</p>
-    <p><strong>JSON runners (Auto-GPT):</strong> Machine-readable output. Ideal for scripted, deterministic workflows.</p>
+    <p><strong>Structured output (Codex CLI):</strong> Machine-readable JSON output mode. Ideal for scripted, deterministic workflows integrated into larger pipelines.</p>
   </div>
 
   <div class="tip">
-    <p><strong>Tip:</strong> Scope work carefully. Pass CLAUDE.md or GEMINI.md context files to tell the agent what files are safe to touch. Combine with sandboxing for safe auto-approval in CI.</p>
+    <p><strong>Tip:</strong> Scope work carefully. Use CLAUDE.md or AGENTS.md context files to tell the agent what files are safe to touch, coding conventions, and project constraints. Combine with sandboxing for safe auto-approval in CI.</p>
   </div>
 
   <div class="sources">

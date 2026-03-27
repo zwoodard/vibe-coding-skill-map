@@ -38,71 +38,62 @@
   <p class="subtitle">Extend Claude Code with skills and custom slash commands to package repeatable workflows and share them across your team.</p>
 
   <div class="section">
-    <h2>Slash Commands vs. Skills</h2>
-    <p><strong>Slash commands</strong> are fixed, hardcoded operations built into Claude Code. Examples: <code>/clear</code> (clear context), <code>/help</code> (show docs), <code>/model</code> (switch models), <code>/cost</code> (show API costs).</p>
-    <p><strong>Skills</strong> are prompt-based, discoverable capabilities. When invoked (by you or by Claude), they load instructions and supporting files into context. Skills can be auto-invoked by the agent when they detect they're relevant.</p>
+    <h2>Custom Slash Commands vs. Skills</h2>
+    <p><strong>Custom slash commands</strong> are markdown files that inject a prompt when you type <code>/command-name</code>. They're simple prompt templates — quick to create, easy to share.</p>
+    <p><strong>Skills</strong> are richer: markdown files with YAML frontmatter that Claude can auto-discover and invoke when relevant. Skills load instructions into context and guide Claude's behavior for specific task types.</p>
+    <p>Both live under <code>.claude/commands/</code>. The difference is that skills have frontmatter with <code>name</code> and <code>description</code> fields, enabling auto-invocation.</p>
   </div>
 
   <div class="section">
-    <h2>Custom Slash Commands</h2>
-    <p><strong>Create in:</strong> <code>~/.claude/commands/</code> (global) or <code>project/.claude/commands/</code> (local).</p>
-    <p><strong>File format:</strong> <code>command-name.md</code> (must be kebab-case).</p>
+    <h2>Creating Custom Slash Commands</h2>
+    <p><strong>Location:</strong> <code>~/.claude/commands/</code> (global) or <code>.claude/commands/</code> (project-local).</p>
+    <p><strong>File format:</strong> <code>command-name.md</code> — the filename becomes the slash command name.</p>
     <p><strong>Content:</strong> Plain markdown with natural-language instructions. Use <code>$ARGUMENTS</code> placeholder for user input.</p>
-    <p><strong>Example:</strong> <code>lint-fix.md</code> contains "Run eslint on the codebase and auto-fix violations. Arguments: $ARGUMENTS (optional file glob)."</p>
-    <p>Invoke with: <code>/lint-fix src/**/*.js</code></p>
-    <p><strong>Limitation:</strong> Slash commands don't invoke Claude directly; they're just shortcuts. Skills are more flexible.</p>
+    <p><strong>Example:</strong> <code>.claude/commands/lint-fix.md</code>:</p>
+    <p><code>Run eslint on the following files and auto-fix all violations: $ARGUMENTS</code></p>
+    <p>Invoke with: <code>/project:lint-fix src/**/*.js</code></p>
   </div>
 
   <div class="section">
     <h2>Creating Skills</h2>
-    <p><strong>Anatomy:</strong> Each skill is a directory with a <code>SKILL.md</code> file.</p>
-    <p><strong>Structure:</strong></p>
-    <p><code>my-skill/</code><br>
-    ├── <code>SKILL.md</code> (required)<br>
-    ├── <code>script.sh</code> or <code>.js</code> (optional)<br>
-    └── <code>config.json</code> (optional)</p>
-    <p><strong>SKILL.md format:</strong> YAML frontmatter (between <code>---</code>) + markdown instructions.</p>
+    <p><strong>Anatomy:</strong> A skill is a <code>.md</code> file with YAML frontmatter.</p>
     <p><strong>Frontmatter fields:</strong></p>
     <ul>
-      <li><code>name</code>: Display name</li>
-      <li><code>description</code>: One-line summary</li>
-      <li><code>triggers</code>: When Claude should auto-invoke (e.g., <code>["test failure", "build error"]</code>)</li>
-      <li><code>tags</code>: Categorize the skill (e.g., <code>["testing", "ci"]</code>)</li>
+      <li><code>name</code>: Display name (required)</li>
+      <li><code>description</code>: One-line summary — this is what Claude reads to decide when to auto-invoke the skill (required)</li>
     </ul>
+    <p><strong>Body:</strong> Markdown instructions that get loaded into context when the skill is invoked.</p>
+    <p>Write the <code>description</code> carefully — it's the trigger. Claude matches it against the current task to decide relevance.</p>
   </div>
 
   <div class="section">
     <h2>Example: Build & Test Skill</h2>
-    <p><strong>Location:</strong> <code>project/.claude/skills/build-and-test/SKILL.md</code></p>
+    <p><strong>Location:</strong> <code>.claude/commands/build-and-test.md</code></p>
     <p><code>---<br>
-name: Build & Test<br>
-description: Run npm build, then tests, then report results<br>
-triggers: ["npm error", "test failure"]<br>
-tags: ["build", "ci"]<br>
+name: build-and-test<br>
+description: Use when build errors or test failures occur to run the full build-then-test cycle<br>
 ---<br>
 <br>
 Run npm run build. If it fails, stop and report the error.<br>
 If build succeeds, run npm test.<br>
-Report pass/fail and commit-ready status.</code></p>
-    <p>Claude auto-triggers this skill when it detects a build error. You can also invoke it manually: <code>/build-and-test</code> (Claude discovers it and runs it).</p>
+Report pass/fail and whether the code is commit-ready.</code></p>
+    <p>Claude can auto-invoke this when it encounters build errors. You can also trigger it manually: <code>/project:build-and-test</code>.</p>
   </div>
 
   <div class="section">
-    <h2>Sharing Skills Across Teams</h2>
-    <p><strong>Git repository:</strong> Store skills in a shared repo. Teams clone it and copy the <code>.claude/skills</code> directory locally.</p>
-    <p><strong>NPM package:</strong> Package skills as an npm module. Teams install with <code>npm install @company/claude-skills</code> and symlink into <code>.claude</code>.</p>
-    <p><strong>Global registry:</strong> Publish to GitHub or a skills registry. List with <code>/skills</code> and install with <code>/skill install owner/repo</code>.</p>
-    <p><strong>Documentation:</strong> Include a README in each skill directory explaining when to use it, what it does, and any prerequisites.</p>
+    <h2>Sharing Commands & Skills Across Teams</h2>
+    <p><strong>Project-local:</strong> Commit <code>.claude/commands/</code> to your repo. Every team member gets the same skills when they clone.</p>
+    <p><strong>Plugins:</strong> Package commands, skills, hooks, and agents into a Claude Code plugin with a <code>plugin.json</code> manifest. Plugins are installable and versioned.</p>
+    <p><strong>Global commands:</strong> Place personal commands in <code>~/.claude/commands/</code> for use across all projects.</p>
   </div>
 
   <div class="section">
-    <h2>Built-In Skills & Commands (Quick Reference)</h2>
-    <p><code>/skills</code> — List all available skills (built-in + custom).</p>
-    <p><code>/clear</code> — Clear context and conversation history.</p>
-    <p><code>/model</code> — Switch AI models (Claude 3.5 Sonnet, etc.).</p>
-    <p><code>/cost</code> — Show API costs and token usage.</p>
-    <p><code>/help</code> — Show documentation and usage.</p>
-    <p><code>/compact</code> — Compress context to fit larger files.</p>
+    <h2>Built-In Commands (Quick Reference)</h2>
+    <p><code>/help</code> — Show documentation and available commands.</p>
+    <p><code>/clear</code> — Clear conversation history and context.</p>
+    <p><code>/model</code> — Switch AI models (Opus, Sonnet, Haiku).</p>
+    <p><code>/cost</code> — Show token usage and API costs.</p>
+    <p><code>/compact</code> — Compress context to fit more content.</p>
   </div>
 
   <div class="tip">
@@ -112,9 +103,8 @@ Report pass/fail and commit-ready status.</code></p>
   <div class="sources">
     <h3>Sources & Further Reading</h3>
     <a href="https://docs.anthropic.com/en/docs/claude-code/slash-commands">Slash Commands — Anthropic</a>
-    <a href="https://docs.anthropic.com/en/docs/claude-code/memory">Memory & Configuration — Anthropic</a>
-    <a href="https://docs.anthropic.com/en/docs/claude-code/overview">Claude Code Overview — Anthropic</a>
-    <a href="https://github.blog/ai-and-ml/github-copilot/">GitHub Copilot Customization — GitHub</a>
+    <a href="https://docs.anthropic.com/en/docs/claude-code/plugins">Plugins — Anthropic</a>
+    <a href="https://docs.anthropic.com/en/docs/claude-code/memory">Memory & CLAUDE.md — Anthropic</a>
     <a href="https://www.anthropic.com/engineering/claude-code-best-practices">Claude Code Best Practices — Anthropic</a>
   </div>
 </div>

@@ -40,7 +40,7 @@
   <div class="section">
     <h2>What is MCP?</h2>
     <p>The Model Context Protocol (MCP) is an open standard introduced by Anthropic in November 2024. It defines how AI systems (like Claude) integrate securely with external tools, data sources, and APIs.</p>
-    <p>Instead of bolting AI onto every tool, MCP creates a single standardized connection. One "server" (e.g., a database, GitHub, Slack) exposes capabilities. Any MCP-compatible client (Claude Code, Claude Desktop, ChatGPT, etc.) can plug in and use those capabilities.</p>
+    <p>Instead of bolting AI onto every tool, MCP creates a single standardized connection. One "server" (e.g., a database, GitHub, Slack) exposes capabilities. Any MCP-compatible client (Claude Code, Claude Desktop, Cursor, VS Code Copilot, etc.) can plug in and use those capabilities.</p>
   </div>
 
   <div class="section">
@@ -69,15 +69,18 @@
 
   <div class="section">
     <h2>Setting Up MCP Servers</h2>
-    <p><strong>In Claude Code:</strong> Add servers to your <code>CLAUDE.md</code> or configuration file.</p>
-    <p><strong>Configuration format:</strong></p>
-    <p><code>"mcp_servers": {<br>
-  "github": {<br>
-    "command": "python",<br>
-    "args": ["-m", "mcp_server_github"],<br>
-    "env": {"GITHUB_TOKEN": "ghp_..."}}<br>
+    <p><strong>In Claude Code:</strong> Add servers to <code>.mcp.json</code> at your project root (project-scoped) or <code>~/.claude/.mcp.json</code> (global). You can also run <code>claude mcp add</code> to configure interactively.</p>
+    <p><strong>Configuration format (.mcp.json):</strong></p>
+    <p><code>{<br>
+  "mcpServers": {<br>
+    "github": {<br>
+      "command": "npx",<br>
+      "args": ["-y", "@modelcontextprotocol/server-github"],<br>
+      "env": {"GITHUB_TOKEN": "ghp_..."}<br>
+    }<br>
+  }<br>
 }</code></p>
-    <p><strong>Install & authenticate:</strong> Most servers need API keys or authentication. Set them as environment variables or in a secrets file (never commit keys!).</p>
+    <p><strong>Install & authenticate:</strong> Most servers need API keys. Set them in the <code>env</code> field or as environment variables (never commit keys!).</p>
     <p><strong>Test:</strong> Once configured, Claude can call the server's tools (e.g., search GitHub, query your database).</p>
   </div>
 
