@@ -70,8 +70,8 @@
 
   <div class="section">
     <h2>Practical Implementations</h2>
-    <p><strong>Claude API Memory Tool:</strong> Use the <code>memory</code> tool to create, read, update, and delete files in a memory directory. Your application handles storage (local filesystem, cloud bucket, database). The agent makes tool calls; your app executes them. Full control over storage location and retention. <strong>Session-based (LangGraph):</strong> Use thread-scoped checkpointers to maintain conversation history within a session. Upgrade to MongoDB or other backends for persistent, cross-session memory.</p>
-    <p><strong>Managed services:</strong> Amazon Bedrock AgentCore Memory automates memory extraction and consolidation. Microsoft Foundry Agent Service provides a managed long-term memory layer. These reduce operational burden but reduce flexibility.</p>
+    <p><strong>Claude API Memory Tool (beta):</strong> The Claude API offers a client-side <code>memory</code> tool where Claude makes memory tool calls and your application executes them against your own storage (filesystem, cloud bucket, database). You implement the handlers; Claude decides when to read/write. Full control over storage and retention, but requires setup. <strong>Session-based (LangGraph):</strong> Use thread-scoped checkpointers to maintain conversation history within a session. Upgrade to MongoDB or other backends for persistent, cross-session memory.</p>
+    <p><strong>Managed services:</strong> Amazon Bedrock Agents offers memory features for extraction and consolidation. Azure AI Foundry Agent Service provides a managed long-term memory layer. These reduce operational burden but reduce flexibility.</p>
   </div>
 
   <div class="section">
@@ -86,8 +86,8 @@
 
   <div class="sources">
     <h3>Sources & Further Reading</h3>
-    <a href="https://docs.anthropic.com/en/docs/claude-code/memory">Claude Code Memory — Anthropic</a>
-    <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching">Prompt Caching — Anthropic</a>
+    <a href="https://platform.claude.com/docs/en/claude-code/memory">Claude Code Memory — Anthropic</a>
+    <a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt Caching — Anthropic</a>
     <a href="https://www.anthropic.com/research/building-effective-agents">Building Effective Agents — Anthropic</a>
     <a href="https://platform.openai.com/docs/guides/conversation-state">Managing Conversation State — OpenAI</a>
     <a href="https://arxiv.org/abs/2502.12110">Survey of AI Agent Memory Mechanisms — arXiv</a>

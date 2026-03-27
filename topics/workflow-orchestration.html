@@ -74,8 +74,8 @@
 
   <div class="section">
     <h2>Tools & Platforms</h2>
-    <p>Several platforms handle workflow orchestration: <strong>Apache Airflow</strong> is open-source and widely used for data pipelines and AI workflows. Define DAGs in Python, schedule runs, monitor execution. <strong>Temporal</strong> specializes in long-running, fault-tolerant workflows; popular in microservices. <strong>AWS Step Functions</strong> is a serverless orchestration service. <strong>Strands Agents</strong> integrates AI and workflow logic with advanced branching.</p>
-    <p>For simpler use cases, the Claude Agent SDK's built-in orchestration may suffice. For complex, multi-step enterprise workflows, use a dedicated platform like Airflow or Temporal.</p>
+    <p>Several platforms handle workflow orchestration: <strong>Apache Airflow</strong> is open-source and widely used for data pipelines and AI workflows. Define DAGs in Python, schedule runs, monitor execution. <strong>Temporal</strong> specializes in long-running, fault-tolerant workflows; popular in microservices. <strong>AWS Step Functions</strong> is a serverless orchestration service. <strong>LangGraph</strong> provides graph-based workflow orchestration purpose-built for LLM agent pipelines.</p>
+    <p>For simpler use cases, the Claude Agent SDK's subagent spawning may suffice — a parent agent can coordinate multiple subagents working in parallel. For complex, multi-step enterprise workflows with durable state and scheduling, use a dedicated platform like Airflow or Temporal.</p>
   </div>
 
   <div class="section">
@@ -93,7 +93,7 @@
     <a href="https://docs.aws.amazon.com/prescriptive-guidance/latest/agentic-ai-patterns/workflow-orchestration-agents.html">Workflow Orchestration Agents — AWS</a>
     <a href="https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns">AI Agent Design Patterns — Microsoft</a>
     <a href="https://www.deeplearning.ai/short-courses/ai-agentic-design-patterns-with-autogen/">Agentic Design Patterns — DeepLearning.AI (Andrew Ng)</a>
-    <a href="https://docs.anthropic.com/en/docs/agents-and-tools/claude-agent-sdk/overview">Claude Agent SDK — Anthropic</a>
+    <a href="https://platform.claude.com/docs/en/agent-sdk/overview">Claude Agent SDK — Anthropic</a>
   </div>
 </div>
 </body>

@@ -40,7 +40,7 @@
   <div class="section">
     <h2>Spawning Sub-Agents</h2>
     <p>A parent agent spawns child agents to handle specific work. For example, a coordinator asks a researcher agent to "find information about Python async patterns." The parent provides the task and context, the child executes independently, and returns results.</p>
-    <p>Spawning means: create a new agent instance with its own system prompt, tools, and memory space. The child agent doesn't see the parent's full context (keeping things focused). Instead, it receives a task description and any background information needed. When done, it returns structured output (results, status, errors).</p>
+    <p>Spawning means: create a new agent instance with its own system prompt, tools, and isolated context. The child agent doesn't see the parent's full context (keeping things focused). Instead, it receives a task description and any background information the parent passes in. When done, only its final message is returned to the parent — intermediate reasoning and tool calls stay contained. Note: in the Claude Agent SDK, subagents cannot spawn their own subagents, so delegation is always one level deep.</p>
   </div>
 
   <div class="section">
@@ -94,7 +94,7 @@
     <a href="https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns">AI Agent Design Patterns — Microsoft</a>
     <a href="https://docs.aws.amazon.com/prescriptive-guidance/latest/agentic-ai-patterns/workflow-orchestration-agents.html">Agentic AI Patterns — AWS</a>
     <a href="https://openai.com/index/practices-for-governing-agentic-ai-systems/">Practices for Governing Agentic AI Systems — OpenAI</a>
-    <a href="https://docs.anthropic.com/en/docs/agents-and-tools/claude-agent-sdk/overview">Claude Agent SDK — Anthropic</a>
+    <a href="https://platform.claude.com/docs/en/agent-sdk/overview">Claude Agent SDK — Anthropic</a>
   </div>
 </div>
 </body>

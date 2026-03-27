@@ -40,13 +40,13 @@
   <div class="section">
     <h2>What Is the Claude Agent SDK?</h2>
     <p>The Claude Agent SDK is Anthropic's framework for building autonomous agents that manage their own tool execution, context, and reasoning loops. Unlike the base Claude API (where you manage tool calls manually), the SDK handles the agent loop for you: it runs the model, interprets tool calls, executes tools, feeds results back, and continues until the task is complete.</p>
-    <p>The SDK includes 14+ built-in tools (Read, Write, Bash, Glob, Grep, WebSearch, WebFetch), memory management, support for multi-agent coordination, and MCP server integration. It abstracts away boilerplate so you focus on defining agent behavior and capabilities.</p>
+    <p>The SDK includes 9 built-in tools (Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch, AskUserQuestion), support for multi-agent coordination via subagents, and MCP server integration for external tools. It abstracts away boilerplate so you focus on defining agent behavior and capabilities.</p>
   </div>
 
   <div class="section">
     <h2>Core Features & Setup</h2>
     <p>To build an agent, you define: an agent type with a unique name and role description, the system prompt (instructions for the agent's behavior), available tools (subset of built-ins or custom), and optionally a different Claude model. The SDK then manages the execution loop—you provide a task, the agent runs until completion, and you get results.</p>
-    <p>Setup: install the SDK via npm or pip, authenticate with your Anthropic API key, import agent utilities, define your agent configuration, and call the agent with a task. The SDK handles context management, automatic re-reading of CLAUDE.md files when context is compacted, and graceful error recovery.</p>
+    <p>Setup: install <code>claude-agent-sdk</code> (Python) or <code>@anthropic-ai/claude-agent-sdk</code> (TypeScript), authenticate with your Anthropic API key, define your agent configuration, and call the agent with a task. The SDK handles context management, automatic re-reading of CLAUDE.md files when context is compacted, and graceful error recovery.</p>
   </div>
 
   <div class="section">
@@ -57,8 +57,8 @@
 
   <div class="section">
     <h2>Subagent & Team Architecture</h2>
-    <p>Define multiple agent types and orchestrate them as a team. One session acts as the lead, coordinating work and assigning tasks to teammates. Each teammate gets its own isolated context window. By default, subagents can communicate directly with each other, sharing results without re-routing through the lead.</p>
-    <p>This architecture enables parallelization: spin up multiple agents to work on independent tasks simultaneously. It also manages context bloat: instead of a single agent carrying a 100k token context, distribute work across 5 agents with 20k each. Only relevant results bubble up to the coordinator.</p>
+    <p>Define multiple agent types and orchestrate them as a team. A parent agent coordinates work by spawning subagents via the Agent tool. Each subagent runs in its own isolated context window — it receives only the task prompt from the parent and returns only its final message. Subagents cannot communicate directly with each other or spawn their own subagents; all coordination flows through the parent.</p>
+    <p>This architecture enables parallelization: spin up multiple subagents to work on independent tasks simultaneously. It also manages context bloat: instead of a single agent carrying a 100k token context, distribute work across 5 agents with 20k each. Only final results bubble up to the coordinator, keeping intermediate tool calls and reasoning contained.</p>
   </div>
 
   <div class="section">
@@ -78,11 +78,12 @@
 
   <div class="sources">
     <h3>Sources & Further Reading</h3>
-    <a href="https://docs.anthropic.com/en/docs/agents-and-tools/claude-agent-sdk/overview">Agent SDK Overview — Anthropic</a>
-    <a href="https://docs.anthropic.com/en/docs/agents-and-tools/claude-agent-sdk/quickstart">Agent SDK Quickstart — Anthropic</a>
+    <a href="https://platform.claude.com/docs/en/agent-sdk/overview">Agent SDK Overview — Anthropic</a>
+    <a href="https://platform.claude.com/docs/en/agent-sdk/quickstart">Agent SDK Quickstart — Anthropic</a>
     <a href="https://www.anthropic.com/engineering/building-agents-with-the-claude-agent-sdk">Building Agents with the Claude Agent SDK — Anthropic</a>
     <a href="https://www.anthropic.com/research/building-effective-agents">Building Effective Agents — Anthropic</a>
-    <a href="https://github.com/anthropics/anthropic-sdk-python">Anthropic Python SDK — GitHub</a>
+    <a href="https://github.com/anthropics/claude-agent-sdk-python">Claude Agent SDK (Python) — GitHub</a>
+    <a href="https://github.com/anthropics/claude-agent-sdk-typescript">Claude Agent SDK (TypeScript) — GitHub</a>
   </div>
 </div>
 </body>
