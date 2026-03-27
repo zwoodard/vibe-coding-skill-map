@@ -35,50 +35,41 @@
   <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
   <div class="phase-tag">Phase 2 — AI-Assisted Coding</div>
   <h1>AI-Powered Code Review</h1>
-  <p class="subtitle">Automated code review tools that catch bugs, suggest improvements, and speed up PR feedback</p>
+  <p class="subtitle">Using AI tools to get faster, more thorough feedback on your code before it ships</p>
 
   <div class="section">
     <h2>What AI Code Review Does</h2>
-    <p>AI code review tools analyze pull requests automatically and post comments identifying bugs, security issues, performance problems, and style inconsistencies. They read context across multiple files, trace cross-file dependencies, and provide actionable suggestions. Tools like CodeRabbit, GitHub Copilot, and Graphite's AI reviewer have become standard parts of many teams' PR workflows.</p>
+    <p>AI code review tools analyze your code—either in pull requests or locally—and surface bugs, security issues, performance problems, and style inconsistencies. They read context across multiple files, trace dependencies, and provide actionable suggestions. The goal is a fast first pass that catches the stuff humans miss when they're scanning diffs at speed.</p>
     <div class="tip">
       <p><strong>Key insight:</strong> AI review is a first-pass filter, not a replacement for human review. It catches obvious issues and frees reviewers to focus on logic and design.</p>
     </div>
   </div>
 
   <div class="section">
-    <h2>Major Tools: CodeRabbit vs GitHub Copilot</h2>
-    <p><strong>CodeRabbit:</strong> Specialist in PR review, works on GitHub, GitLab, Azure DevOps, and Bitbucket. Focused, opinionated, provides detailed line-by-line feedback. Great for teams using non-GitHub platforms.</p>
-    <p><strong>GitHub Copilot:</strong> Generalist with code review as one capability. Integrated into GitHub workflow, works natively with pull requests. Added agentic architecture that reads relevant files and traces cross-file dependencies better than earlier versions.</p>
-    <p>Choose based on your platform: GitHub users have native Copilot, others should use CodeRabbit.</p>
-  </div>
-
-  <div class="section">
-    <h2>Reviewing Pull Requests</h2>
-    <p>Create a PR as usual. AI bot automatically reviews and posts comments within minutes. Comments include: bug risks, missing edge cases, performance concerns, security vulnerabilities, style issues, and test coverage gaps. Review AI suggestions the same way you'd review human comments—some are actionable, others may be context-dependent or business-specific. You keep final say on all changes.</p>
+    <h2>GitHub Copilot Code Review</h2>
+    <p>Copilot is the most common AI review tool for teams on GitHub. It integrates directly into pull requests—you can request a Copilot review just like you'd request a human reviewer. It posts line-by-line comments with explanations and suggested fixes that you can commit directly from the PR.</p>
     <ul>
-      <li>Enable AI review in your repository settings</li>
-      <li>Most tools auto-run on every PR without extra setup</li>
-      <li>Configure which languages and rules to check</li>
-      <li>Exclude certain files (test fixtures, generated code)</li>
+      <li>Enable Copilot code review in your org/repo settings</li>
+      <li>Assign <code>copilot</code> as a reviewer on PRs, or configure it to auto-review</li>
+      <li>Create a <code>.github/copilot-code-review-instructions.md</code> file to customize what it focuses on for your project</li>
+      <li>Works best for catching common patterns: missing error handling, security issues, style drift</li>
     </ul>
   </div>
 
   <div class="section">
-    <h2>Catching Bugs and Vulnerabilities</h2>
-    <p>AI tools detect null pointer exceptions, incorrect error handling, SQL injection risks, hardcoded secrets, race conditions, and logic flaws. They understand common mistake patterns: forgetting null checks, off-by-one errors, uncaught promise rejections, or missing input validation. A strong AI review catches issues that might slip past tired reviewers, especially on Friday afternoons.</p>
-    <div class="tip">
-      <p><strong>Pro tip:</strong> Use AI review to enforce security standards automatically (no secrets in code, no unsafe operations) without burdening human reviewers.</p>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>Suggesting Improvements</h2>
-    <p>AI proposes refactoring: "This could be a const instead of let," "Extract this repeated logic into a helper," or "Consider using a Set here instead of Array.includes for O(1) lookup." Not all suggestions need accepting—some may conflict with your architecture or conventions. Good AI tools explain the why: "This is more efficient because..." or "This pattern is clearer because..."</p>
+    <h2>Claude Code for Local Review</h2>
+    <p>Claude Code can review your changes before you even push. Run <code>/review</code> to get feedback on your current diff, or use <code>/simplify</code> to have it scan changed code for opportunities to reduce complexity, improve reuse, and clean up inefficiencies. This catches things earlier in the loop—before the PR is even open.</p>
+    <ul>
+      <li><code>/review</code> — reviews staged or unstaged changes with detailed feedback</li>
+      <li><code>/simplify</code> — analyzes changed code for reuse, quality, and efficiency improvements</li>
+      <li>Claude Code also integrates with GitHub via <code>gh</code>—it can create PRs, read PR comments, and respond to review feedback</li>
+      <li>Useful for self-review before requesting human reviewers</li>
+    </ul>
   </div>
 
   <div class="section">
     <h2>Understanding Unfamiliar Codebases</h2>
-    <p>When reviewing code in an unfamiliar library or team module, AI can explain what changed and why. Ask in comments: "@CodeRabbit explain this algorithm" or use the chat feature to understand design decisions. Useful for onboarding or cross-team reviews where you lack domain context.</p>
+    <p>When reviewing code in an unfamiliar module or repo, AI can explain what changed and why. In Copilot, ask questions directly in PR comments. In Claude Code, paste a diff or point it at a file and ask for an explanation. Both are useful for onboarding or cross-team reviews where you lack domain context.</p>
   </div>
 
   <div class="section">
@@ -100,11 +91,11 @@
 
   <div class="sources">
     <h3>Sources & Further Reading</h3>
-    <a href="https://google.github.io/eng-practices/review/">Code Review Best Practices — Google Engineering</a>
-    <a href="https://github.blog/ai-and-ml/github-copilot/">GitHub Copilot for Code Review — GitHub</a>
-    <a href="https://martinfowler.com/articles/exploring-gen-ai.html">Exploring Generative AI — Martin Fowler / ThoughtWorks</a>
-    <a href="https://docs.anthropic.com/en/docs/claude-code/overview">Claude Code — Anthropic</a>
+    <a href="https://docs.github.com/en/copilot/using-github-copilot/code-review/using-copilot-code-review">Using Copilot Code Review — GitHub Docs</a>
+    <a href="https://github.blog/ai-and-ml/github-copilot/">GitHub Copilot Blog — GitHub</a>
+    <a href="https://docs.anthropic.com/en/docs/claude-code/overview">Claude Code Overview — Anthropic</a>
     <a href="https://www.anthropic.com/engineering/claude-code-best-practices">Claude Code Best Practices — Anthropic</a>
+    <a href="https://google.github.io/eng-practices/review/">Code Review Best Practices — Google Engineering</a>
   </div>
 </div>
 </body>
