@@ -40,7 +40,7 @@
   <div class="section">
     <h2>What is a Context Window?</h2>
     <p>A context window is the maximum amount of text (measured in tokens) that an LLM can process in a single request. This includes everything: your system prompt, the files you share, your messages, and the AI's response. If you exceed the window, you hit a hard limit and can't proceed.</p>
-    <p>Tokens are the smallest units of text—roughly one token per word, though special characters and whitespace matter too. A typical context window is 100K-200K tokens. That sounds big until you load a large codebase or a long conversation history.</p>
+    <p>Tokens are the smallest units of text—roughly one token per word, though special characters and whitespace matter too. As of 2026, context windows range from 128K tokens (GPT-4o) to 200K (Claude Sonnet/Haiku) to 1M (Claude Opus) to 2M (Gemini). That sounds enormous until you load a large codebase and a long conversation history—tokens fill faster than you'd expect.</p>
   </div>
 
   <div class="section">
@@ -91,8 +91,8 @@
     <h2>Practical Token Budgets</h2>
     <p><strong>Small feature (CRUD endpoint):</strong> 20-30K tokens total. System prompt (1K) + codebase context (5-8K) + conversation (10-15K) + response (3-5K).</p>
     <p><strong>Medium refactor (module restructure):</strong> 60-80K tokens. More context needed, longer planning.</p>
-    <p><strong>Large project (architectural change):</strong> 100-150K tokens. Multiple files, deeper context, more back-and-forth.</p>
-    <p>These are ballpark figures. Monitor your actual usage and adjust.</p>
+    <p><strong>Large project (architectural change):</strong> 100-200K tokens. Multiple files, deeper context, more back-and-forth.</p>
+    <p>With 200K-1M token windows now standard, you have more room—but the principles still apply. Focused context outperforms dumping everything into the window. These are ballpark figures; monitor your actual usage and adjust.</p>
   </div>
 
   <div class="sources">
