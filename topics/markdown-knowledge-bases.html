@@ -52,14 +52,16 @@
 
   <div class="section">
     <h2>Knowledge Base Structure</h2>
+    <p>There's no single right way to organize a knowledge base—structure it around what your team actually needs. Here's one example layout:</p>
     <ul>
-      <li><strong>docs/conventions/:</strong> Code style, naming patterns, naming conventions, error handling approach.</li>
-      <li><strong>docs/architecture/:</strong> System design, module relationships, data flow, key components.</li>
-      <li><strong>docs/decisions/:</strong> ADRs (Architecture Decision Records). Why did you choose framework X over Y? Document it.</li>
-      <li><strong>docs/how-to/:</strong> Step-by-step guides for common tasks: "How to add a new API endpoint," "How to add a new page."</li>
+      <li><strong>docs/conventions/:</strong> Code style, naming patterns, error handling approach.</li>
+      <li><strong>docs/architecture/:</strong> System design, module relationships, data flow.</li>
+      <li><strong>docs/decisions/:</strong> ADRs (Architecture Decision Records). Why you chose framework X over Y.</li>
+      <li><strong>docs/how-to/:</strong> Step-by-step guides for common tasks like adding an API endpoint or a new page.</li>
       <li><strong>docs/api/:</strong> API specifications, endpoint documentation, authentication details.</li>
-      <li><strong>docs/gotchas/:</strong> Known issues, quirks, workarounds. "We use this weird hack for reason X."</li>
+      <li><strong>docs/gotchas/:</strong> Known issues, quirks, workarounds.</li>
     </ul>
+    <p>The specific folders matter less than the habit: write it down, keep it findable, and store it where the AI can read it.</p>
     <div class="tip">
       <p>Keep docs close to code. Place them in your repo's docs/ folder, not in a wiki you need to login to access.</p>
     </div>
