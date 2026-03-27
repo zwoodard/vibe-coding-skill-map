@@ -39,9 +39,9 @@
 
   <div class="section">
     <h2>What Multi-File Editing Unlocks</h2>
-    <p>Modern AI tools can now edit multiple files simultaneously to implement larger features. Tell AI: "Rename this function throughout the codebase" or "Add a new field to the User model, update the database schema, migrations, and API endpoints." AI handles the coordination automatically. This capability expanded from tools like Cursor (Composer mode) to GitHub Copilot and open-source tools like Cline and Aider. Multi-file refactoring consumes 25% of engineering time—$3.75M annually per 100-engineer team—because traditional tools analyze sequentially and miss cross-file dependencies.</p>
+    <p>Modern AI tools can edit multiple files simultaneously to implement larger features. Tell AI: "Rename this function throughout the codebase" or "Add a new field to the User model, update the database schema, migrations, and API endpoints." AI handles the coordination automatically. This capability is available in Cursor, Windsurf, Claude Code, GitHub Copilot, and open-source tools like Cline and Aider. Multi-file refactoring is one of the highest-leverage uses of AI coding tools because traditional find-and-replace misses cross-file dependencies.</p>
     <div class="tip">
-      <p><strong>Game changer:</strong> AI traces symbol definitions and usages across files using AST parsing, making large refactors safe and precise.</p>
+      <p><strong>Why it matters:</strong> AI traces symbol definitions and usages across files, making large refactors faster and more consistent than manual find-and-replace.</p>
     </div>
   </div>
 
@@ -59,7 +59,7 @@
     <p><strong>Restructuring imports:</strong> "Move UserService from util/auth to services/user. Update all imports." AI finds every file importing the old location and updates them.</p>
     <p><strong>Architecture shifts:</strong> "Convert this MVC app to a modular structure where each feature is a self-contained folder." AI reorganizes files, updates paths, and regenerates export/import chains.</p>
     <div class="tip">
-      <p><strong>Key insight:</strong> AI parses ASTs to understand code structure deeply, not just regex find-replace. It won't break syntax or logic.</p>
+      <p><strong>Key insight:</strong> AI understands code structure beyond simple regex find-replace—it distinguishes variable names from string contents and tracks imports across files. But always verify: it can still make mistakes.</p>
     </div>
   </div>
 
@@ -103,7 +103,7 @@
 
   <div class="section">
     <h2>Tools for Multi-File Editing</h2>
-    <p><strong>Cursor's Composer Mode:</strong> Press Cmd+Shift+I, describe a complex task, AI edits multiple files and shows a preview. <strong>GitHub Copilot:</strong> Added multi-file editing capability; works within pull requests. <strong>Cline (open-source):</strong> Agentic workflow for large refactors. <strong>Google Gemini Code Assist:</strong> Recognized as best for very large codebases.</p>
+    <p><strong>Cursor:</strong> Agent mode edits multiple files and shows a diff preview before applying. <strong>Claude Code:</strong> Terminal-based; reads your codebase, edits files directly, and runs tests to verify changes. <strong>GitHub Copilot:</strong> Multi-file editing in VS Code and within pull requests. <strong>Cline / Aider (open-source):</strong> Agentic workflows for large refactors with full transparency. <strong>Windsurf:</strong> Cascade mode for coordinated multi-file changes.</p>
   </div>
 
   <div class="section">
