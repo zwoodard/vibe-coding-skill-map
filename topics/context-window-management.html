@@ -66,13 +66,16 @@
   <div class="section">
     <h2>When to Start a Fresh Conversation</h2>
     <p>Continuing a conversation is efficient if the context is still relevant. But if you've solved the original task and moved to something unrelated, start fresh. Carry-over context from a completed feature wastes tokens on irrelevant information.</p>
-    <p>Signs it's time to start fresh: (1) The conversation is 30+ exchanges, (2) You've moved to a completely different feature, (3) The AI is struggling to stay focused.</p>
+    <p>Signs it's time to start fresh: (1) The conversation is 30+ exchanges, (2) You've moved to a completely different feature, (3) The AI is struggling to stay focused, (4) The AI keeps forgetting things you've already told it in the same conversation.</p>
   </div>
 
   <div class="section">
     <h2>Summarization Tactics</h2>
     <p>If a conversation has been long and productive, summarize the decisions made before starting a new conversation. Keep a quick summary in a file or doc: "We decided to use JWT for auth, simplified the API routes, and settled on React Query for state management."</p>
     <p>This summary lets you brief the AI on prior decisions without hauling your entire conversation history into the next session.</p>
+    <div class="tip">
+      <p><strong>Pro tip:</strong> You can ask the AI itself to produce these summary docs. At the end of a long session, say "Summarize the key decisions and context from this conversation so I can use it to brief you next time." The AI will distill the important bits for you.</p>
+    </div>
   </div>
 
   <div class="section">
@@ -83,16 +86,23 @@
 
   <div class="section">
     <h2>Retrieval-Augmented Generation (RAG)</h2>
-    <p>For large codebases, RAG (vector search over your docs) retrieves only relevant sections. Instead of loading your entire codebase into context, you search for relevant functions, configs, or patterns—bringing in 2-3K tokens of context instead of 50K.</p>
-    <p>For most teams, a simple Markdown knowledge base (organized and searchable) beats complex RAG. But if your codebase is massive, RAG becomes essential.</p>
+    <p>RAG (vector search over your docs) retrieves only relevant sections of a codebase so you don't have to load everything into context. It was once considered essential for working with large codebases, but modern AI coding tools have gotten much better at navigating code on their own. Tools like Claude Code can explore large projects, read files on demand, and find what they need without a separate RAG pipeline.</p>
+    <p>RAG is still useful in specific scenarios—searching internal documentation, knowledge bases, or non-code content that the AI tool can't directly browse. But for most codebases, you likely don't need it. A well-organized project with clear file names and a simple Markdown knowledge base will get you far.</p>
   </div>
 
   <div class="section">
-    <h2>Practical Token Budgets</h2>
-    <p><strong>Small feature (CRUD endpoint):</strong> 20-30K tokens total. System prompt (1K) + codebase context (5-8K) + conversation (10-15K) + response (3-5K).</p>
-    <p><strong>Medium refactor (module restructure):</strong> 60-80K tokens. More context needed, longer planning.</p>
-    <p><strong>Large project (architectural change):</strong> 100-200K tokens. Multiple files, deeper context, more back-and-forth.</p>
-    <p>With 200K-1M token windows now standard, you have more room—but the principles still apply. Focused context outperforms dumping everything into the window. These are ballpark figures; monitor your actual usage and adjust.</p>
+    <h2>Getting a Feel for Token Sizes</h2>
+    <p>Tokens are abstract, so it helps to have rough benchmarks. These are approximate order-of-magnitude figures:</p>
+    <ul>
+      <li><strong>A short chat message</strong> ("Can you fix the login bug?"): ~10 tokens</li>
+      <li><strong>A detailed prompt paragraph:</strong> ~100–200 tokens</li>
+      <li><strong>100 lines of code:</strong> ~500–800 tokens (varies by language and density)</li>
+      <li><strong>A page of a book:</strong> ~300 tokens</li>
+      <li><strong>A full newspaper page:</strong> ~1,000–1,500 tokens</li>
+      <li><strong>A typical source file (500 lines):</strong> ~3,000–5,000 tokens</li>
+      <li><strong>A 10-page technical document:</strong> ~3,000–4,000 tokens</li>
+    </ul>
+    <p>These numbers help you estimate whether sharing "just one more file" is a small addition or a significant chunk of your context window.</p>
   </div>
 
   <div class="sources">
