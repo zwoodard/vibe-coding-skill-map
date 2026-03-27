@@ -40,9 +40,9 @@
   <div class="section">
     <h2>Tokens: The Smallest Unit</h2>
     <p>Tokens are pieces of text. One token roughly equals 4 characters or 0.75 words. Models break everything—prompts and responses—into tokens before processing.</p>
-    <p style="margin-top: 8px;">Why it matters: "Hello" might be 1 token, but "Hello_world" could be 2. This affects cost (you pay per token) and speed (more tokens = slower inference).</p>
+    <p style="margin-top: 8px;">Why it matters: Tokens are how AI tools measure usage and cost. "Hello" might be 1 token, but "Hello_world" could be 2. Every prompt and response consumes tokens from your context window.</p>
     <div class="tip">
-      <p>Pro tip: Shorter, clearer prompts = fewer tokens = faster, cheaper responses.</p>
+      <p>Pro tip: Don't worry about keeping prompts short—context is king. The more relevant detail you give, the better the output. Modern context windows are large enough that you should focus on clarity, not brevity.</p>
     </div>
   </div>
 
@@ -54,27 +54,12 @@
   </div>
 
   <div class="section">
-    <h2>Temperature: The Creativity Dial</h2>
-    <p>Temperature controls randomness in responses. Think of it as a dial from "focused" to "creative."</p>
-    <ul>
-      <li><strong>Low (0.0–0.3):</strong> Predictable, factual, best for code and technical questions</li>
-      <li><strong>Medium (0.5–0.7):</strong> Balanced, good for most tasks</li>
-      <li><strong>High (0.8+):</strong> Creative and unpredictable, good for brainstorming but risky for facts</li>
-      <li><strong>Very high (1.5+):</strong> Almost random, rarely useful</li>
-    </ul>
-    <div class="tip">
-      <p>Use low temperature for coding, debugging, and fact-checking. Use medium-high for creative writing and ideation.</p>
-    </div>
-  </div>
-
-  <div class="section">
     <h2>Hallucinations: When Models Confabulate</h2>
     <p>Hallucinations are confident-sounding but false outputs. Models don't "know" they're wrong—they predict the next token based on patterns, not facts.</p>
     <p style="margin-top: 8px;"><strong>Why they happen:</strong></p>
     <ul>
       <li>Training data had errors or conflicting info</li>
-      <li>You asked about something outside their training date or knowledge</li>
-      <li>Low temperature paradoxically increases hallucination risk in some cases (forced to be confident)</li>
+      <li>You asked about something outside their training or knowledge</li>
       <li>Ambiguous prompts that the model tried to fill in</li>
     </ul>
     <p style="margin-top: 8px;"><strong>How to minimize:</strong> Give specific, factual context. Ask the model to cite sources. For critical facts, verify independently.</p>
@@ -83,7 +68,7 @@
   <div class="section">
     <h2>Why Models Make Mistakes</h2>
     <ul>
-      <li><strong>Knowledge cutoff:</strong> The model was trained on data up to a certain date. It doesn't know about recent events, product updates, or API changes.</li>
+      <li><strong>Knowledge cutoff:</strong> Models were trained on data up to a certain date, but most modern tools now use web search to fill in the gaps. This is less of an issue than it used to be.</li>
       <li><strong>Tokenization artifacts:</strong> Sometimes token boundaries create weird biases. A model might finish sentences oddly because of how tokens split.</li>
       <li><strong>Lack of reasoning:</strong> Larger models with extended thinking can reason step-by-step, but basic models just predict the next token. No introspection.</li>
       <li><strong>Context confusion:</strong> If you paste conflicting information, the model gets confused about which version is correct.</li>
@@ -99,7 +84,7 @@
       <li>Don't trust hallucinations without verification</li>
       <li>Give them context—more info = better outputs</li>
       <li>Iterate—your first prompt rarely gets the best answer</li>
-      <li>Know your tool's knowledge cutoff and limitations</li>
+      <li>Know your tool's limitations—most now search the web, but always verify critical info</li>
     </ul>
     <div class="tip">
       <p>The best use case: "Here's my code and error. Why is it breaking?" The worst: "Is [random fact] true?"</p>
