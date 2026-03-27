@@ -84,19 +84,21 @@
 
   <div class="section">
     <h2>Model Flavors</h2>
-    <p><strong>ChatGPT (OpenAI):</strong> Excels with explicit formatting and constraints. Great for structured outputs (tables, JSON, code).</p>
-    <p style="margin-top: 8px;"><strong>Claude (Anthropic):</strong> Handles ambiguity well and benefits from tag-based structure like &lt;task&gt; and &lt;context&gt;. Best for long-form analysis and critique.</p>
-    <p style="margin-top: 8px;"><strong>Gemini (Google):</strong> Strong with markdown structure and multimodal input. Ideal for document work and image analysis.</p>
-    <p style="margin-top: 8px;">Start with one, then compare outputs. You'll develop instincts for which tool fits which task.</p>
+    <p>Frontier models from OpenAI, Anthropic, and Google are largely interchangeable for everyday coding tasks. The more useful distinction is between <strong>model modes</strong>:</p>
+    <ul>
+      <li><strong>Thinking / reasoning models:</strong> Spend extra time "thinking" before responding. Better for complex logic, multi-step problems, architecture decisions, and tricky bugs. Use when correctness matters more than speed.</li>
+      <li><strong>Non-thinking / fast models:</strong> Respond quickly with no extended reasoning step. Great for boilerplate, simple edits, explanations, and high-volume tasks where latency matters.</li>
+    </ul>
+    <p style="margin-top: 8px;">Pick the mode that fits the task. Use thinking mode for hard problems, fast mode for everything else. The specific provider matters far less than matching the right mode to the job.</p>
   </div>
 
   <div class="section">
     <h2>Pro Tips</h2>
     <ul>
       <li>Use templates—if you find a prompt that works, save it and reuse it</li>
-      <li>Use XML-like tags (&lt;task&gt;, &lt;context&gt;, &lt;constraints&gt;) to structure messy prompts</li>
-      <li>Ask the model to think step-by-step before answering ("Let's think about this...").</li>
+      <li>Show, don't tell: paste examples of the output format you want rather than describing it</li>
       <li>For code, ask for edge case handling and tests alongside the implementation</li>
+      <li>When results are off, add constraints ("under 50 lines", "no external dependencies") rather than re-explaining the goal</li>
       <li>Never paste production secrets, customer data, or unpublished code</li>
     </ul>
   </div>
