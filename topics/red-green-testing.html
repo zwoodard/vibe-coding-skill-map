@@ -54,10 +54,10 @@
   <div class="section">
     <h2>The AI-Assisted Red-Green Cycle</h2>
     <ol style="padding-left: 20px;">
-      <li><strong>You write the test:</strong> "Given a user with a valid token, they can access the dashboard."</li>
-      <li><strong>Test fails (Red):</strong> You run it, it fails. Good—that's expected.</li>
-      <li><strong>AI implements code:</strong> You give the AI the test and say "Make this pass. Nothing more."</li>
-      <li><strong>Test passes (Green):</strong> The AI writes code. You run tests. They pass.</li>
+      <li><strong>You describe, AI drafts the test:</strong> "Given a user with a valid token, they can access the dashboard." You review and refine until the test captures your intent.</li>
+      <li><strong>Test fails (Red):</strong> The AI runs it, it fails. Good—that's expected.</li>
+      <li><strong>AI implements code:</strong> You tell the AI "Make this pass. Nothing more."</li>
+      <li><strong>Test passes (Green):</strong> The AI writes code, runs the tests, and they pass.</li>
       <li><strong>You review the implementation:</strong> Is it correct? Is it clean? If not, ask for refactoring.</li>
       <li><strong>Refactor (together):</strong> You and AI clean up the code, keeping tests green.</li>
     </ol>
@@ -68,8 +68,9 @@
 
   <div class="section">
     <h2>Writing Tests First</h2>
-    <p>Before you ask the AI to implement, write the tests yourself. Be specific about inputs, outputs, and edge cases. Tests are your spec—they should be clear enough that an AI (or a new teammate) can implement from them alone.</p>
-    <p>Example good test spec:</p>
+    <p>Before you ask the AI to implement a feature, have it draft the tests. Describe the behavior you want—inputs, outputs, and edge cases—and let the AI generate a test suite. Then review those tests carefully: do they capture your actual requirements? Are edge cases covered? Revise them together until the tests read like a clear spec that defines "done."</p>
+    <p>Example prompt: "Write tests for a <code>loginUser</code> function. It should return a JWT for valid credentials, throw 401 for a wrong password, and throw 404 for a nonexistent user."</p>
+    <p>Example output you'd review and refine:</p>
     <code>
 describe('loginUser', () => {<br/>
 &nbsp; it('returns a JWT token for valid credentials', () => { ... })<br/>
@@ -77,6 +78,9 @@ describe('loginUser', () => {<br/>
 &nbsp; it('throws 404 for nonexistent user', () => { ... })<br/>
 })
     </code>
+    <div class="tip">
+      <p>You own the requirements, the AI owns the boilerplate. If a generated test doesn't match your intent, push back—getting the tests right is the most important step in the whole cycle.</p>
+    </div>
   </div>
 
   <div class="section">
@@ -93,8 +97,8 @@ describe('loginUser', () => {<br/>
 
   <div class="section">
     <h2>Continuous Testing in the Cycle</h2>
-    <p>As you iterate with AI, run tests constantly. After each implementation, run <code>npm test</code> or equivalent. Tests failing? Push back to the AI with the failure output. Tests passing? Ask for refactoring or move to the next feature.</p>
-    <p>This tight feedback loop keeps both you and the AI honest.</p>
+    <p>Let the AI run tests as part of its workflow. After each implementation step, have it execute <code>npm test</code> (or equivalent) and respond to failures itself—fixing code until tests pass. You don't need to manually run tests after every change; instead, verify the final result once the AI reports green.</p>
+    <p>This keeps the feedback loop tight without you switching between editor and terminal. Your job is to review the code and confirm the AI's work at the end of each cycle, not to babysit every test run.</p>
   </div>
 
   <div class="section">
