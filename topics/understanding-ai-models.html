@@ -48,7 +48,7 @@
 
   <div class="section">
     <h2>Context Window: Your Conversation Limit</h2>
-    <p>The context window is the total number of tokens a model can see at once. Modern models have 1M+ token windows, but there's a catch: effective capacity is usually 60–70% of the advertised max. A model claiming 200K tokens works reliably around 130K.</p>
+    <p>The context window is the total number of tokens a model can see at once. Modern frontier models offer 200K–1M+ token windows. In practice, performance can degrade on very long contexts—models may miss details buried in the middle of a huge prompt. This is improving with each generation.</p>
     <p style="margin-top: 8px;"><strong>Example:</strong> If your context window is 128K tokens and your prompt is 100K tokens, you only have 28K for the model's response.</p>
     <p style="margin-top: 8px;">For development work, a 128K+ window is standard. You can paste entire codebases, logs, and documentation in one prompt.</p>
   </div>

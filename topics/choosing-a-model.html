@@ -38,23 +38,24 @@
   <p class="subtitle">Overview of the AI landscape and what each model family does best.</p>
 
   <div class="section">
-    <h2>The Big Three (March 2026)</h2>
-    <p><strong>Claude (Anthropic):</strong> Strongest at writing, analysis, and step-by-step reasoning. Claude Sonnet 4.6 scores near-Opus quality at Sonnet pricing. Excellent for long-form tasks and thinking through complex problems.</p>
-    <p style="margin-top: 8px;"><strong>GPT (OpenAI):</strong> GPT-5.4 is the leader for computer use, tool integration, and factual precision. Best when you need reliability and software automation. Strong at coding and reasoning.</p>
-    <p style="margin-top: 8px;"><strong>Gemini (Google):</strong> Gemini 3.1 Pro is 20% cheaper than GPT-5.4 and excels at pure reasoning and multi-modal tasks (images, documents). Best value for reasoning-heavy work.</p>
-    <p style="margin-top: 8px;"><strong>Llama (Meta):</strong> Open-source, can run locally. Great for privacy-sensitive work, cost-conscious teams, or customization. Slower than frontier models but increasingly competitive.</p>
+    <h2>The Major Providers</h2>
+    <p>Model versions change every few months. These are the families to know—check each provider's docs for the latest version numbers.</p>
+    <p style="margin-top: 8px;"><strong>Claude (Anthropic):</strong> Strongest at writing, analysis, and step-by-step reasoning. The Sonnet tier offers near-Opus quality at lower cost. Excellent for long-form tasks and complex problem-solving.</p>
+    <p style="margin-top: 8px;"><strong>GPT / o-series (OpenAI):</strong> Strong at tool integration, coding, and factual precision. The o-series models (o1, o3) add dedicated reasoning capabilities. Wide ecosystem and API support.</p>
+    <p style="margin-top: 8px;"><strong>Gemini (Google):</strong> Competitive pricing and strong at multi-modal tasks (images, video, documents). Deep integration with Google services. Good value for reasoning-heavy work.</p>
+    <p style="margin-top: 8px;"><strong>Llama (Meta):</strong> Open-weight, can run locally. Great for privacy-sensitive work, cost-conscious teams, or customization. Increasingly competitive with closed-source models.</p>
   </div>
 
   <div class="section">
     <h2>Extended Thinking vs. Fast Inference</h2>
-    <p><strong>Extended Thinking models</strong> (Claude with extended thinking, GPT-5.2 Thinking) work step-by-step internally before answering. They're slower but better at:</p>
+    <p><strong>Extended Thinking models</strong> (Claude with extended thinking, OpenAI's o-series) work step-by-step internally before answering. They're slower but better at:</p>
     <ul>
       <li>Debugging complex logic and code</li>
       <li>System design and architecture</li>
       <li>Math and multi-step reasoning</li>
       <li>Tasks where "thinking through it" matters</li>
     </ul>
-    <p style="margin-top: 8px;"><strong>Fast models</strong> (Claude Sonnet, GPT-4o) respond instantly. Best for:</p>
+    <p style="margin-top: 8px;"><strong>Fast models</strong> (Claude Sonnet, GPT-4o, Gemini Flash) respond quickly. Best for:</p>
     <ul>
       <li>Code generation and refactoring</li>
       <li>Writing and documentation</li>
@@ -68,21 +69,21 @@
 
   <div class="section">
     <h2>Large vs. Small: The Tradeoff</h2>
-    <p><strong>Frontier models</strong> (Claude Opus, GPT-5.4, Gemini 3.1 Pro):</p>
+    <p><strong>Frontier models</strong> (Claude Opus, OpenAI's latest GPT/o-series, Gemini Ultra/Pro):</p>
     <ul>
       <li>Highest quality, best reasoning, most reliable</li>
-      <li>Higher cost (~$15 per 1M output tokens)</li>
+      <li>Higher cost (check current pricing—it drops frequently)</li>
       <li>Slower inference</li>
       <li>Best for critical, complex tasks</li>
     </ul>
-    <p style="margin-top: 8px;"><strong>Mid-tier models</strong> (Claude Sonnet 4.6, GPT-4o):</p>
+    <p style="margin-top: 8px;"><strong>Mid-tier models</strong> (Claude Sonnet, GPT-4o, Gemini Pro):</p>
     <ul>
       <li>Good quality, 80%+ of frontier performance on most tasks</li>
-      <li>Much cheaper (~$3 per 1M tokens input)</li>
+      <li>Significantly cheaper than frontier</li>
       <li>Fast and reliable for daily development work</li>
       <li>Sweet spot for teams and solo builders</li>
     </ul>
-    <p style="margin-top: 8px;"><strong>Smaller models</strong> (Llama 3, Gemini Flash):</p>
+    <p style="margin-top: 8px;"><strong>Smaller models</strong> (Claude Haiku, Gemini Flash, Llama):</p>
     <ul>
       <li>Cheap, fast, can run locally</li>
       <li>Best for simple tasks, high-volume work, embedding in apps</li>
@@ -91,21 +92,22 @@
   </div>
 
   <div class="section">
-    <h2>Cost Reality (Early 2026)</h2>
-    <p><strong>Input tokens:</strong> $2–3 per 1M tokens (usually paid per input)</p>
-    <p style="margin-top: 8px;"><strong>Output tokens:</strong> $3–15 per 1M tokens (higher than input because generation is more expensive)</p>
-    <p style="margin-top: 8px;">A typical development workflow (asking 20 questions, getting 5K-token responses):</p>
+    <h2>Cost Reality</h2>
+    <p>Pricing changes frequently and trends downward. The pattern to understand:</p>
     <ul>
-      <li>Claude Sonnet: ~$0.10–0.30</li>
-      <li>GPT-4o: ~$0.15–0.40</li>
-      <li>Gemini 3.1 Pro: ~$0.08–0.25 (cheapest frontier)</li>
+      <li><strong>Output tokens cost more than input tokens</strong> (generation is more compute-intensive than reading)</li>
+      <li><strong>Thinking/reasoning tokens</strong> add cost on top of output tokens</li>
+      <li><strong>Smaller models are 5–20x cheaper</strong> than frontier models for the same task</li>
     </ul>
-    <p style="margin-top: 8px;">Cost is rarely the blocker. A bad model choice wastes more time than the difference in API cost.</p>
+    <p style="margin-top: 8px;">For a typical development session (20 questions, moderate responses), expect to spend well under $1 on any mid-tier model. Cost is rarely the blocker—a bad model choice wastes more time than the difference in API cost.</p>
+    <div class="tip">
+      <p>Check each provider's pricing page directly. Prices drop regularly, and cached/batched API calls are often discounted.</p>
+    </div>
   </div>
 
   <div class="section">
     <h2>The Context Window Tie</h2>
-    <p>All three frontier models now offer 1M+ token context windows. This removes context length as a deciding factor. You can paste entire repos, documentation, and logs in one prompt.</p>
+    <p>All major frontier models now offer 128K–1M+ token context windows. For most development work, context length is no longer a deciding factor. You can paste large codebases, documentation, and logs in one prompt.</p>
     <div class="tip">
       <p>Don't choose based on context window anymore. Pick the model that thinks best for your task.</p>
     </div>
@@ -114,21 +116,21 @@
   <div class="section">
     <h2>Quick Decision Tree</h2>
     <ul>
-      <li><strong>Debugging or system design?</strong> → Claude with extended thinking or GPT-5.2 Thinking</li>
-      <li><strong>Writing, refactoring, daily coding?</strong> → Claude Sonnet 4.6 (best balance)</li>
-      <li><strong>Building agents or software automation?</strong> → GPT-5.4 (best tool use and reliability)</li>
-      <li><strong>Reasoning-heavy work on a budget?</strong> → Gemini 3.1 Pro (cheapest frontier)</li>
-      <li><strong>Privacy or local deployment?</strong> → Llama 3 or similar open-source</li>
-      <li><strong>Quick, cheap tasks (summaries, simple code)?</strong> → Any mid-tier or small model</li>
+      <li><strong>Debugging or system design?</strong> → Any frontier model with extended thinking / reasoning mode</li>
+      <li><strong>Writing, refactoring, daily coding?</strong> → Mid-tier model (Claude Sonnet, GPT-4o, Gemini Pro)</li>
+      <li><strong>Building agents or software automation?</strong> → Frontier model with strong tool-use support</li>
+      <li><strong>Reasoning-heavy work on a budget?</strong> → Compare current pricing; Gemini is often cheapest</li>
+      <li><strong>Privacy or local deployment?</strong> → Llama or similar open-weight models</li>
+      <li><strong>Quick, cheap tasks (summaries, simple code)?</strong> → Small/fast models (Haiku, Flash, etc.)</li>
     </ul>
   </div>
 
   <div class="section">
     <h2>Pro Tips</h2>
     <ul>
-      <li>Start with Claude Sonnet or GPT-4o. Upgrade only if results disappoint.</li>
+      <li>Start with a mid-tier model (Claude Sonnet, GPT-4o). Upgrade only if results disappoint.</li>
       <li>Try different models on the same task. You'll notice patterns in what each does best.</li>
-      <li>Check model release notes. Knowledge cutoff dates vary (usually early 2024 or late 2025).</li>
+      <li>Check model release notes regularly. Knowledge cutoffs and capabilities change with each release.</li>
       <li>Use cheaper models for iteration, frontier models for final polish.</li>
     </ul>
   </div>
