@@ -282,6 +282,91 @@
   .phase-6 .dot { border-color: var(--accent-cyan); }
   .phase-6 .card-tag { background: rgba(34,211,238,0.15); color: var(--accent-cyan); }
 
+  /* Reality Check accordion */
+  .reality-check {
+    max-width: 560px;
+    margin: 0 auto 28px;
+    position: relative;
+    z-index: 1;
+  }
+  .reality-check-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.03);
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .reality-check-toggle:hover {
+    background: rgba(255,255,255,0.06);
+    border-color: #4a4a6e;
+    color: var(--text);
+  }
+  .reality-check-toggle .arrow {
+    transition: transform 0.2s;
+    font-size: 0.7rem;
+  }
+  .reality-check.open .reality-check-toggle .arrow {
+    transform: rotate(90deg);
+  }
+  .reality-check-body {
+    display: none;
+    margin-top: 8px;
+    padding: 16px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .reality-check.open .reality-check-body {
+    display: block;
+  }
+  .reality-check-body p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  .reality-check-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .reality-check-body li {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+    padding: 6px 0;
+    padding-left: 24px;
+    position: relative;
+  }
+  .reality-check-body li::before {
+    content: '?';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    color: var(--text-muted);
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    text-align: center;
+  }
+
   .legend {
     display: flex;
     justify-content: center;
@@ -408,6 +493,13 @@ const DATA = [
         subs: ["Hacker News", "r/ClaudeAI & AI subreddits", "Official blogs (Anthropic, OpenAI)", "X/Twitter AI community", "Release notes & changelogs"],
         link: "topics/staying-current.html"
       }
+    ],
+    checks: [
+      "Can you explain, in simple terms, why AI models sometimes give confident but wrong answers?",
+      "Do you know how to verify AI output before trusting it — and do you actually do it?",
+      "Could you pick the right model for a task — when to use something fast and cheap vs. powerful and expensive?",
+      "Do you know what data is safe to share with AI tools and what should never leave your machine?",
+      "Are you comfortable writing basic Markdown — headers, lists, code blocks, links?"
     ]
   },
   {
@@ -462,6 +554,13 @@ const DATA = [
         subs: ["Claude Code", "Cursor", "Windsurf", "Aider", "Cline"],
         link: "topics/agentic-coding-tools.html"
       }
+    ],
+    checks: [
+      "Has AI helped you build or fix something you couldn't have done — or done as quickly — on your own?",
+      "Can you iterate with an agent on a problem, refining your prompts until you get the result you need?",
+      "Have you used AI to review code or generate tests — not just write new code?",
+      "Are you comfortable letting an agent make multi-file changes while you review the diffs?",
+      "Have you picked an agentic tool and used it consistently for at least a week?"
     ]
   },
   {
@@ -524,6 +623,14 @@ const DATA = [
         subs: ["Knowledge file structure", "Convention docs", "Decision logs", "Agent-readable docs"],
         link: "topics/markdown-knowledge-bases.html"
       }
+    ],
+    checks: [
+      "Do you write specs or requirements in Markdown before telling AI what to build?",
+      "Have you set up context files (CLAUDE.md, .cursorrules) that noticeably improve your agent's output?",
+      "Do you instinctively know when to start a fresh conversation vs. continue an existing one?",
+      "Are you spending more time writing instructions for AI than writing code yourself?",
+      "Have you used tests to constrain AI output — writing the spec first, then letting the agent implement?",
+      "Does it feel like you're starting to \"code\" in Markdown?"
     ]
   },
   {
@@ -570,6 +677,14 @@ const DATA = [
         subs: ["YOLO mode", "Command whitelisting", "Sandbox environments", "Permission boundaries"],
         link: "topics/yolo-mode-sandboxing.html"
       }
+    ],
+    checks: [
+      "Are you comfortable working primarily in the terminal, without an IDE open for most tasks?",
+      "Can you run multiple agent sessions in parallel on different tasks or branches?",
+      "Have you written custom skills or commands that you actually reuse?",
+      "Have you connected an MCP server or external tool to your agent and used it for real work?",
+      "Do you have a permission and sandboxing setup that lets your agent work fast without being dangerous?",
+      "When an agent gets stuck, can you diagnose whether the problem is context, prompting, or model capability?"
     ]
   },
   {
@@ -592,6 +707,11 @@ const DATA = [
         subs: ["Server SDK", "Tool definitions", "Resource endpoints", "Auth patterns"],
         link: "topics/building-custom-mcp-servers.html"
       }
+    ],
+    checks: [
+      "Can you explain how function calling works — what the model sends, what your code executes, and what gets returned?",
+      "Have you built or significantly customized an MCP server for a real use case?",
+      "Can your agent take real actions in external systems — not just generate text about them?"
     ]
   },
   {
@@ -723,6 +843,38 @@ function renderRoadmap() {
 
     phaseDiv.appendChild(grid);
     container.appendChild(phaseDiv);
+
+    // Reality check accordion between phases
+    if (phase.checks && phase.checks.length > 0) {
+      const rc = document.createElement('div');
+      rc.className = 'reality-check';
+
+      const toggle = document.createElement('button');
+      toggle.className = 'reality-check-toggle';
+      const arrow = document.createElement('span');
+      arrow.className = 'arrow';
+      arrow.textContent = '\u25B6';
+      toggle.appendChild(arrow);
+      toggle.appendChild(document.createTextNode(' Ready for the next phase? Check yourself'));
+      toggle.addEventListener('click', () => rc.classList.toggle('open'));
+
+      const body = document.createElement('div');
+      body.className = 'reality-check-body';
+      const intro = document.createElement('p');
+      intro.textContent = 'Before moving on, you should be able to answer "yes" to most of these:';
+      body.appendChild(intro);
+      const ul = document.createElement('ul');
+      phase.checks.forEach(q => {
+        const li = document.createElement('li');
+        li.textContent = q;
+        ul.appendChild(li);
+      });
+      body.appendChild(ul);
+
+      rc.appendChild(toggle);
+      rc.appendChild(body);
+      container.appendChild(rc);
+    }
   });
 
   updateProgress();
