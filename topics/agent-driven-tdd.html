@@ -66,9 +66,8 @@
   </div>
 
   <div class="section">
-    <h2>CI Integration & Verification</h2>
-    <p>Push agent-generated code to a feature branch. Let CI run the full test suite, linters, and security checks. A passing CI gate is your verification stamp. This is the "verify don't trust" mindset: the agent wrote it, but the tests proved it works.</p>
-    <p>Many teams use Claude Code or Aider in CI pipelines: failures trigger an agent job that attempts fixes, commits changes, and opens a PR for review.</p>
+    <h2>CI Gates Still Apply</h2>
+    <p>Agent-generated code should pass the same CI checks as human-written code — full test suite, linters, security scans. No exceptions. The agent passing tests locally is a good sign, but CI is the real verification. If it doesn't pass CI, it doesn't merge.</p>
   </div>
 
   <div class="section">

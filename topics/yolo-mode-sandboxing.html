@@ -80,26 +80,19 @@
 
   <div class="section">
     <h2>Sandboxing Strategies</h2>
+    <p><strong>Claude Code's built-in sandbox:</strong> Claude Code has OS-level sandboxing built in (Linux bubblewrap, macOS seatbelt). It restricts Bash commands to read/write only within your working directory and proxies all network access through a domain-allowlist. This alone reduces permission prompts by ~84% in practice — no Docker or VM setup required.</p>
+    <p><strong>jai (Stanford):</strong> A lightweight Linux sandbox purpose-built for AI agents. Prefix any command with <code>jai claude</code> and your working directory gets full read/write access while the rest of your home directory sits behind a copy-on-write overlay. No containers, no Dockerfiles — just a safety boundary for local agent workflows.</p>
+    <p><strong>GitHub Codespaces:</strong> Cloud-hosted dev environments with full isolation. Run agents with YOLO mode inside a Codespace and nothing touches your local machine. Tear it down when you're done. Especially useful for experimenting with unfamiliar repos or risky automation.</p>
     <p><strong>Docker containers:</strong> Run Claude Code in a container with mounted volumes. Network access is blocked by default. Claude can only read/write allowed directories.</p>
-    <p><strong>Virtual machines:</strong> Spin up an ephemeral VM for CI jobs. Claude Code runs with YOLO mode. After the job, tear down the VM. No damage survives.</p>
     <p><strong>Dev containers:</strong> VS Code Dev Containers isolate the environment. Claude Code + sandboxing + auto-approval = safe, fast automation in development.</p>
-    <p><strong>GitHub Actions / CI:</strong> Run Claude Code as a job. Grant only repo access (not production secrets). Let it run with auto-approval. Block any push to main; require PR review.</p>
   </div>
 
   <div class="section">
     <h2>Layered Safety Configuration</h2>
-    <p><strong>Local development:</strong> Permission allowlists for safe tools, manual approval for deletions and shell commands.</p>
-    <p><strong>CI pipeline:</strong> Container sandbox + <code>--dangerously-skip-permissions</code>, PR-only output, no manual approvals needed.</p>
-    <p><strong>Production:</strong> Never run Claude Code with edit access. Use read-only mode or pre-approved scripts.</p>
+    <p><strong>Starting out:</strong> Keep all permissions manual. Approve every action. Learn what Claude typically asks to do.</p>
+    <p><strong>Comfortable:</strong> Add permission allowlists for safe tools (reads, tests, linting). Manual approval for destructions and shell commands.</p>
+    <p><strong>Confident:</strong> Enable the built-in sandbox or use jai/Codespaces. Combine with permission allowlists so even allowed bash commands can't escape the sandbox boundary.</p>
     <p><strong>Secrets:</strong> Never store API keys, credentials, or tokens where Claude can access them. Use environment variables, secrets managers, or MCP with scoped credentials.</p>
-  </div>
-
-  <div class="section">
-    <h2>Combining Permissions + Sandboxing</h2>
-    <p><strong>In Claude Code settings.json:</strong></p>
-    <p>Use <code>"permissions": {"allow": [...]}</code> to auto-approve specific tools. Combine with Docker or VM isolation so even allowlisted bash commands can't escape the sandbox.</p>
-    <p><strong>In CI:</strong> Use <code>--dangerously-skip-permissions</code> inside a container with no network access and mounted volumes scoped to the workspace. The container is the safety net, not the permission system.</p>
-    <p>This layered approach — permission allowlists for convenience, container isolation for safety — gives you speed without risk.</p>
   </div>
 
   <div class="section">
@@ -110,7 +103,7 @@
   </div>
 
   <div class="tip">
-    <p><strong>Tip:</strong> Start with manual approval on everything. As you gain confidence, add permission allowlists for safe tools. Graduate to sandboxing + YOLO only in CI. This gradual approach scales without disasters.</p>
+    <p><strong>Tip:</strong> Start with manual approval on everything. As you gain confidence, add permission allowlists for safe tools. Graduate to sandboxing + auto-accept for trusted workflows. This gradual approach gives you speed without disasters.</p>
   </div>
 
   <div class="sources">

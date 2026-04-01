@@ -41,7 +41,7 @@
     <h2>Why Terminal Agents Matter</h2>
     <p>Terminal agents fit naturally into Unix philosophy: take input, process, produce output. AI agents break down problems, run commands, check results, and iterate. This feedback loop aligns perfectly with shell workflows.</p>
     <ul>
-      <li><strong>No context switching:</strong> Stay in your terminal; no IDE overhead</li>
+      <li><strong>Easy multi-session:</strong> Open multiple terminal tabs or tmux panes, each running its own agent on a different task. Multi-session parallelism is trivially easy compared to IDE-based agents where you're locked to one workspace.</li>
       <li><strong>CI/CD ready:</strong> Agents run in pipelines, serverless, cron jobs</li>
       <li><strong>Lightweight:</strong> CLI tools run on any machine with Node/Python</li>
       <li><strong>Reproducibility:</strong> Shell history, scripts, and piping create auditable records</li>
@@ -65,10 +65,27 @@
   </div>
 
   <div class="section">
+    <h2>GitHub Copilot CLI</h2>
+    <p>Copilot CLI (GA February 2026) is GitHub's terminal-native coding agent. It plans multi-step tasks, edits files, runs tests, and iterates autonomously.</p>
+    <p><strong>Autopilot mode:</strong> Works end-to-end without stopping for approval at each step — comparable to Claude Code's YOLO mode.</p>
+    <p><strong>Fleet mode (<code>/fleet</code>):</strong> Breaks a task into subtasks and spins up parallel subagents to execute them concurrently. Built-in orchestration for parallel work.</p>
+    <p><strong>Specialized agents:</strong> Automatically delegates to purpose-built agents (Explore, Task, Code Review, Plan) depending on the prompt.</p>
+    <p><strong>Background delegation:</strong> Prefix a prompt with <code>&amp;</code> to hand work off to a cloud-based coding agent, freeing your terminal.</p>
+    <p>If your team is already in the GitHub ecosystem, Copilot CLI is a strong option. It supports multiple models (Anthropic, OpenAI, Google) and maintains cross-session memory.</p>
+  </div>
+
+  <div class="section">
     <h2>Terminal vs. IDE Agents</h2>
     <p><strong>Terminal wins:</strong> Refactoring, git workflows, multi-repo tasks, CI/CD, scripting, cost efficiency (pay per query, not monthly seat).</p>
     <p><strong>IDE wins:</strong> Visual debugging, UI-heavy projects, inline suggestions, file tree navigation, real-time linting.</p>
     <p><strong>Hybrid approach:</strong> Use Claude Code terminal for backend/refactoring; use Cursor or Cline for frontend/UI.</p>
+  </div>
+
+  <div class="section">
+    <h2>Working Outside the IDE</h2>
+    <p>Doing most of your development in a terminal instead of an IDE feels strange at first — especially if you've spent years in VS Code or JetBrains. But modern terminal agents like Claude Code have largely replaced the need for an IDE in many workflows. They read and navigate your codebase, make multi-file edits, run tests, handle git, and iterate on errors — all things you used to need an IDE for.</p>
+    <p>Once you've spent a week or two working this way, it stops feeling like a limitation and starts feeling like less overhead. You're not fighting a UI or waiting for an extension to index. You're just describing what you want and watching it happen.</p>
+    <p>This doesn't mean you should never open an IDE — visual debugging, UI work, and complex diff review are still easier with a GUI. But for the bulk of backend development, refactoring, and automation, the terminal is increasingly where the work gets done.</p>
   </div>
 
   <div class="section">

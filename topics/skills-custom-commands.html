@@ -81,6 +81,19 @@ Report pass/fail and whether the code is commit-ready.</code></p>
   </div>
 
   <div class="section">
+    <h2>Copilot Has Skills Too</h2>
+    <p>GitHub Copilot supports a similar extensibility model. In Copilot, a <strong>skill</strong> is a folder under <code>.github/skills/</code> containing a <code>SKILL.md</code> definition plus optional scripts, templates, and assets. Like Claude Code skills, Copilot uses progressive loading — it reads the skill metadata first and only loads the full content when relevant.</p>
+    <p>Copilot also supports <strong>prompt files</strong> (<code>.github/prompts/*.prompt.md</code>) for reusable prompt templates, and <strong>custom agents</strong> that define personas with specific tool access. The concepts map closely to Claude Code's commands, skills, and plugins.</p>
+    <p>If your team uses both tools, the patterns transfer — the file formats differ but the idea of packaging reusable workflows for AI agents is the same.</p>
+  </div>
+
+  <div class="section">
+    <h2>Using AI to Write Skills</h2>
+    <p>Claude Code has built-in skills specifically designed to help you create new skills, commands, hooks, and plugins. You can describe the workflow you want to automate in natural language and Claude will scaffold the skill file with proper frontmatter, write the instructions, and place it in the right directory.</p>
+    <p>This is one of the best bootstrapping loops in AI-assisted development: use the agent to extend the agent. Start by describing a repetitive task, let Claude generate the skill, test it, and iterate.</p>
+  </div>
+
+  <div class="section">
     <h2>Sharing Commands & Skills Across Teams</h2>
     <p><strong>Project-local:</strong> Commit <code>.claude/commands/</code> to your repo. Every team member gets the same skills when they clone.</p>
     <p><strong>Plugins:</strong> Package commands, skills, hooks, and agents into a Claude Code plugin with a <code>plugin.json</code> manifest. Plugins are installable and versioned.</p>

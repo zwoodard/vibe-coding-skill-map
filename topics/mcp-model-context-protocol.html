@@ -71,15 +71,15 @@
     <h2>Setting Up MCP Servers</h2>
     <p><strong>In Claude Code:</strong> Add servers to <code>.mcp.json</code> at your project root (project-scoped) or <code>~/.claude/.mcp.json</code> (global). You can also run <code>claude mcp add</code> to configure interactively.</p>
     <p><strong>Configuration format (.mcp.json):</strong></p>
-    <p><code>{<br>
-  "mcpServers": {<br>
-    "github": {<br>
-      "command": "npx",<br>
-      "args": ["-y", "@modelcontextprotocol/server-github"],<br>
-      "env": {"GITHUB_TOKEN": "ghp_..."}<br>
-    }<br>
-  }<br>
-}</code></p>
+    <pre style="background: rgba(255,255,255,0.04); border-radius: 6px; padding: 14px 16px; margin: 8px 0; overflow-x: auto;"><code style="background: none; padding: 0; font-size: 0.82rem; color: var(--text); line-height: 1.5;">{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": { "GITHUB_TOKEN": "ghp_..." }
+    }
+  }
+}</code></pre>
     <p><strong>Install & authenticate:</strong> Most servers need API keys. Set them in the <code>env</code> field or as environment variables (never commit keys!).</p>
     <p><strong>Test:</strong> Once configured, Claude can call the server's tools (e.g., search GitHub, query your database).</p>
   </div>
@@ -110,7 +110,23 @@
     <p><strong>Multi-repo refactoring:</strong> MCP GitHub server lets Claude search all repos, create PRs, post reviews.</p>
     <p><strong>Data analysis:</strong> MCP database server lets Claude query and transform data without writing SQL.</p>
     <p><strong>DevOps automation:</strong> MCP servers for Kubernetes, Terraform, monitoring systems. Claude can debug infrastructure issues.</p>
+    <p><strong>Ticket triage:</strong> MCP servers for Jira or Azure DevOps let Claude read incoming tickets, categorize them, suggest priorities, and draft initial responses or route them to the right team.</p>
     <p><strong>Customer support:</strong> MCP Slack + Jira + database servers. Claude reads customer issues, queries the database, suggests fixes, posts solutions.</p>
+  </div>
+
+  <div class="section">
+    <h2>The Tool Bloat Problem</h2>
+    <p>Each MCP server exposes tools that get loaded into the agent's context window. Connect five servers and you might have 50+ tool definitions eating thousands of tokens before the agent even reads your prompt. This bloats context, slows responses, and can confuse the model about which tool to use.</p>
+    <p>This is an active area of improvement. Claude Code already uses a tool selection process that dynamically loads only the tools relevant to the current task rather than dumping everything into context upfront. Expect other harnesses to adopt similar strategies.</p>
+    <p><strong>Practical advice:</strong> Don't connect every MCP server you can find. Start with one or two that directly support your current workflow. Add more only when you have a concrete use case.</p>
+  </div>
+
+  <div class="section">
+    <h2>MCP vs. CLI Tools</h2>
+    <p>There's a growing trend toward using plain CLI tools instead of MCP servers for some integrations. Tools like <code>gh</code> (GitHub CLI), <code>jira-cli</code>, or <code>az boards</code> already exist, and terminal-based agents can call them directly via shell commands — no MCP server needed.</p>
+    <p><strong>When MCP makes sense:</strong> When you need structured tool definitions the agent can discover, when you want to work across multiple clients (Claude Code, Cursor, Claude Desktop), or when the integration is complex enough that a dedicated server with proper auth and scoping is worth the setup.</p>
+    <p><strong>When CLI tools are simpler:</strong> When you're already in a terminal agent, the CLI tool exists and works well, and you don't need cross-client portability. A <code>gh pr list</code> command is simpler than setting up an MCP GitHub server for a one-off task.</p>
+    <p>Both approaches coexist. MCP isn't going away, but not every integration needs it.</p>
   </div>
 
   <div class="tip">

@@ -33,45 +33,43 @@
 <body>
 <div class="container">
   <a href="../ai-vibe-coding-roadmap.html" class="back-link">Back to Roadmap</a>
-  <div class="phase-tag">Phase 4 — Advanced Coding Agents</div>
+  <div class="phase-tag">Phase 2 — AI-Assisted Coding</div>
   <h1>Agentic Coding Tools</h1>
   <p class="subtitle">Explore the landscape of modern AI coding agents—what makes them "agentic," the major platforms, and how to choose the right one for your workflow.</p>
 
   <div class="section">
     <h2>What Makes a Tool "Agentic"?</h2>
-    <p>Agentic coding tools go beyond autocomplete. They execute commands, read/write files, iterate autonomously, and reason about your entire codebase. Key differences from chat assistants:</p>
-    <ul>
-      <li><strong>Autonomous execution:</strong> Act on your behalf without manual copy-paste</li>
-      <li><strong>Tool use:</strong> Run shell commands, call APIs, access files</li>
-      <li><strong>Feedback loops:</strong> See results and self-correct in real time</li>
-      <li><strong>Multi-step reasoning:</strong> Plan tasks before executing them</li>
-    </ul>
+    <p>Simon Willison put it simply: <em>"An agent is an LLM that runs tools in a loop."</em> That's really all it is. The LLM decides what to do, calls a tool (read a file, run a command, edit code), sees the result, and decides the next step. It keeps looping until the task is done or it gets stuck.</p>
+    <p>At the core, every agentic coding tool is running something like this:</p>
+    <pre style="background: rgba(255,255,255,0.04); border-radius: 6px; padding: 14px 16px; margin: 8px 0; overflow-x: auto;"><code style="background: none; padding: 0; font-size: 0.82rem; color: var(--text); line-height: 1.5;">while not done:
+    response = llm(conversation + tool_results)
+    if response.has_tool_calls:
+        tool_results = execute(response.tool_calls)
+    else:
+        done = True</code></pre>
+    <p>The differences between tools — Claude Code, Cursor, Aider, etc. — are in which tools they expose (file editing, shell, browser, git), how they manage permissions, and how they present results. But the core loop is the same.</p>
   </div>
 
   <div class="section">
     <h2>Major Agentic Platforms</h2>
-    <p><strong>Claude Code (Anthropic)</strong> — Terminal-native CLI and IDE extension. Supports Claude Opus, Sonnet, and Haiku models. Handles git workflows, reads entire codebases, executes commands with permission gates. Strong at multi-step reasoning and autonomous iteration.</p>
+    <p><strong>Claude Code (Anthropic)</strong> — Terminal-native CLI, desktop app, and IDE extension. Supports Claude Opus, Sonnet, and Haiku models. Handles git workflows, reads entire codebases, executes commands with permission gates. Strong at multi-step reasoning and autonomous iteration.</p>
+    <p><strong>GitHub Copilot (Microsoft/GitHub)</strong> — Deeply integrated into VS Code and available as a standalone CLI. Agent mode plans and executes multi-file edits. Copilot CLI adds autopilot mode, fleet mode for parallel tasks, and specialized sub-agents. If your company already pays for GitHub Enterprise, this may be your default.</p>
     <p><strong>Cursor</strong> — VS Code fork with AI deeply integrated. Agent mode plans and executes multi-file edits. Supports multiple models (Claude, GPT, Gemini). Ideal for IDE-centric workflows.</p>
-    <p><strong>Windsurf</strong> — Agentic IDE with Cascade engine. Auto-detects and fixes lint errors, integrated terminal, design-to-code. Acquired by OpenAI in 2025.</p>
+    <p><strong>Windsurf (OpenAI)</strong> — Agentic IDE with Cascade engine. Auto-detects and fixes lint errors, integrated terminal, design-to-code. Acquired by OpenAI in 2025.</p>
+    <p><strong>Google Antigravity</strong> — Google's agentic IDE, launched alongside Gemini 3. Features both an editor view and a "manager view" for orchestrating multiple agents in parallel. Free in public preview; supports Gemini models plus Claude and GPT.</p>
     <p><strong>Aider</strong> — Open-source CLI for git repositories. Excels at multi-file refactoring. Works with Claude, GPT-4o, DeepSeek. Free tool; you pay only for the underlying LLM API calls.</p>
+    <p><strong>OpenCode</strong> — Open-source Go-based terminal agent with 95K+ GitHub stars. Supports 75+ models including local Ollama. No subscription — you pay only for API calls. Good option if you want multi-model freedom or need to run in privacy-sensitive environments.</p>
     <p><strong>Cline</strong> — Open-source VS Code extension with human-in-the-loop safety. Browser control via computer use. Multi-provider support (Anthropic, OpenAI, Gemini, etc.).</p>
-  </div>
-
-  <div class="section">
-    <h2>IDE Agents vs. Terminal Agents</h2>
-    <p><strong>IDE (Cursor, Windsurf, Cline):</strong> Visual context, file tree navigation, inline debugging. Better for UI-heavy projects and teams already in VS Code.</p>
-    <p><strong>Terminal (Claude Code, Aider):</strong> Piped workflows, CI/CD friendly, lightweight. Better for backend work, automation, and minimal environment setup.</p>
   </div>
 
   <div class="section">
     <h2>How to Choose</h2>
     <ul>
-      <li><strong>Cost-conscious:</strong> Aider (open source, pay only for LLM API) or Claude Code (API credits or Max subscription)</li>
-      <li><strong>VS Code user:</strong> Cursor (most polished) or Cline (simpler, open ecosystem)</li>
-      <li><strong>Terminal-first dev:</strong> Claude Code or Aider</li>
-      <li><strong>Multi-model freedom:</strong> Cline (supports 8+ providers) or Aider</li>
+      <li><strong>Your company already provides one:</strong> Use it. If your org pays for GitHub Copilot, Cursor Business, or Anthropic Max, start there. Tool choice matters less than consistent usage, and fighting procurement for a different tool is wasted energy.</li>
+      <li><strong>No company tool / personal projects:</strong> Pick one and commit for 1-2 weeks. Claude Code and Cursor are the most popular starting points.</li>
+      <li><strong>Cost-conscious:</strong> Aider or OpenCode (open source, pay only for LLM API) or Claude Code (API credits or Max subscription)</li>
+      <li><strong>Multi-model freedom:</strong> OpenCode (75+ models), Cline (8+ providers), or Aider</li>
       <li><strong>UI/design work:</strong> Cursor Composer or Windsurf (design-to-code)</li>
-      <li><strong>Git-heavy workflows:</strong> Aider (auto-commits every change)</li>
     </ul>
   </div>
 
@@ -81,10 +79,14 @@
 
   <div class="sources">
     <h3>Sources & Further Reading</h3>
+    <a href="https://simonw.substack.com/p/i-think-agent-may-finally-have-a">"Agent" May Finally Have a Definition — Simon Willison</a>
     <a href="https://docs.anthropic.com/en/docs/claude-code/overview">Claude Code — Anthropic</a>
+    <a href="https://github.com/features/copilot/cli">GitHub Copilot CLI — GitHub</a>
     <a href="https://www.cursor.com/">Cursor — The AI Code Editor</a>
-    <a href="https://windsurf.com/">Windsurf — AI-Native IDE</a>
+    <a href="https://windsurf.com/">Windsurf — OpenAI</a>
+    <a href="https://developers.googleblog.com/build-with-google-antigravity-our-new-agentic-development-platform/">Google Antigravity — Google Developers Blog</a>
     <a href="https://aider.chat/">Aider — AI Pair Programming in Your Terminal</a>
+    <a href="https://opencode.ai/">OpenCode — Open Source AI Coding Agent</a>
     <a href="https://github.com/cline/cline">Cline — Autonomous AI Coding Agent — GitHub</a>
   </div>
 </div>
